@@ -1,9 +1,6 @@
 <template>
-  <div class="container">
-    <h1>HELLO WORLD</h1>
-    <p>
-        {{msg}}
-    </p>
+  <div class="container-fluid">
+    {{msg}}
   </div>
 </template>
 <script>
