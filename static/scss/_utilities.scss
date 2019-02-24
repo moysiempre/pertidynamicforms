@@ -1,0 +1,24 @@
+@mixin box-shadow($top, $left, $blur, $size, $color, $inset: false) {
+  @if $inset {
+    -webkit-box-shadow: inset $top $left $blur $size $color !important;
+    -moz-box-shadow: inset $top $left $blur $size $color !important;
+    box-shadow: inset $top $left $blur $size $color !important;
+  }
+
+  @else {
+    -webkit-box-shadow: $top $left $blur $size $color !important;
+    -moz-box-shadow: $top $left $blur $size $color !important;
+    box-shadow: $top $left $blur $size $color !important;
+  }
+}
+
+.bg-fa {
+  background-color: #fafafa;
+}
+.bg-xlight{
+    background-color: #FAFAFA
+}
+.bg-elight{
+  background-color: #f5f5f5
+}
+ 

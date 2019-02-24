@@ -1,82 +1,58 @@
 <template>
-  <div class="container">
-    <div class="login">
-      <div class="inner-wrapper">
-        <form id="loginForm" class="needs-validation" novalidate>
-          <h1 class="text-center mb-4">LOGIN</h1>
-          <div class="form-group">
-            <input
-              type="email"
-              class="form-control"
-              placeholder="dirección de correo electrónico"
-              maxlength="256"
-              required
-            >
-            <div
-              class="invalid-feedback mt-0 text-left"
-            >Introduce una dirección de correo electrónico válida.</div>
-          </div>
-          <div class="form-group">
-            <input
-              type="password"
-              class="form-control"
-              placeholder="contraseña"
-              minlength="6"
-              maxlength="20"
-              required
-            >
-            <div class="invalid-feedback mt-0 text-left">
-              Introduce una contraseña valida.
-              <i>(ej: Amor&1850)</i>
-            </div>
-          </div>
-          <div class="form-group">
-            <button class="btn btn-info w-100" @click="navigateToHome">Inicia Sesión</button>
-          </div>
-          <div class="form-group">
-            <p class="mb-0">
-              <a href="#">¿Has olvidado tu contraseña?</a>
-            </p>
-            <p class="mb-1">
-              <span>¿Todavía no eres miembro?</span>
-              <a href="#">Únete ahora</a>
-            </p>
-          </div>
-        </form>
+  <div class="container">YES
+    <form @submit.prevent="onSubmit">
+      <div class="input" :class="{invalid: $v.formData.email.$error}">
+        <label for="email">Mail</label>
+        <input type="email" id="email" @blur="$v.formData.email.$touch()" v-model="formData.email">
+        <p v-if="!$v.formData.email.email">Please provide a valid email address.</p>
+        <p v-if="!$v.formData.email.required">This field must not be empty.</p>
       </div>
-    </div>
+      <div class="submit">
+        <button class="btn btn-dark" type="submit" :disabled="$v.formData.$invalid">Submit</button>
+      </div>
+    </form>
   </div>
 </template>
 <script>
+import { required, email } from "vuelidate/lib/validators";
 export default {
   name: "HelloWorld",
   data() {
     return {
-      msg: "Welcome to Your Vue.js App"
+      formData: {
+        email: ""
+      }
     };
+  },
+  validations: {
+    formData: {
+      email: {
+        required,
+        email
+      }
+    }
   },
   methods: {
     navigateToHome() {
       this.$router.push({ name: "formsFactory" });
+    },
+    onSubmit() {
+      const formData = {
+        email: this.email,
+        password: this.password
+      };
+      console.log(formData);
+      this.$store.dispatch("login", {
+        email: formData.email,
+        password: formData.password
+      });
     }
   }
 };
 </script>
 <style lang="css">
-.login {
-  border: none;
-  text-align: center;
-  background: transparent;
-  position: fixed;
-  top: 50%;
-  left: 50%;
-  margin-top: -180px;
-  margin-left: -227.5px;
-  padding: 0;
-  width: 455px;
-}
-.login .inner-wrapper {
-  background: rgba(255, 255, 255, 0.7);
-  padding: 30px 40px;
+.input.invalid input {
+  border: 1px solid red;
+  background-color: #ffc9aa;
 }
 </style>

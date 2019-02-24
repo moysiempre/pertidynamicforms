@@ -20,8 +20,10 @@ export default {
   }
 };
 </script>
+<style lang="scss">
 
-<style>
+ @import "../static/scss/global.scss";
+ 
 #app {
   font-family: "Avenir", Helvetica, Arial, sans-serif;
   -webkit-font-smoothing: antialiased;
@@ -29,11 +31,33 @@ export default {
   color: #2c3e50;
 }
 body {
-  background-color: #e9ecef;
+  background-color: #f5f5f5;
 }
-.main-container{
+.main-container {
   margin-left: 50px;
-  min-height: calc(97vh - 43px);
-  overflow-y: auto;
+  min-height: calc(87vh - 43px);
+  overflow: hidden;
+  display: block;
+  height: calc(87vh - 43px);
 }
+.btn {
+  padding-top: 0.5rem;
+  &.btn-dark {
+    color: #fff;
+    background-color: #405668;
+    border-color: #405668;
+  }
+}
+
+.btn-dark:not(:disabled):not(.disabled).active,
+.btn-dark:not(:disabled):not(.disabled):active,
+.btn-dark:not(:disabled):not(.disabled).hover,
+.btn-dark:not(:disabled):not(.disabled):hover,
+.show > .btn-dark.dropdown-toggle {
+  color: #fff;
+  background-color: #667786;
+  border-color: #667786;
+}
+
+
 </style>

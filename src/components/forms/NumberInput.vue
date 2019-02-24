@@ -1,17 +1,12 @@
 <template>
-  <div>
-    <label>{{label}}</label>
-    <input type="number"
-           :name="name"
-           :value="value"
-           @input="$emit('input',
-           $event.target.value)"
-           :placeholder="placeholder">
+  <div class="form-group">
+    <!-- <label>{{label}}</label>  -->
+    <input type="number" class="form-control" min="0" :name="name" :placeholder="placeholder">
   </div>
 </template>
 <script>
 export default {
-  name: 'NumberInput',
-  props: ['placeholder', 'label', 'name', 'value']
-}
+  name: "numberInput",
+  props: ["placeholder", "name"]
+};
 </script>

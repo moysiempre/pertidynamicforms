@@ -1,7 +1,7 @@
 <template>
-  <div>
-    <label>{{label}}</label>
-    <select :multiple="multi"
+  <div class="form-group">
+    <!-- <label>{{label}}</label> -->
+    <select :multiple="multi" class="custom-select"
             :value="value"
             @input="$emit('input',$event.target.value)">
             <option v-for="option in options"

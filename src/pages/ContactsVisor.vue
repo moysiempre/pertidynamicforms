@@ -1,9 +1,6 @@
 <template>
   <div class="container">
-    <h1>CONTACT VISOR</h1>
-    <p>
-        {{msg}}
-    </p>
+    <h1>CONTACT VISOR</h1>     
   </div>
 </template>
 <script>
