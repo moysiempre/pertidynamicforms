@@ -1,0 +1,52 @@
+/* BUTTONS TEMPLATES */
+.btn-primary {
+    background-color: #405668 !important;
+    border-color: #405668 !important;
+}
+
+.btn-primary:hover,
+.btn-primary:not(:disabled):not(.disabled).active,
+.btn-primary:not(:disabled):not(.disabled):active,
+.show>.btn-primary.dropdown-toggle {
+    background-color: rgba(64, 86, 104, .85) !important;
+    border-color: #405668 !important;
+}
+
+.btn-primary.focus,
+.btn-primary:focus,
+.btn-primary:not(:disabled):not(.disabled).active:focus,
+.btn-primary:not(:disabled):not(.disabled):active:focus,
+.show>.btn-primary.dropdown-toggle:focus {
+    box-shadow: 0 0 0 0.2rem rgba(64, 86, 104, .5) !important;
+}
+
+
+// INPUTS
+.form-control:not(textarea),
+.custom-select,
+.custom-file-input {
+    height: 35px !important;
+}
+
+select {
+    line-height: 1.32;
+}
+
+
+// RADIOS
+.custom-checkbox .custom-control-input:checked~.custom-control-label::before {
+    background-color: #405668;
+}
+.custom-checkbox .custom-control-input:checked~.custom-control-label::before {
+    background-color: #405668;
+}
+
+.custom-control-input:checked~.custom-control-label::before {
+    color: #fff;
+    background-color: #405668;
+}
+
+.custom-control-input:active~.custom-control-label::before {
+    color: #fff;
+    background-color: rgba(64, 86, 104, .5) ;
+}

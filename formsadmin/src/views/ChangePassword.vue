@@ -1,6 +1,6 @@
 <template>
   <div class="container-fluid">
-    <div class="card login">
+    <div class="card change-password">
       <h5 class="text-center font-weight-normal mb-3">LOGIN</h5>
       <div class="card-body">
         <form @submit.prevent="onSubmit">
@@ -24,7 +24,16 @@
               v-model="formData.password"
             >
           </div>
-
+          <div class="form-group" :class="{invalid: $v.formData.repassword.$error}">
+            <input
+              type="password"
+              id="password"
+              class="form-control"
+              placeholder="digite su contraseña"
+              @blur="$v.formData.repassword.$touch()"
+              v-model="formData.repassword"
+            >
+          </div>
           <div class="form-group">
             <button
               type="submit"
@@ -37,8 +46,6 @@
               <a href="#">¿Has olvidado tu contraseña?</a>
             </p>
           </div>
-
-          
         </form>
       </div>
     </div>
@@ -68,6 +75,9 @@ export default {
       },
       password: {
         required
+      },
+      repassword: {
+        required
       }
     }
   },
@@ -79,3 +89,4 @@ export default {
 };
 </script>
  
+

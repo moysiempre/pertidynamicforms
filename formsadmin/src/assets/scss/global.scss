@@ -1,0 +1,79 @@
+@import "../node_modules/ag-grid-community/dist/styles/ag-grid.css";
+@import "../node_modules/ag-grid-community/dist/styles/ag-theme-balham.css";
+
+html {
+    box-sizing: border-box;
+    position: relative;
+    min-height: 100%;
+}
+
+html,
+body {
+    height: 100%;
+}
+
+html,
+body,
+div {
+    margin: 0;
+    padding: 0;
+}
+
+body {
+    background-color: #F5F5F5;
+}
+
+ @import './variables';
+ @import './utilities';
+ @import './cards';
+ @import './forms';
+
+
+
+
+// LOGIN
+.card.login,
+.card.change-password {
+    border: 1px solid #ddd;
+    text-align: center;
+    background: transparent;
+    position: fixed;
+    top: 50%;
+    left: 50%;
+    margin-top: -180px;
+    margin-left: -200.5px;
+    padding: 0;
+    width: 400px;
+    padding: 20px 20px 30px 20px;
+    border-radius: 10px;
+
+    .card-body {
+        background: #fff;
+        padding: 40px 25px 20px 25px;
+        border: 1px solid #eee;
+        border-radius: 10px;
+    }
+}
+
+.login .inner-wrapper .login-inner {
+    background-color: #fff;
+}
+
+.card.change-password {
+    margin-top: -200px;
+}
+
+
+
+
+
+// .custom-select.is-invalid, 
+// .form-control.is-invalid, 
+// .custom-select:invalid, 
+// .form-control:invalid {
+//   border-color: #dc3545;
+// }
+
+.form-group.invalid input {
+    border-color: #dc3545;
+}
