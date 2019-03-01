@@ -1,6 +1,6 @@
 <template>
   <aside>
-    <ul>
+    <ul v-if="withSidebar">
       <li>
         <a>
           <i class="pe-7s-config fa-2x"></i>
@@ -23,8 +23,18 @@
 export default {
   data() {
     return {
-      title: "ASIDE"
+      title: "ASIDE",
+      withSidebar: true
     };
+  },
+  beforeMount() {},
+  mounted() {
+    console.log("ASIDE mounted", this.$route.query);
+  },
+  watch: {
+    $route(to, from) {
+      this.withSidebar = to.path === "/login" ? false : true;
+    }
   }
 };
 </script>

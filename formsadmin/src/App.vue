@@ -1,14 +1,6 @@
 <template>
   <div id="app">
-    <div id="nav">
-      <router-link to="/">Home</router-link>|
-      <router-link to="/login">Login</router-link>|
-      <router-link to="/landing">Landing</router-link>|
-      <router-link to="/formularios">Formularios</router-link>|
-      <router-link to="/solicitudes">Solicitudes</router-link>|
-      <router-link to="/about">About</router-link>|
-      <router-link to="/changepassword">ChangePassword</router-link>
-    </div>
+    <app-header/>
     <app-sidebar/>
     <div class="main-container">
       <router-view/>
@@ -16,12 +8,13 @@
   </div>
 </template>
 <script>
-// import Header from "./components/header/header.vue";
-import Sidebar from "./components/sidebar/sidebar.vue";
+import Header from "@/components/header/header.vue";
+import Sidebar from "@/components/sidebar/sidebar.vue";
 
 export default {
   name: "App",
   components: {
+    "app-header": Header,
     "app-sidebar": Sidebar
   }
 };
@@ -50,6 +43,7 @@ export default {
   overflow: hidden;
   display: block;
   height: calc(87vh - 43px);
-  overflow-y: auto
+  overflow-y: auto;
+  position: relative;
 }
 </style>
