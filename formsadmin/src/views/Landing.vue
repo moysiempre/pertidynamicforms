@@ -5,13 +5,13 @@
         <landing-list/>
       </div>
       <div class="col-12 col-sm-7 col-md-6 col-lg-5 mt-3 mt-sm-0">
-        <LandingNew/>
+        <LandingNew :title = "title"/>
       </div>
     </div>
   </div>
 </template>
 <script>
- 
+
 import LandingList from "@/components/LandingList.vue";
 import LandingNew from "@/components/LandingNew.vue";
 
@@ -19,7 +19,7 @@ export default {
   components: { LandingList,LandingNew },
   data() {
     return {
-      title: "ALTA LANDING PAGE"
+      title: "ALTA LANDING PAGE f"
     };
   }
 };

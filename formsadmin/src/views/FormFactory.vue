@@ -11,7 +11,7 @@
 
       <div class="row" hidden>
         <div class="col-md-6">
-          
+          <FormItemNew />
           <div class="row">
             <div class="col-12 mt-3">
               <ag-grid-vue
@@ -40,10 +40,11 @@
 import FormGenerator from "@/components/forms/FormGenerator";
 import { AgGridVue } from "ag-grid-vue";
 import FormNew from "@/components/FormNew.vue";
+import FormItemNew from "@/components/FormItemNew.vue";
 import LandingList from "@/components/LandingList.vue";
 
 export default {
-  components: { LandingList, FormNew, FormGenerator, AgGridVue },
+  components: { LandingList, FormNew, FormItemNew, FormGenerator, AgGridVue },
   data() {
     return {
       msg: "Welcome to Your Vue.js App",     
@@ -66,27 +67,11 @@ export default {
       columnDefs: null,
       rowData: null
     };
-  },
-  validations: {
-    factoryData: {
-      fieldLabel: {
-        required: required
-      }
-    }
-  },
+  },   
   methods: {
-    resetForm() {
-      this.factoryData = {
-        fieldType: "textInput",
-        fieldLabel: "",
-        position: 0,
-        isRequired: false,
-        attachFile: false
-      };
-    },
+    
     onSubmit() {
-      this.formItems.push(this.factoryData);
-      this.resetForm();
+      this.formItems.push(this.factoryData);      
     },
     onGridReady(params) {
       params.api.sizeColumnsToFit();
@@ -123,7 +108,6 @@ export default {
     ];
   },
   mounted() {
-    this.resetForm();
     this.gridApi = this.gridOptions.api;
     this.gridColumnApi = this.gridOptions.columnApi;
   }

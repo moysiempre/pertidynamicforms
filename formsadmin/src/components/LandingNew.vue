@@ -4,13 +4,14 @@
       <h5 class="mt-2">{{title}}</h5>
       <form @submit.prevent="onSubmit" class="mt-3">
         <div class="form-group" :class="{invalid: $v.formData.name.$error}">
-          <label class="mb-0" for>
+          <label class="mb-0" for="name">
             Nombre del landing page
             <span class="i-required">*</span>
           </label>
           <input
             type="text"
             class="form-control"
+            id="name"
             placeholder="Digite el nombre del landing page"
             @blur="$v.formData.name.$touch()"
             v-model="formData.name"
@@ -24,10 +25,12 @@
           <select
             class="custom-select mr-sm-2"
             id="landingTypeId"
+             @blur="$v.formData.landingTypeId.$touch()"
             v-model="formData.landingTypeId"
             required
+            
           >
-            <option selected>Seleccione...</option>
+            <option value="">Seleccione...</option>
             <option value="1">One</option>
             <option value="2">Two</option>
             <option value="3">Three</option>
@@ -64,7 +67,11 @@
           </div>
           <div class="col-md-8 mt-3">
             <div class="form-group text-right">
-              <button type="reset" class="btn btn-outline-warning btn-sm mx-1">RESETEAR</button>
+              <button
+                type="button"
+                @click="$v.formData.$reset"
+                class="btn btn-outline-warning btn-sm mx-1"
+              >RESETEAR</button>
               <button
                 type="submit"
                 class="btn btn-primary btn-sm"
@@ -81,16 +88,17 @@
 import { required } from "vuelidate/lib/validators";
 
 export default {
+  props: ["title"],
   data() {
     return {
-      title: "ALTA LANDING PAGE",
-      formData: {}
+      //title: "ALTA LANDING PAGE",
+      formData: { name: "", landingTypeId: "", firstName: "" }
     };
   },
   validations: {
     formData: {
-      name: required,
-      landingTypeId: required
+      name: { required },
+      landingTypeId: { required }
     }
   },
   methods: {

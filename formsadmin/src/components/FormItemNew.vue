@@ -73,12 +73,7 @@
                 class="btn btn-outline-warning btn-sm mx-1"
                 @click="resetForm"
               >RESETEAR</button>
-              <button
-                type="button"
-                class="btn btn-dark btn-sm px-3"
-                :disabled="$v.factoryData.$invalid"
-                @click="onSubmit"
-              >GUARDAR</button>
+              <button type="button" class="btn btn-dark btn-sm px-3" @click="onSubmit">GUARDAR</button>
             </div>
           </div>
         </div>
@@ -87,12 +82,26 @@
   </div>
 </template>
 <script>
-import { required } from "vuelidate/lib/validators";
+// import { required } from "vuelidate/lib/validators";
 export default {
   data() {
     return {
       factoryData: {}
     };
+  },
+  methods: {
+    resetForm() {
+      this.factoryData = {
+        fieldType: "textInput",
+        fieldLabel: "",
+        position: 0,
+        isRequired: false,
+        attachFile: false
+      };
+    },
+    onSubmit(){
+      
+    }
   }
 };
 </script>
