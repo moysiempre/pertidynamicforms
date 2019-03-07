@@ -3,7 +3,7 @@
     <div class="card-body">
       <h5 class="mt-2">{{title}}</h5>
       <form @submit.prevent="onSubmit" class="mt-3">
-        <div class="form-group" :class="{invalid: $v.formData.name.$error}">
+        <div class="form-group" :class="{invalid: $v.name.$error}">
           <label class="mb-0" for="name">
             Nombre del landing page
             <span class="i-required">*</span>
@@ -13,11 +13,11 @@
             class="form-control"
             id="name"
             placeholder="Digite el nombre del landing page"
-            @blur="$v.formData.name.$touch()"
-            v-model="formData.name"
+            @blur="$v.name.$touch()"
+            v-model="name"
           >
         </div>
-        <div class="form-group" :class="{invalid: $v.formData.landingTypeId.$error}">
+        <div class="form-group" :class="{invalid: $v.landingTypeId.$error}">
           <label class="mb-0" for="landingTypeId">
             Tipo de landing page
             <span class="i-required">*</span>
@@ -25,12 +25,11 @@
           <select
             class="custom-select mr-sm-2"
             id="landingTypeId"
-             @blur="$v.formData.landingTypeId.$touch()"
-            v-model="formData.landingTypeId"
+            @blur="$v.landingTypeId.$touch()"
+            v-model="landingTypeId"
             required
-            
           >
-            <option value="">Seleccione...</option>
+            <option value>Seleccione...</option>
             <option value="1">One</option>
             <option value="2">Two</option>
             <option value="3">Three</option>
@@ -42,7 +41,7 @@
           <textarea
             class="form-control"
             placeholder="Digite una descripción del landing page"
-            v-model="formData.description"
+            v-model="description"
           ></textarea>
         </div>
         <div class="form-group">
@@ -60,7 +59,7 @@
                 type="checkbox"
                 class="custom-control-input"
                 id="customControlValidation1"
-                v-model="formData.isActive"
+                v-model="isActive"
               >
               <label class="custom-control-label" for="customControlValidation1">Es Activo</label>
             </div>
@@ -69,13 +68,13 @@
             <div class="form-group text-right">
               <button
                 type="button"
-                @click="$v.formData.$reset"
+                @click="onCancel"
                 class="btn btn-outline-warning btn-sm mx-1"
-              >RESETEAR</button>
+              >CANCELAR</button>
               <button
                 type="submit"
                 class="btn btn-primary btn-sm"
-                :disabled="$v.formData.$invalid"
+                :disabled="$v.$invalid"
               >GUARDAR</button>
             </div>
           </div>
@@ -88,32 +87,43 @@
 import { required } from "vuelidate/lib/validators";
 
 export default {
-  props: ["title"],
+  props: ["title", "landing"],
   data() {
     return {
-      //title: "ALTA LANDING PAGE",
-      formData: { name: "", landingTypeId: "", firstName: "" }
+      name: "",
+      landingTypeId: "",
+      description: "",
+      filePath: "",
+      isActive: ""
     };
   },
   validations: {
-    formData: {
-      name: { required },
-      landingTypeId: { required }
-    }
+    name: { required },
+    landingTypeId: { required }
   },
   methods: {
     onSubmit() {
-      console.log("onSubmit " + new Date().toDateString());
-      console.log(this.formData);
-      this.resetForm();
-    },
-    resetForm() {
-      this.formData = {
-        name: "",
-        landingTypeId: "",
-        description: "",
-        isActive: false
+ 
+      var formData = {
+        name: this.name,
+        landingTypeId: this.landingTypeId,
+        description: this.description,
+        filePath: "filePath",
+        isActive: this.isActive
       };
+      
+       this.$http.post("http://localhost:64423/landing/api-landingpage", formData).then(
+        response => {
+          console.log(response.body);
+          this.$emit('onSaved');
+        },
+        error => {
+          console.log(error);
+        }
+      );
+    },
+    onCancel() {
+      this.$emit('onCancel');
     }
   }
 };

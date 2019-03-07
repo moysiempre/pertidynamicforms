@@ -74,6 +74,7 @@ export default {
   methods: {
     onSubmit() {
       console.log("onSubmit " + new Date().toDateString());
+      this.$router.push({ name: "landing" });
     }
   }
 };
