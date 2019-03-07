@@ -1,0 +1,16 @@
+C:\Workspaces\Projectos\FormsAdmin\FormsAdmin\src\FormsAdmin.RestfulAPI\bin\Debug\netcoreapp2.1\FormsAdmin.RestfulAPI.deps.json
+C:\Workspaces\Projectos\FormsAdmin\FormsAdmin\src\FormsAdmin.RestfulAPI\bin\Debug\netcoreapp2.1\FormsAdmin.RestfulAPI.runtimeconfig.json
+C:\Workspaces\Projectos\FormsAdmin\FormsAdmin\src\FormsAdmin.RestfulAPI\bin\Debug\netcoreapp2.1\FormsAdmin.RestfulAPI.runtimeconfig.dev.json
+C:\Workspaces\Projectos\FormsAdmin\FormsAdmin\src\FormsAdmin.RestfulAPI\bin\Debug\netcoreapp2.1\FormsAdmin.RestfulAPI.dll
+C:\Workspaces\Projectos\FormsAdmin\FormsAdmin\src\FormsAdmin.RestfulAPI\bin\Debug\netcoreapp2.1\FormsAdmin.RestfulAPI.pdb
+C:\Workspaces\Projectos\FormsAdmin\FormsAdmin\src\FormsAdmin.RestfulAPI\bin\Debug\netcoreapp2.1\FormsAdmin.Core.dll
+C:\Workspaces\Projectos\FormsAdmin\FormsAdmin\src\FormsAdmin.RestfulAPI\bin\Debug\netcoreapp2.1\FormsAdmin.Services.dll
+C:\Workspaces\Projectos\FormsAdmin\FormsAdmin\src\FormsAdmin.RestfulAPI\bin\Debug\netcoreapp2.1\FormsAdmin.Core.pdb
+C:\Workspaces\Projectos\FormsAdmin\FormsAdmin\src\FormsAdmin.RestfulAPI\bin\Debug\netcoreapp2.1\FormsAdmin.Services.pdb
+C:\Workspaces\Projectos\FormsAdmin\FormsAdmin\src\FormsAdmin.RestfulAPI\obj\Debug\netcoreapp2.1\FormsAdmin.RestfulAPI.csprojAssemblyReference.cache
+C:\Workspaces\Projectos\FormsAdmin\FormsAdmin\src\FormsAdmin.RestfulAPI\obj\Debug\netcoreapp2.1\FormsAdmin.RestfulAPI.csproj.CoreCompileInputs.cache
+C:\Workspaces\Projectos\FormsAdmin\FormsAdmin\src\FormsAdmin.RestfulAPI\obj\Debug\netcoreapp2.1\FormsAdmin.RestfulAPI.AssemblyInfoInputs.cache
+C:\Workspaces\Projectos\FormsAdmin\FormsAdmin\src\FormsAdmin.RestfulAPI\obj\Debug\netcoreapp2.1\FormsAdmin.RestfulAPI.AssemblyInfo.cs
+C:\Workspaces\Projectos\FormsAdmin\FormsAdmin\src\FormsAdmin.RestfulAPI\obj\Debug\netcoreapp2.1\FormsAdmin.RestfulAPI.csproj.CopyComplete
+C:\Workspaces\Projectos\FormsAdmin\FormsAdmin\src\FormsAdmin.RestfulAPI\obj\Debug\netcoreapp2.1\FormsAdmin.RestfulAPI.dll
+C:\Workspaces\Projectos\FormsAdmin\FormsAdmin\src\FormsAdmin.RestfulAPI\obj\Debug\netcoreapp2.1\FormsAdmin.RestfulAPI.pdb

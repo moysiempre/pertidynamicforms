@@ -2,16 +2,16 @@
   <div class="container-fluid h-100">
     <div class="row h-100">
       <div class="col-12 col-sm-5 col-md-4 col-lg-3">
-        <landing-list/>
+        <FormList :formHds="formHds" @changedMode="onChangedMode($event)"/>
       </div>
 
-      <div class="col-12 col-sm-7 col-md-6 col-lg-5 mt-3 mt-sm-0">
-        <FormNew/>
+      <div class="col-12 col-sm-7 col-md-6 col-lg-5 mt-3 mt-sm-0" v-if="validateMode() == true">
+        <FormNew @onCancel="onCancel"/>
       </div>
 
       <div class="row" hidden>
         <div class="col-md-6">
-          <FormItemNew />
+          <FormItemNew/>
           <div class="row">
             <div class="col-12 mt-3">
               <ag-grid-vue
@@ -42,12 +42,22 @@ import { AgGridVue } from "ag-grid-vue";
 import FormNew from "@/components/FormNew.vue";
 import FormItemNew from "@/components/FormItemNew.vue";
 import LandingList from "@/components/LandingList.vue";
+import FormList from "@/components/FormList.vue";
 
 export default {
-  components: { LandingList, FormNew, FormItemNew, FormGenerator, AgGridVue },
+  components: {
+    LandingList,
+    FormList,
+    FormNew,
+    FormItemNew,
+    FormGenerator,
+    AgGridVue
+  },
   data() {
     return {
-      msg: "Welcome to Your Vue.js App",     
+      msg: "Welcome to Your Vue.js App",
+      mode: "read",
+      formHds: [],
       formItems: [
         {
           fieldType: "textInput",
@@ -67,11 +77,22 @@ export default {
       columnDefs: null,
       rowData: null
     };
-  },   
+  },
   methods: {
-    
+    fetchData() {
+      console.log("BEFORE fetchData");
+      this.$http.get("http://localhost:64423/landing/api-forms").then(
+        response => {
+          this.formHds = response.body;
+          console.log(this.formHds);
+        },
+        error => {
+          console.log(error);
+        }
+      );
+    },
     onSubmit() {
-      this.formItems.push(this.factoryData);      
+      this.formItems.push(this.factoryData);
     },
     onGridReady(params) {
       params.api.sizeColumnsToFit();
@@ -82,9 +103,26 @@ export default {
           params.api.sizeColumnsToFit();
         });
       });
+    },
+    onChangedMode(data) {
+      if (data && data.id) {
+        this.mode = "update";
+        console.log("changedMode", data.id);
+      } else {
+        this.mode = "create";
+      }
+
+      console.log("new mode is: " + data);
+    },
+    onCancel() {
+      this.mode = "read";
+    },
+    validateMode() {
+      return this.mode == "create" || this.mode == "update" ? true : false;
     }
   },
   beforeMount() {
+    this.fetchData();
     this.gridOptions = {
       rowHeight: 40
     };

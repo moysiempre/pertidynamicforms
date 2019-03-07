@@ -68,7 +68,11 @@
           </div>
           <div class="col-md-8 mt-3">
             <div class="form-group text-right">
-              <button type="reset" class="btn btn-outline-warning btn-sm mx-1">RESETEAR</button>
+              <button
+                type="button"
+                @click="onCancel"
+                class="btn btn-outline-warning btn-sm mx-1"
+              >CANCELAR</button>
               <button
                 type="submit"
                 class="btn btn-primary btn-sm"
@@ -100,17 +104,10 @@ export default {
   },
   methods: {
     onSubmit() {
-      console.log("onSubmit " + new Date().toDateString());
-      console.log(this.formData);
-      this.resetForm();
+      this.$emit("onSaved");
     },
-    resetForm() {
-      this.formData = {
-        name: "",
-        formTitle: "",
-        landings: "",
-        isActive: false
-      };
+    onCancel() {
+      this.$emit("onCancel");
     }
   }
 };
