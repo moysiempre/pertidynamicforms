@@ -9,14 +9,18 @@ Vue.use(Vuelidate)
 Vue.use(VueResource);
 
 Vue.http.options.credentials = true;
-//Vue.http.options.root = 'http://localhost:64423/landing/';
+Vue.http.options.root = 'http://localhost:64423/landing/';
 Vue.http.interceptors.push((request, next) => {
-  request.headers.set('Authorization', 'bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiJqYW5AeWFob28uZXMiLCJqdGkiOiJmODZmYTNkZi03ZTNhLTRkZTctOGRmMS01YzYyYThiMzgxMDQiLCJ1c2VySWQiOiI4MjkxMDM2NC1jNWIzLTQ3NTItYWRhMC1hMmFhYWZiYjY4ZmMiLCJuYmYiOjE1NTE5Njk4NjEsImV4cCI6MTU1MjAxMzA2MSwiaXNzIjoiaHR0cDovL3Btc3ZrYXBpLmF6dXJld2Vic2l0ZXMubmV0IiwiYXVkIjoiZm9ybXNKd3QifQ.j-e8ojNaNcXU3aXCLY_Jf6cnt5umV0YkSjJTHKPcFQI')
-  next()
+  request.headers.set('Authorization', 'bearer ' + localStorage.getItem('bearerToken'))
+  next(function(response) {
+    if (response.status === 401) {
+      this.$router.push({ name: "login" });   
+    }
+  });
 })
- 
 
- 
+
+
 
 // Vue.http.interceptors.push((request, next) => {
 //   console.log(request);

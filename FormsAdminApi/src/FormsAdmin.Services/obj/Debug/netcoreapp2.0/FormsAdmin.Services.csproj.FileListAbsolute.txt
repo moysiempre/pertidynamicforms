@@ -22,3 +22,15 @@ C:\Workspaces\Projectos\FormsAdmin\FormsAdmin\src\FormsAdmin.Services\obj\Debug\
 C:\Workspaces\Projectos\FormsAdmin\FormsAdmin\src\FormsAdmin.Services\obj\Debug\netcoreapp2.0\FormsAdmin.Services.csproj.CopyComplete
 C:\Workspaces\Projectos\FormsAdmin\FormsAdmin\src\FormsAdmin.Services\obj\Debug\netcoreapp2.0\FormsAdmin.Services.dll
 C:\Workspaces\Projectos\FormsAdmin\FormsAdmin\src\FormsAdmin.Services\obj\Debug\netcoreapp2.0\FormsAdmin.Services.pdb
+C:\Workspaces\github\pertidynamicforms\FormsAdminApi\src\FormsAdmin.Services\bin\Debug\netcoreapp2.0\FormsAdmin.Services.deps.json
+C:\Workspaces\github\pertidynamicforms\FormsAdminApi\src\FormsAdmin.Services\bin\Debug\netcoreapp2.0\FormsAdmin.Services.dll
+C:\Workspaces\github\pertidynamicforms\FormsAdminApi\src\FormsAdmin.Services\bin\Debug\netcoreapp2.0\FormsAdmin.Services.pdb
+C:\Workspaces\github\pertidynamicforms\FormsAdminApi\src\FormsAdmin.Services\bin\Debug\netcoreapp2.0\FormsAdmin.Core.dll
+C:\Workspaces\github\pertidynamicforms\FormsAdminApi\src\FormsAdmin.Services\bin\Debug\netcoreapp2.0\FormsAdmin.Core.pdb
+C:\Workspaces\github\pertidynamicforms\FormsAdminApi\src\FormsAdmin.Services\obj\Debug\netcoreapp2.0\FormsAdmin.Services.csprojAssemblyReference.cache
+C:\Workspaces\github\pertidynamicforms\FormsAdminApi\src\FormsAdmin.Services\obj\Debug\netcoreapp2.0\FormsAdmin.Services.csproj.CoreCompileInputs.cache
+C:\Workspaces\github\pertidynamicforms\FormsAdminApi\src\FormsAdmin.Services\obj\Debug\netcoreapp2.0\FormsAdmin.Services.AssemblyInfoInputs.cache
+C:\Workspaces\github\pertidynamicforms\FormsAdminApi\src\FormsAdmin.Services\obj\Debug\netcoreapp2.0\FormsAdmin.Services.AssemblyInfo.cs
+C:\Workspaces\github\pertidynamicforms\FormsAdminApi\src\FormsAdmin.Services\obj\Debug\netcoreapp2.0\FormsAdmin.Services.csproj.CopyComplete
+C:\Workspaces\github\pertidynamicforms\FormsAdminApi\src\FormsAdmin.Services\obj\Debug\netcoreapp2.0\FormsAdmin.Services.dll
+C:\Workspaces\github\pertidynamicforms\FormsAdminApi\src\FormsAdmin.Services\obj\Debug\netcoreapp2.0\FormsAdmin.Services.pdb

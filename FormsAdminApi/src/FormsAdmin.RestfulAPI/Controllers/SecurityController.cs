@@ -23,19 +23,29 @@ namespace FormsAdmin.RestfulAPI.Controllers
         public IActionResult Login([FromBody]AppUser user)
         {
             IActionResult ret = null;
-            AppUserAuth auth = new AppUserAuth();
-            SecurityManager mgr = new SecurityManager(this._settings, this._securityManagerService);
-
-            auth = mgr.ValidateUser(user);
-            if (auth.IsAuthenticated)
+            if (ModelState.IsValid)
             {
-                ret = StatusCode(StatusCodes.Status200OK, auth);
+                AppUserAuth auth = new AppUserAuth();
+                SecurityManager mgr = new SecurityManager(this._settings, this._securityManagerService);
+
+                auth = mgr.ValidateUser(user);
+                if (auth.IsAuthenticated)
+                {
+                    ret = StatusCode(StatusCodes.Status200OK, auth);
+                }
+                else
+                {
+                    ret = StatusCode(StatusCodes.Status404NotFound,
+                                     "Invalid User Name/Password.");
+                }
+               
             }
             else
             {
                 ret = StatusCode(StatusCodes.Status404NotFound,
-                                 "Invalid User Name/Password.");
+                                     "Invalid User Name/Password.");
             }
+
             return ret;
         }
 

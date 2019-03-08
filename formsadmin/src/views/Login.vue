@@ -4,14 +4,14 @@
       <h5 class="text-center font-weight-normal mb-3">LOGIN</h5>
       <div class="card-body">
         <form @submit.prevent="onSubmit">
-          <div class="form-group" :class="{invalid: $v.formData.email.$error}">
+          <div class="form-group" :class="{invalid: $v.formData.userName.$error}">
             <input
               type="email"
-              id="email"
+              id="userName"
               class="form-control"
               placeholder="Digite su correo electrónico"
-              @blur="$v.formData.email.$touch()"
-              v-model="formData.email"
+              @blur="$v.formData.userName.$touch()"
+              v-model="formData.userName"
             >
           </div>
           <div class="form-group" :class="{invalid: $v.formData.password.$error}">
@@ -55,14 +55,14 @@ export default {
   data() {
     return {
       formData: {
-        email: "",
+        userName: "",
         password: ""
       }
     };
   },
   validations: {
     formData: {
-      email: {
+      userName: {
         required,
         email
       },
@@ -73,8 +73,18 @@ export default {
   },
   methods: {
     onSubmit() {
-      console.log("onSubmit " + new Date().toDateString());
-      this.$router.push({ name: "landing" });
+
+       this.$http.post("api-security/login", this.formData).then(
+        response => {
+          var data = response.body;
+          localStorage.setItem('bearerToken', data.bearerToken);
+          this.$router.push({ name: "landing" });
+        },
+        error => {
+          console.log("error", error);
+        }
+      );
+      
     }
   }
 };
