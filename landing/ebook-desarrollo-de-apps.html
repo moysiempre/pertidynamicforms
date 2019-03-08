@@ -1,0 +1,450 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+	<meta charset="UTF-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<title>Desarrollo de Apps en México</title>
+	<meta name="description" content="Ofrecemos servicios de consultoria especializada en TI">
+	<link rel="stylesheet" href="css/style.css">
+	<link rel="stylesheet" href="http://anijs.github.io/lib/anicollection/anicollection.css">
+	<!--<link rel="stylesheet" href="css/fontawesome.min.css">-->
+    <link href="img/favicon.ico" rel="shortcut icon">
+    <style>
+        .fondo-top-app {
+            background: none !important;
+            background-size: cover;
+            mix-blend-mode: overlay;
+            width: 100%;
+            position: absolute;
+            top: 0;
+        }
+		.disclaimer{
+			font-size: 12px;
+			text-align: center;
+			margin-top: 1rem;
+			opacity: 0.5;
+		}
+		h1:after {
+			content: "";
+			display: flex;
+			width: 170px;
+			height: 8px;
+			background: #f3990b;
+			margin-top: 1rem;
+			margin-bottom: 1.5rem;
+		}
+		h2 span{
+			color:#2c7fc2;
+			font-size: 8rem;
+			margin-bottom: 0.75rem;
+		}
+		.form-title{
+			/*font-size: 2rem;*/
+		}
+		.title-2{
+			text-transform: uppercase;
+			color: #149ef5;
+			font-size: 1.5rem;
+			margin-top: 1.75rem;
+		}
+		.formstyle{
+			margin-top: 0;
+			padding-top: 0;
+		}
+		.disclaimer{
+			font-size: 12px !important;
+		}
+		.big-title{
+			font-size: 4rem;
+			font-weight: 700;
+			color: #2e7ec2;
+			line-height: 4rem;
+			margin-bottom: 0.75rem;
+		}
+		.bg-3-app ul,li {
+			font-size: 1.25rem;
+		}
+		@media (max-width: 37.5rem){
+			.big-title{
+				font-size: 2.0rem;
+				font-weight: 700;
+				color: #2e7ec2;
+				line-height: 2rem;
+				text-align: center;
+				margin-top: 1.5rem;
+			}
+			.title-2{
+				text-transform: uppercase;
+				color: #149ef5;
+				font-size: 1.5rem;
+				text-align: center;
+				margin-top: 1.75rem;
+			}
+		}
+	</style>
+	<link rel="alternate" type="application/json+oembed" href="https://www.jotform.com/oembed/?format=json&amp;url=http%3A%2F%2Fwww.jotform.com%2Fform%2F90386797118874" title="oEmbed Form"><link rel="alternate" type="text/xml+oembed" href="https://www.jotform.com/oembed/?format=xml&amp;url=http%3A%2F%2Fwww.jotform.com%2Fform%2F90386797118874" title="oEmbed Form">
+	<link href="https://cdn.jotfor.ms/static/formCss.css?3.3.10284" rel="stylesheet" type="text/css" />
+	<link type="text/css" rel="stylesheet" href="https://cdn.jotfor.ms/css/styles/nova.css?3.3.10284" />
+	<link type="text/css" media="print" rel="stylesheet" href="https://cdn.jotfor.ms/css/printForm.css?3.3.10284" />
+	<link type="text/css" rel="stylesheet" href="https://cdn.jotfor.ms/themes/CSS/566a91c2977cdfcd478b4567.css?"/>
+	<style type="text/css">
+	
+	
+		.form-label-left{
+			width:150px;
+		}
+		.form-line{
+			padding-top:12px;
+			padding-bottom:12px;
+		}
+		.form-label-right{
+			width:150px;
+		}
+		body, html{
+			margin:0;
+			padding:0;
+			background:#fff;
+		}
+	
+		.form-all{
+			margin:0px auto;
+			padding-top:0px;
+			width:100%;
+			color:#555 !important;
+			font-family:"Lucida Grande", "Lucida Sans Unicode", "Lucida Sans", Verdana, sans-serif;
+			font-size:14px;
+			background-color: #ffffff;
+		    border: 1px solid transparent;
+		}
+	</style>
+	
+	<style type="text/css" id="form-designer-style">
+		/* Injected CSS Code */
+	.form-label.form-label-auto {
+			
+		  display: block;
+		  float: none;
+		  text-align: left;
+		  width: 100%;
+		
+		  } /*__INSPECT_SEPERATOR__*/.form-label.form-label-auto, .form-label-top{
+	  display: none;
+	}
+	#cid_1{
+	  display: none;
+	}
+	.formFooter-heightMask{
+	  display: none;
+	}
+	.formFooter {
+	  display: none;
+	}
+	.form-line{
+	  margin:0;
+	  padding-top: 5px;
+	  padding-bottom: 5px;
+	}
+	input[type=text], input[type=email], input[type=tel], textarea{
+	  padding: 8px 5px !important;
+	  width: 100%;
+    font-size: 15px;
+	}
+	input[type=tel]{
+	  width: 277px !important;
+	}
+	.form-all .qq-upload-button, .form-all .form-submit-button, .form-all .form-submit-reset, .form-all .form-submit-print{
+		  width: 100%;
+		padding: 1rem 0;
+		border: none;
+		color: #fff;
+		border-radius: 5px;
+		background: #f3990b;
+		font-size: 1.1rem;
+		
+	}
+	
+		/* Injected CSS Code */
+	</style>
+	
+	<script src="https://cdn.jotfor.ms/js/vendor/jquery-1.8.0.min.js?v=3.3.10284" type="text/javascript"></script>
+	<script src="https://cdn.jotfor.ms/js/vendor/maskedinput.min.js?v=3.3.10284" type="text/javascript"></script>
+	<script src="https://cdn.jotfor.ms/js/vendor/jquery.maskedinput.min.js?v=3.3.10284" type="text/javascript"></script>
+	<script src="https://cdn.jotfor.ms/static/prototype.forms.js" type="text/javascript"></script>
+	<script src="https://cdn.jotfor.ms/static/jotform.forms.js?3.3.10284" type="text/javascript"></script>
+	<script src="https://js.jotform.com/vendor/postMessage.js?3.3.10284" type="text/javascript"></script>
+	<script src="https://js.jotform.com/WidgetsServer.js?v=1551828646828" type="text/javascript"></script>
+	<script type="text/javascript">
+		JotForm.init(function(){
+		  setTimeout(function() {
+			  $('input_4').hint('Correo Electrónico');
+		   }, 20);
+		  JotForm.setPhoneMaskingValidator( 'input_5_full', '' );
+		  JotForm.alterTexts({"ageVerificationError":"You must be older than {minAge} years old to submit this form.","alphabetic":"Este campo solo acepta letras","alphanumeric":"This field can only contain letters and numbers.","ccDonationMinLimitError":"Minimum amount is {minAmount} {currency}","ccInvalidCVC":"CVC number is invalid.","ccInvalidExpireDate":"Expire date is invalid.","ccInvalidNumber":"Credit Card Number is invalid.","ccMissingDetails":"Please fill up the Credit Card details.","ccMissingDonation":"Please enter numeric values for donation amount.","ccMissingProduct":"Please select at least one product.","characterLimitError":"Too many Characters.  The limit is","characterMinLimitError":"Too few characters. The minimum is","confirmClearForm":"Are you sure you want to clear the form?","confirmEmail":"E-mail does not match","currency":"This field can only contain currency values.","cyrillic":"This field can only contain cyrillic characters","dateInvalid":"This date is not valid. The date format is {format}","dateInvalidSeparate":"This date is not valid. Enter a valid {element}.","dateLimited":"This date is unavailable.","disallowDecimals":"Please enter a whole number.","email":"Ingrese una dirección de correo","fillMask":"Field value must fill mask.","freeEmailError":"Free email accounts are not allowed","generalError":"Hay errores en el formulario. Favor de corregirlos","generalPageError":"There are errors on this page. Please fix them before continuing.","gradingScoreError":"Score total should only be less than or equal to","incompleteFields":"There are incomplete required fields. Please complete them.","inputCarretErrorA":"Input should not be less than the minimum value:","inputCarretErrorB":"Input should not be greater than the maximum value:","lessThan":"Your score should be less than or equal to","maxDigitsError":"The maximum digits allowed is","maxSelectionsError":"The maximum number of selections allowed is ","minSelectionsError":"The minimum required number of selections is ","multipleFileUploads_emptyError":"{file} is empty, please select files again without it.","multipleFileUploads_fileLimitError":"Only {fileLimit} file uploads allowed.","multipleFileUploads_minSizeError":"{file} is too small, minimum file size is {minSizeLimit}.","multipleFileUploads_onLeave":"The files are being uploaded, if you leave now the upload will be cancelled.","multipleFileUploads_sizeError":"{file} is too large, maximum file size is {sizeLimit}.","multipleFileUploads_typeError":"{file} has invalid extension. Only {extensions} are allowed.","nextButtonText":"Next","numeric":"Este campo solo acepta número","pastDatesDisallowed":"Date must not be in the past.","pleaseWait":"Please wait...","prevButtonText":"Previous","progressMiddleText":"of","required":"Campo requerido","requireEveryCell":"Every cell is required.","requireEveryRow":"Every row is required.","requireOne":"Al menos un campo requerido","reviewBackText":"Back to Form","reviewSubmitText":"Review and Submit","seeAllText":"See All","submissionLimit":"Sorry! Only one entry is allowed.  Multiple submissions are disabled for this form.","submitButtonText":"Submit","uploadExtensions":"You can only upload following files:","uploadFilesize":"File size cannot be bigger than:","uploadFilesizemin":"File size cannot be smaller than:","url":"This field can only contain a valid URL","wordLimitError":"Demasiadas palabras el límite es","wordMinLimitError":"Too few words.  The minimum is"});
+		JotForm.clearFieldOnHide="disable";
+		JotForm.submitError="jumpToFirstError";
+		/*INIT-END*/
+		});
+	
+	   JotForm.prepareCalculationsOnTheFly([null,{"name":"ebook","qid":"1","text":"Ebook","type":"control_head"},{"name":"descargar","qid":"2","text":"¡Descargar!","type":"control_button"},null,{"description":"","name":"input4","qid":"4","subLabel":"","text":"","type":"control_email"},{"description":"","name":"numeroDe","qid":"5","text":"","type":"control_phone"},null,{"name":"typeA7","qid":"7","text":"","type":"control_widget"},{"name":"clicPara","qid":"8","text":"S&oacute;lo debes completar el siguiente formulario para recibir el material en tu correo","type":"control_text"}]);
+	   setTimeout(function() {
+	JotForm.paymentExtrasOnTheFly([null,{"name":"ebook","qid":"1","text":"Ebook","type":"control_head"},{"name":"descargar","qid":"2","text":"¡Descargar!","type":"control_button"},null,{"description":"","name":"input4","qid":"4","subLabel":"","text":"","type":"control_email"},{"description":"","name":"numeroDe","qid":"5","text":"","type":"control_phone"},null,{"name":"typeA7","qid":"7","text":"","type":"control_widget"},{"name":"clicPara","qid":"8","text":"S&oacute;lo debes completar el siguiente formulario para recibir el material en tu correo","type":"control_text"}]);}, 20); 
+	</script>
+
+</head>
+<body>
+	
+	<header class="h-75" >
+		<div id="fondo-header" class="h-75 fondo-top-app d-none d-md-block">
+			</div>
+			<div class="container ">
+					
+	            <div class="row">
+	                <div class="col-sm-7 col-md-7" data-anijs="if: scroll, on: window, do: fadeInRight animated, before: scrollReveal">
+	                    <img class="logo" src="images/logo-perti.png" alt="Grupo PerTI">
+						<h1 style="margin-top:1.5rem;">¿Qué debo considerar para el costo de mi <strong>app</strong>? </h1>
+						<!--<img src="images/app.png" class="img-fluid d-block d-sm-none" style="max-width: 200px;margin: 0 auto;" alt="">-->
+						<h3 class="subtitulo">Conoce qué elementos debes tomar en cuenta al momento de cotizar un desarrollo app para tu empresa.</h3>
+	                    <p class="theader">Desarrollar una app para tu empresa, signidica estar presente en la mente de tus clientes, acortar el proceso de comunicación y compra, de ellos con tu negocio.
+                            </p>
+	                </div>
+	                <div class="col-sm-5 col-md-5 d-flex align-items-center" data-anijs="if: scroll, on: window, do: fadeInUp animated, before: scrollReveal">
+							<a href="#bottom-f"><img src="images/book-perti.png" class="img-fluid" alt="Ebook PerTI"></a>
+	    
+	                </div>
+	            </div>
+	        </div>	
+		
+	</header>	
+    <section id="seccion-3" class="bg-3-app">
+        <div class="container">
+            <div class="row ">
+				<div class="col-sm-5 col-md-4" data-anijs="if: scroll, on: window, do: fadeInUp animated, before: scrollReveal">	
+						<div class="formstyle">
+							<h2 class="form-title"><img style="max-width:128px;margin:1rem auto;" src="images/download.gif" class="img-fluid"><br>¡Descarga aquí el material gratuito!</h2>							
+								<!--Inicio-->
+								<form target="_blank"  class="jotform-form" action="https://submit.jotform.co/submit/90386797118874/" method="post" name="form_90386797118874" id="90386797118874" accept-charset="utf-8">
+									<input type="hidden" name="formID" value="90386797118874" />
+									<div class="form-all">
+									  <ul class="form-section page-section">
+										<li id="cid_1" class="form-input-wide" data-type="control_head">
+										  <div class="form-header-group ">
+											<div class="header-text httal htvam">
+											  <h2 id="header_1" class="form-header" data-component="header">
+												Ebook
+											  </h2>
+											</div>
+										  </div>
+										</li>
+										<li class="form-line" data-type="control_text" id="id_8">
+										  <div id="cid_8" class="form-input-wide">
+											<div id="text_8" class="form-html" data-component="text">
+											  <p><span style="font-size: 10pt;">Sólo debes completar el siguiente formulario para recibir el material en tu correo</span></p>
+											</div>
+										  </div>
+										</li>
+										<li class="form-line jf-required" data-type="control_email" id="id_4">
+										  <label class="form-label form-label-top" id="label_4" for="input_4">
+											<span class="form-required">
+											  *
+											</span>
+										  </label>
+										  <div id="cid_4" class="form-input-wide jf-required">
+											<input type="email" id="input_4" name="q4_input4" class="form-textbox validate[required, Email]" size="30" value="" placeholder="Correo Electrónico" data-component="email" required="" />
+										  </div>
+										</li>
+										<li class="form-line jf-required" data-type="control_phone" id="id_5">
+										  <label class="form-label form-label-top" id="label_5" for="input_5_full">
+											<span class="form-required">
+											  *
+											</span>
+										  </label>
+										  <div id="cid_5" class="form-input-wide jf-required">
+											<span class="form-sub-label-container" style="vertical-align:top">
+											  <input type="tel" id="input_5_full" name="q5_numeroDe[full]" data-type="mask-number" class="mask-phone-number form-textbox validate[required]" autoComplete="off" data-masked="true" value="" placeholder="Teléfono" data-component="phone" required="" />
+											  <label class="form-sub-label" for="input_5_masked" id="sublabel_masked" style="min-height:13px">  </label>
+											</span>
+										  </div>
+										</li>
+										<li class="form-line" data-type="control_button" id="id_2">
+										  <div id="cid_2" class="form-input-wide">
+											<div class="form-buttons-wrapper">
+											  <button id="input_2" type="submit" class="form-submit-button" data-component="button">
+												¡Descargar!
+											  </button>
+											</div>
+										  </div>
+										</li>
+										<li style="display: none;" class="form-line" data-type="control_widget" id="id_7">
+										  <div id="cid_7" class="">
+											<div style="width:100%;text-align:Left" data-component="widget-directEmbed">
+											  <div class="direct-embed-widgets " data-type="direct-embed" style="width:50px;height:50px">
+												<div class="google_analytics_widget">
+												  <script>
+												  var analyticsFormId = '{analyticsFormId}';
+								  var analyticsAutoLink = 'grupoperti.com.mx/gracias.html';
+								  (function(i, s, o, g, r, a, m)
+								  {
+									i['GoogleAnalyticsObject'] = r;
+									i[r] = i[r] ||
+									function()
+									{
+									  (i[r].q = i[r].q || []).push(arguments)
+									}, i[r].l = 1 * new Date();
+									a = s.createElement(o), m = s.getElementsByTagName(o)[0];
+									a.async = 1;
+									a.src = g;
+									m.parentNode.insertBefore(a, m)
+								  })(window, document, 'script', '//www.google-analytics.com/analytics.js', 'ga');
+								  
+								  ga('create', 'UA-41631317-1', 'auto', {
+									'allowLinker': true
+								  });
+								  ga('send', 'pageview');
+								  if (window.analyticsAutoLink && analyticsAutoLink != '<empty>')
+								  {
+									analyticsAutoLink = analyticsAutoLink.replace(/ /g, '').split(/[,\n]/g);
+									ga('require', 'linker');
+									ga('linker:autoLink', analyticsAutoLink);
+								  }
+												  </script>
+												  <script src="//widgets.jotform.io/googleanalytics/scripts.js" type="text/javascript"></script>
+												</div>
+											  </div>
+											</div>
+										  </div>
+										</li>
+										<li style="display:none">
+										  Should be Empty:
+										  <input type="text" name="website" value="" />
+										</li>
+									  </ul>
+									</div>
+									<script>
+									JotForm.showJotFormPowered = "new_footer";
+									</script>
+									<input type="hidden" id="simple_spc" name="simple_spc" value="90386797118874" />
+									<script type="text/javascript">
+									document.getElementById("si" + "mple" + "_spc").value = "90386797118874-90386797118874";
+									</script>
+									<script src="https://cdn.jotfor.ms/js/widgetResizer.js?REV=3.3.10284" type="text/javascript"></script>
+									<div class="formFooter-heightMask">
+									</div>
+									<div class="formFooter f6">
+									  <a href="https://www.jotform.com/pricing?utm_source=formfooter&utm_medium=banner&utm_term=90386797118874&utm_content=jotform_logo&utm_campaign=powered_by_jotform_le" target="_blank" class="formFooter-logoLink"><img class="formFooter-logo" src="https://cdn.jotfor.ms/assets/img/logo/logo-new@1x.png" alt="" style="height: 44px;"></a>
+									  <div class="formFooter-rightSide">
+										<span class="formFooter-text">
+										  Now create your own JotForm - It's free!
+										</span>
+										<a class="formFooter-button" href="https://www.jotform.com/?utm_source=formfooter&utm_medium=banner&utm_term=90386797118874&utm_content=jotform_button&utm_campaign=powered_by_jotform_le" target="_blank">Create your own JotForm</a>
+									  </div>
+									</div>
+								  </form>
+								<!--Fin-->
+								<p class="disclaimer">Al realizar la descarga también estás autorizando a Grupo PerTI a enviar contenidos sobre desarrollo de apps.<br>Respetamos tu privacidad y no hacemos spam.<br>Conoce nuestra política de privacidad. :)</p>
+							</div>
+				</div>			
+                <div class="col-sm-7 offset-md-1" data-anijs="if: scroll, on: window, do: fadeInUp animated, before: scrollReveal">					
+					<h2 class="big-title">7 factores que determinan el costo de una app</h2>
+                    <p>Conocer el costo de una aplicación es importante una vez que te has planteado que crear una app es el siguiente paso para hacer crecer a tu empresa, te dejamos esta guía con información para conocer cuánto puede llegar a costar una app. </p>
+					<p>El objetivo de este eBook es darte a conocer los aspectos que debes tomar en cuenta antes de desarrollar una app, esto con el objetivo de que tengas una planeación adecuada para tu proyecto y tu presupuesto.</p>
+					<h3 class="title-2">Lo que podrás ver en este eBook:</h3>
+					<ul>
+						<li>Elementos que tiene una app que elevan el costo</li>
+						<li>Cómo tomar una mejor decisión sobre el desarrollo de tu app</li>
+					</ul>
+					<h2 class="text-center"><strong>¡Disfruta tu lectura!</strong></h2>
+                </div>	
+            </div>
+        </div>
+    </section>	
+	
+	<footer id="bottom-f">
+			<div class="info-footer" style="background: #003385;" data-anijs="if: scroll, on: window, do: fadeInUp animated, before: scrollReveal">
+				<div class="container">				
+					<div class="row">
+						<div class="col-sm-4 ">
+								<p><i class="fas fa-map-marker-alt"></i> Montana 36, Col. Nápoles, CDMX</p>
+	
+								<p><i class="fas fa-envelope"></i> <a href="mailto:info@grupoperti.com.mx">info@grupoperti.com.mx</a></p>
+						
+						</div>
+						<div class="col-sm-4 text-center d-none d-sm-block">
+							<p class="tels"><i class="fas fa-phone-volume"></i> <strong>5687 16 21  I  5543 60 45</strong></p>					
+						</div>
+						<div class="col-sm-4 text-center d-none d-sm-block">
+							<p><a href="https://api.whatsapp.com/send?phone=5540760038" target="new"><i class="fab fa-whatsapp sociales"></i></a> <a href="https://www.facebook.com/GrupoPerTI/" target="new"><i class="fab fa-facebook-f sociales"></i></a> <a href="https://www.linkedin.com/company/grupo-perti/?trk=biz-companies-cyf" target="new"><i class="fab fa-linkedin-in sociales"></i></a>
+	
+							</p>
+						
+						</div>
+					</div>						
+				</div>
+			</div>	
+	
+			<div class="legales">
+				<div class="container">
+					<div class="row">
+							<div class="col text-center">					
+								
+								</div>
+					</div>
+				</div>		
+			</div>
+		</footer>
+	
+	<script src="https://code.jquery.com/jquery-3.2.1.min.js" integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN" crossorigin="anonymous"></script>
+	<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.3/umd/popper.min.js" integrity="sha384-vFJXuSJphROIrBnz7yo7oB41mKfc8JzQZiCq4NCceLEaO4IHwicKwpJf9c9IpFgh" crossorigin="anonymous"></script>
+	<script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-beta/js/bootstrap.min.js" integrity="sha384-h0AbiXch4ZDo7tp9hKZ4TsHbi047NrKGLO3SEJAg45jXxnGIfYzk4Si90RDIqNm1" crossorigin="anonymous"></script>
+	<script src="https://ajax.googleapis.com/ajax/libs/webfont/1.6.26/webfont.js"></script>
+	<script src="js/script.js"></script>
+	<script src="js/anijs-min.js" type="text/javascript"></script>
+	<script src="js/anijs-helper-scrollreveal-min.js" type="text/javascript"></script>
+	<script defer src="https://use.fontawesome.com/releases/v5.0.6/js/all.js"></script>
+	<script>
+	  WebFont.load({
+	    google: {
+	      families: ['Raleway:400,700']
+	    }
+	  });
+	  if (/Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent)) {
+       AniJS.purgeAll();        
+    }
+	  
+	</script>	
+	<script>
+		(function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+		(i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+		m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+		})(window,document,'script','https://www.google-analytics.com/analytics.js','ga');
+		ga('create', 'UA-41631317-1', 'auto');
+		ga('send', 'pageview');    
+		</script>
+		  <!--Start of Zendesk Chat Script-->
+	  <script type="text/javascript">
+	  window.$zopim||(function(d,s){var z=$zopim=function(c){z._.push(c)},$=z.s=
+	  d.createElement(s),e=d.getElementsByTagName(s)[0];z.set=function(o){z.set.
+	  _.push(o)};z._=[];z.set._=[];$.async=!0;$.setAttribute("charset","utf-8");
+	  $.src="https://v2.zopim.com/?5E6nDmpVa9yCYm3E9surevzxUlGkYQ1N";z.t=+new Date;$.
+	  type="text/javascript";e.parentNode.insertBefore($,e)})(document,"script");
+	  </script>
+		<script>
+				if (/MSIE 10/i.test(navigator.userAgent)) {
+		   // This is internet explorer 10
+		//   window.alert('isIE10');
+		   document.getElementById('fondo-header').style.opacity = '0.5';
+		}
+		
+		if (/MSIE 9/i.test(navigator.userAgent) || /rv:11.0/i.test(navigator.userAgent)) {
+			// This is internet explorer 9 or 11
+		//	window.location = 'pages/core/ie.htm';
+			document.getElementById('fondo-header').style.opacity = '0.5';
+		}
+		
+		if (/Edge\/\d./i.test(navigator.userAgent)){
+		   // This is Microsoft Edge
+		//   window.alert('Microsoft Edge');
+		   document.getElementById('fondo-header').style.opacity = '0.5';
+		}
+			</script>
+</body>
+</html>
