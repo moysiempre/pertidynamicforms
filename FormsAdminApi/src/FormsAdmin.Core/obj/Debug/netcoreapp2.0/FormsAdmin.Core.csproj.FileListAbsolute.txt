@@ -24,9 +24,9 @@ C:\Workspaces\github\pertidynamicforms\FormsAdminApi\src\FormsAdmin.Core\bin\Deb
 C:\Workspaces\github\pertidynamicforms\FormsAdminApi\src\FormsAdmin.Core\bin\Debug\netcoreapp2.0\FormsAdmin.Core.runtimeconfig.dev.json
 C:\Workspaces\github\pertidynamicforms\FormsAdminApi\src\FormsAdmin.Core\bin\Debug\netcoreapp2.0\FormsAdmin.Core.dll
 C:\Workspaces\github\pertidynamicforms\FormsAdminApi\src\FormsAdmin.Core\bin\Debug\netcoreapp2.0\FormsAdmin.Core.pdb
-C:\Workspaces\github\pertidynamicforms\FormsAdminApi\src\FormsAdmin.Core\obj\Debug\netcoreapp2.0\FormsAdmin.Core.csprojAssemblyReference.cache
 C:\Workspaces\github\pertidynamicforms\FormsAdminApi\src\FormsAdmin.Core\obj\Debug\netcoreapp2.0\FormsAdmin.Core.csproj.CoreCompileInputs.cache
 C:\Workspaces\github\pertidynamicforms\FormsAdminApi\src\FormsAdmin.Core\obj\Debug\netcoreapp2.0\FormsAdmin.Core.AssemblyInfoInputs.cache
 C:\Workspaces\github\pertidynamicforms\FormsAdminApi\src\FormsAdmin.Core\obj\Debug\netcoreapp2.0\FormsAdmin.Core.AssemblyInfo.cs
 C:\Workspaces\github\pertidynamicforms\FormsAdminApi\src\FormsAdmin.Core\obj\Debug\netcoreapp2.0\FormsAdmin.Core.dll
 C:\Workspaces\github\pertidynamicforms\FormsAdminApi\src\FormsAdmin.Core\obj\Debug\netcoreapp2.0\FormsAdmin.Core.pdb
+C:\Workspaces\github\pertidynamicforms\FormsAdminApi\src\FormsAdmin.Core\obj\Debug\netcoreapp2.0\FormsAdmin.Core.csprojAssemblyReference.cache

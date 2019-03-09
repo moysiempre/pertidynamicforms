@@ -43,11 +43,9 @@ namespace FormsAdmin.RestfulAPI.Models
             AppUserAuth ret = new AppUserAuth();
             List<AppRoleClaimDto> claims = new List<AppRoleClaimDto>();
             var claimsPrincipal = new List<Claim>();
-            //var claimsPrincipal = new List<Claim>
-            //{
-            //    new Claim(ClaimTypes.Role, authUser.Role.Description)
-            //};
 
+            //claimsPrincipal.Add(new Claim(ClaimTypes.Role, authUser.Role.Description));
+            
             ClaimsPrincipal.ClaimsPrincipalSelector = () =>
             {
                 return new ClaimsPrincipal(new ClaimsIdentity(new GenericIdentity(authUser.UserName), claimsPrincipal));
@@ -77,7 +75,7 @@ namespace FormsAdmin.RestfulAPI.Models
             List<Claim> jwtClaims = new List<Claim>();
             jwtClaims.Add(new Claim(JwtRegisteredClaimNames.Sub, authUser.UserName));
             jwtClaims.Add(new Claim(JwtRegisteredClaimNames.Jti, Guid.NewGuid().ToString()));
-            //jwtClaims.Add(new Claim("role", authUser.RoleName.ToString()));
+            jwtClaims.Add(new Claim("role", authUser?.RoleName?.ToString()?? string.Empty));
             jwtClaims.Add(new Claim("userId", authUser.UserId ?? ""));
 
             // Add custom claims

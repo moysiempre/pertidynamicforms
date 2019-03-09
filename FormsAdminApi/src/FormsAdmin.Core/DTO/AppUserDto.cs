@@ -1,6 +1,7 @@
 ﻿using FormsAdmin.Core.Entities;
 using FormsAdmin.Core.Responses;
 using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations;
 
 namespace FormsAdmin.Core.DTO
 {
@@ -51,4 +52,29 @@ namespace FormsAdmin.Core.DTO
         public string Description { get; set; }
         public IList<AppRoleClaimDto> Claims { get; set; }
     }
+
+
+    public class ChangePasswordDto
+    {
+        [Required]
+        public string UserName { get; set; }
+        [Required]
+        public string CurrentPassword { get; set; }
+        [Required]
+        public string NewPassword { get; set; }
+    }
+
+    public class ResetPasswordDto
+    {
+        public string UserName { get; set; }
+    }
+
+    public class RegisterDto
+    {
+        [Required]
+        public string UserName { get; set; }
+        [Required]
+        public string Password { get; set; }
+    }
+
 }
