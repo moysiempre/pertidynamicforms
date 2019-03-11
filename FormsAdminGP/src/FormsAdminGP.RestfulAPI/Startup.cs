@@ -91,8 +91,10 @@ namespace FormsAdminGP.RestfulAPI
                         },
                         OnTokenValidated = context =>
                         {
-                            var tokenValidatorService = context.HttpContext.RequestServices.GetRequiredService<ITokenValidatorService>();
-                            return tokenValidatorService.ValidateAsync(context);
+                            return Task.CompletedTask;
+
+                            //var tokenValidatorService = context.HttpContext.RequestServices.GetRequiredService<ITokenValidatorService>();
+                            //return tokenValidatorService.ValidateAsync(context);
                         },
                         OnMessageReceived = context =>
                         {
@@ -114,7 +116,7 @@ namespace FormsAdminGP.RestfulAPI
             //   .AddApiExplorer();
 
 
-            services.AddAntiforgery(x => x.HeaderName = "X-XSRF-TOKEN");
+            //services.AddAntiforgery(x => x.HeaderName = "X-XSRF-TOKEN");
             services.AddMvc(options =>
             {
                 options.Filters.Add(new AutoValidateAntiforgeryTokenAttribute());

@@ -10,12 +10,25 @@
 <script>
 import Header from "@/components/header/header.vue";
 import Sidebar from "@/components/sidebar/sidebar.vue";
-
+import Axios from "axios"
 export default {
   name: "App",
   components: {
     "app-header": Header,
     "app-sidebar": Sidebar
+  },
+  created: function () {
+    Axios.interceptors.response.use(undefined, function (err) {
+      return new Promise(function (resolve, reject) {
+        if (err.status === 401 && err.config && !err.config.__isRetryRequest) {
+          this.$store.dispatch(logout)
+          console.log("from interceptors IF FOR [logout]");
+        } else{
+          console.log("from interceptors ELSE");
+        }
+        throw err;
+      });
+    });
   }
 };
 </script>

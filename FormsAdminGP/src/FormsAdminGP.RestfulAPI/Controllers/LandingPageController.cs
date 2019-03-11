@@ -8,7 +8,7 @@ namespace FormsAdminGP.RestfulAPI.Controllers
 {
     [Produces("application/json")]
     [Route("landing/api-landingpage")]
-    //[Authorize]
+    [Authorize]
     public class LandingPageController: BaseController
     {
 
@@ -19,7 +19,6 @@ namespace FormsAdminGP.RestfulAPI.Controllers
         }
 
         [HttpGet]
-        [AllowAnonymous]
         public async Task<IActionResult> Get()
         {
             var list = await _landindPageService.GetAllAsync();
@@ -35,6 +34,7 @@ namespace FormsAdminGP.RestfulAPI.Controllers
         }
 
         [HttpPost]
+        [IgnoreAntiforgeryToken]
         public async Task<IActionResult> Post([FromBody]LandingPageDto landingPageDto)
         {
             if (ModelState.IsValid)

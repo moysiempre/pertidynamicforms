@@ -1,20 +1,21 @@
 import Vue from 'vue'
 import Router from 'vue-router'
-import Home from './views/Home.vue'
 import Login from './views/Login.vue'
+import Login2 from './views/Login2.vue'
 import Landing from './views/Landing.vue'
 import FormFactory from './views/FormFactory.vue'
 import Contact from './views/Contact.vue'
 import ContactDetail from './views/ContactDetail.vue'
+import store from './store.js'
 
 Vue.use(Router)
 
-export default new Router({
+let router = new Router({
   routes: [
     {
       path: '/',
       name: 'home',
-      component: Login
+      component: Login2
     },
     {
       path: '/login',
@@ -29,7 +30,10 @@ export default new Router({
     {
       path: '/landing',
       name: 'landing',
-      component: Landing
+      component: Landing,
+      meta: { 
+        requiresAuth: true
+      }
     },
     {
       path: '/formularios',
@@ -56,3 +60,16 @@ export default new Router({
     }
   ]
 })
+
+router.beforeEach((to, from, next) => {
+  if(to.matched.some(record => record.meta.requiresAuth)) {
+    if (store.getters.isLoggedIn) {
+      next()
+      return
+    }
+    next('/login') 
+  } else {
+    next() 
+  }
+})
+export default router
