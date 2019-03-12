@@ -5,12 +5,13 @@
     <div class="main-container">
       <router-view/>
     </div>
+     <vue-snotify></vue-snotify>
   </div>
 </template>
 <script>
 import Header from "@/components/header/header.vue";
 import Sidebar from "@/components/sidebar/sidebar.vue";
-import Axios from "axios"
+// import Axios from "axios"
 export default {
   name: "App",
   components: {
@@ -48,7 +49,7 @@ export default {
   overflow: hidden;
   display: block;
   height: calc(98.2vh - 50px);
-   
+   overflow-y: auto;
   position: relative;
 }
 </style>

@@ -1,38 +1,47 @@
 <template>
-  <div class="card border-light helix">
-    <div class="card-header">
-      <h5 class="mt-2">LANDING PAGES</h5>
-      <button class="btn btn-primary" hidden @click="setAction('create', {})">+</button>
-    </div>
-    <div class="card-body p-0">
-      <div class="input-group mb-0">
-        <input type="text" class="form-control" placeholder="filtrar por landing page">
-        <div class="input-group-append">
-          <span class="input-group-text" id="basic-addon2">
-            <i class="pe-7s-search"></i>
-          </span>
-        </div>
+  <div>
+    <div class="card border-light helix">
+      <div class="card-header">
+        <h5 class="mt-2">LANDING PAGES</h5>
+        <a class="btn btn-link" @click="setAction('create', {})">
+          <i class="pe-7s-close pe-rotate-45" style="font-size:1.5rem"></i>
+          <br>
+        </a>
       </div>
-      <ul
-        class="list-group"
-        v-if="landingPages"
-        style="height: 100%;overflow: hidden;overflow-y: auto;"
-      >
-        <li
-          class="list-group-item d-flex justify-content-between"
-          v-for="item in landingPages"
-          :key="item.id"
-        >
-          <div>
-            <h6 class="mb-0">{{item.name}}</h6>
-            <p class="mb-0" style="color:#75818b">
-              <small>{{item.description}}</small>
-            </p>
+      <div class="card-body p-0">
+        <div class="input-group search-by mb-0">
+          <input
+            type="text"
+            class="form-control"
+            v-model="searchby"
+            placeholder="filtrar por landing page"
+          >
+          <div class="input-group-append">
+            <span class="input-group-text" id="basic-addon2">
+              <i class="pe-7s-search"></i>
+            </span>
           </div>
-          
-        </li>
-      </ul>
-      <div class="alert alert-warning" v-if="!landingPages">no hay registro</div>
+        </div>
+        <ul
+          class="list-group"
+          v-if="landingPages"
+          style="height: 100%;overflow: hidden;overflow-y: auto;"
+        >
+          <li
+            class="list-group-item d-flex justify-content-between"
+            v-for="item in filterSearch "
+            :key="item.id"  @click="setAction('update', item)"
+          >
+            <div>
+              <h6 class="mb-0">{{item.name}}</h6>
+              <p class="mb-0" style="color:#75818b">
+                <small>{{item.description}}</small>
+              </p>
+            </div>
+          </li>
+        </ul>
+        <div class="alert alert-warning" v-if="!landingPages">no hay registro</div>
+      </div>
     </div>
   </div>
 </template>
@@ -42,14 +51,23 @@ import { mapState } from "vuex";
 export default {
   data() {
     return {
-      landingPages: []
+      searchby: "",
+      pages: []
     };
   },
   mounted() {
     this.load();
   },
   computed: {
-    ...mapState(["lpAction"])
+    ...mapState(["landingPages"]),
+    filterSearch() {
+      return this.$store.state.landingPages.filter(item => {
+        return (
+          !this.searchby ||
+          item.name.toLowerCase().indexOf(this.searchby.toLowerCase()) > -1
+        );
+      });
+    }
   },
   methods: {
     setAction(action, item) {
@@ -58,11 +76,28 @@ export default {
     },
     load() {
       axios.get("api-landingpage").then(response => {
-        console.log(response.data);
-        this.landingPages = response.data
+        this.$store.state.landingPages = response.data
       });
     }
   }
 };
 </script>
+<style lang="scss">
+.search-by {
+  input {
+    border-radius: 0;
+    border-top-color: transparent;
+    border-left-color: transparent;
+  }
+  .input-group-text {
+    border-top-color: transparent;
+    border-radius: 0;
+    border-right-color: transparent;
+    padding: 2px 7px;
+    i {
+      font-size: 1.6rem;
+    }
+  }
+}
+</style>
 

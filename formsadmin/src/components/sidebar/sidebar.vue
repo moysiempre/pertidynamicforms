@@ -32,9 +32,9 @@ export default {
     console.log("ASIDE mounted", this.$route.query);
   },
   watch: {
-    $route(to, from) {
-      this.withSidebar = to.path === "/login" ? false : true;
-    }
+    // $route(to, from) {
+    //   this.withSidebar = to.path === "/login" ? false : true;
+    // }
   }
 };
 </script>

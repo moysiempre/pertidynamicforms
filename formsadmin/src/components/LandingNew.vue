@@ -1,27 +1,10 @@
 <template>
   <div class="card border-light">
-    <h5 class="card-header">
-       <h5 class="mt-2">{{title}}</h5>
-    </h5>
-    <div class="card-body">     
+    <div class="card-body">
+      <h5 class="mt-0">{{title}}</h5>
+      <button type="button" class="btn btn-primary" @click="myToastr">toastr</button>
       <form @submit.prevent="onSubmit" class="mt-3">
         <div class="form-group">
-          <label class="mb-0" for="vname">
-            Nombre del landing page
-            <span class="i-required">*</span>
-          </label>
-          <input
-            type="text"
-            class="form-control"
-            id="vname"
-            placeholder="Digite el nombre del landing page"
-            @blur="$v.landingPage.name.$touch()"
-            v-model="landingPage.name"
-          >
-        </div>
-      </form>
-      <form @submit.prevent="onSubmit" class="mt-3">
-        <div class="form-group" :class="{invalid: $v.name.$error}">
           <label class="mb-0" for="name">
             Nombre del landing page
             <span class="i-required">*</span>
@@ -31,22 +14,15 @@
             class="form-control"
             id="name"
             placeholder="Digite el nombre del landing page"
-            @blur="$v.name.$touch()"
-            v-model="name"
+            v-model="landingPage.name"
           >
         </div>
-        <div class="form-group" :class="{invalid: $v.landingTypeId.$error}">
-          <label class="mb-0" for="landingTypeId">
+        <div class="form-group">
+          <label class="mb-0" for="typeId">
             Tipo de landing page
             <span class="i-required">*</span>
           </label>
-          <select
-            class="custom-select mr-sm-2"
-            id="landingTypeId"
-            @blur="$v.landingTypeId.$touch()"
-            v-model="landingTypeId"
-            required
-          >
+          <select class="custom-select mr-sm-2" id="typeId" v-model="landingPage.typeId" required>
             <option value>Seleccione...</option>
             <option value="1">One</option>
             <option value="2">Two</option>
@@ -59,7 +35,7 @@
           <textarea
             class="form-control"
             placeholder="Digite una descripción del landing page"
-            v-model="description"
+            v-model="landingPage.description"
           ></textarea>
         </div>
         <div class="form-group">
@@ -77,7 +53,7 @@
                 type="checkbox"
                 class="custom-control-input"
                 id="customControlValidation1"
-                v-model="isActive"
+                v-model="landingPage.isActive"
               >
               <label class="custom-control-label" for="customControlValidation1">Es Activo</label>
             </div>
@@ -89,24 +65,25 @@
                 @click="onCancel"
                 class="btn btn-outline-warning btn-sm mx-1"
               >CANCELAR</button>
-              <button type="submit" class="btn btn-primary btn-sm" :disabled="$v.$invalid">GUARDAR</button>
+              <button type="submit" class="btn btn-primary btn-sm">GUARDAR</button>
             </div>
           </div>
         </div>
       </form>
     </div>
+   
   </div>
 </template>
 <script>
 import { required } from "vuelidate/lib/validators";
 import axios from "axios";
-import {mapState} from "vuex";
+import { mapState } from "vuex";
 export default {
   props: ["title", "landing"],
   data() {
     return {
       name: "",
-      landingTypeId: "",
+      typeId: "",
       description: "",
       filePath: "",
       isActive: ""
@@ -117,31 +94,31 @@ export default {
   },
   validations: {
     name: { required },
-    landingTypeId: { required }
+    typeId: { required }
   },
 
   methods: {
     updateStore(formData) {
-      this.$store.state.landingPages.push(formData);
+      let action = this.$store.state.lpAction;
+      if (action == "create") {
+        this.$store.state.landingPages.push(formData);
+      }  
     },
-    setLandingPage() {},
     onSubmit() {
-      let formData = {
-        name: this.name,
-        landingTypeId: this.landingTypeId,
-        description: this.description,
-        filePath: "filePath",
-        isActive: this.isActive
-      };
-
-      axios({ method: "POST", url: "api-landingpage", data: formData })
+      let landingPage = this.$store.state.landingPage;
+      axios({ method: "POST", url: "api-landingpage", data: landingPage })
         .then(response => {
-          formData.id = response.data.id;
-          this.updateStore(formData);
+          landingPage.id = response.data.id;
+          this.updateStore(landingPage);
+          this.onCancel();
+          this.$snotify.success("this.body for snotify");
         })
         .catch(err => {
           console.log(err);
         });
+    },
+    myToastr(){
+      this.$snotify.success("this.body for snotify");
     },
     onCancel() {
       this.$store.state.lpAction = "read";

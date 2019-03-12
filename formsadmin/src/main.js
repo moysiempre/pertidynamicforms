@@ -4,9 +4,16 @@ import router from './router'
 import Vuelidate from 'vuelidate'
 import store from './store'
 import Axios from 'axios'
+import Snotify from 'vue-snotify';
 
 Vue.config.productionTip = false
 Vue.use(Vuelidate)
+Vue.use(Snotify, {
+  toast: {
+    timeout: 2000,
+    showProgressBar: false
+  }
+})
 //Vue.prototype.$http = Axios;
 Axios.defaults.baseURL = 'http://localhost:60829/landing/';
 
