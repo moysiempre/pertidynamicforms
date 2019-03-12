@@ -21,7 +21,7 @@ namespace FormsAdminGP.Data.Migrations
                 .HasAnnotation("Relational:MaxIdentifierLength", 128)
                 .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
-            modelBuilder.Entity("FormsAdminGP.Core.Entities.FormDetail", b =>
+            modelBuilder.Entity("FormsAdminGP.Domain.FormDetail", b =>
                 {
                     b.Property<string>("Id")
                         .ValueGeneratedOnAdd();
@@ -45,7 +45,7 @@ namespace FormsAdminGP.Data.Migrations
                     b.ToTable("FormDetails","landing");
                 });
 
-            modelBuilder.Entity("FormsAdminGP.Core.Entities.FormHd", b =>
+            modelBuilder.Entity("FormsAdminGP.Domain.FormHd", b =>
                 {
                     b.Property<string>("Id")
                         .ValueGeneratedOnAdd();
@@ -69,7 +69,7 @@ namespace FormsAdminGP.Data.Migrations
                     b.ToTable("FormHds","landing");
                 });
 
-            modelBuilder.Entity("FormsAdminGP.Core.Entities.FormHdLandingPage", b =>
+            modelBuilder.Entity("FormsAdminGP.Domain.FormHdLandingPage", b =>
                 {
                     b.Property<string>("FormHdId");
 
@@ -82,7 +82,7 @@ namespace FormsAdminGP.Data.Migrations
                     b.ToTable("FormHdLandingPage");
                 });
 
-            modelBuilder.Entity("FormsAdminGP.Core.Entities.InfoRequest", b =>
+            modelBuilder.Entity("FormsAdminGP.Domain.InfoRequest", b =>
                 {
                     b.Property<string>("Id")
                         .ValueGeneratedOnAdd();
@@ -100,7 +100,7 @@ namespace FormsAdminGP.Data.Migrations
                     b.ToTable("InfoRequests","landing");
                 });
 
-            modelBuilder.Entity("FormsAdminGP.Core.Entities.LandingPage", b =>
+            modelBuilder.Entity("FormsAdminGP.Domain.LandingPage", b =>
                 {
                     b.Property<string>("Id")
                         .ValueGeneratedOnAdd();
@@ -128,7 +128,7 @@ namespace FormsAdminGP.Data.Migrations
                     b.ToTable("LandingPages","landing");
                 });
 
-            modelBuilder.Entity("FormsAdminGP.Core.Entities.Role", b =>
+            modelBuilder.Entity("FormsAdminGP.Domain.Role", b =>
                 {
                     b.Property<string>("Id")
                         .ValueGeneratedOnAdd();
@@ -145,7 +145,7 @@ namespace FormsAdminGP.Data.Migrations
                     b.ToTable("Roles","security");
                 });
 
-            modelBuilder.Entity("FormsAdminGP.Core.Entities.User", b =>
+            modelBuilder.Entity("FormsAdminGP.Domain.User", b =>
                 {
                     b.Property<string>("Id")
                         .ValueGeneratedOnAdd();
@@ -174,7 +174,7 @@ namespace FormsAdminGP.Data.Migrations
                     b.ToTable("Users","security");
                 });
 
-            modelBuilder.Entity("FormsAdminGP.Core.Entities.UserRole", b =>
+            modelBuilder.Entity("FormsAdminGP.Domain.UserRole", b =>
                 {
                     b.Property<string>("UserId");
 
@@ -189,7 +189,7 @@ namespace FormsAdminGP.Data.Migrations
                     b.ToTable("UserRoles","security");
                 });
 
-            modelBuilder.Entity("FormsAdminGP.Core.Entities.UserToken", b =>
+            modelBuilder.Entity("FormsAdminGP.Domain.UserToken", b =>
                 {
                     b.Property<string>("Id")
                         .ValueGeneratedOnAdd();
@@ -216,49 +216,49 @@ namespace FormsAdminGP.Data.Migrations
                     b.ToTable("UserTokens","security");
                 });
 
-            modelBuilder.Entity("FormsAdminGP.Core.Entities.FormDetail", b =>
+            modelBuilder.Entity("FormsAdminGP.Domain.FormDetail", b =>
                 {
-                    b.HasOne("FormsAdminGP.Core.Entities.FormHd")
+                    b.HasOne("FormsAdminGP.Domain.FormHd")
                         .WithMany("FormDetails")
                         .HasForeignKey("FormHdId");
                 });
 
-            modelBuilder.Entity("FormsAdminGP.Core.Entities.FormHdLandingPage", b =>
+            modelBuilder.Entity("FormsAdminGP.Domain.FormHdLandingPage", b =>
                 {
-                    b.HasOne("FormsAdminGP.Core.Entities.FormHd", "FormHd")
+                    b.HasOne("FormsAdminGP.Domain.FormHd", "FormHd")
                         .WithMany()
                         .HasForeignKey("FormHdId")
                         .OnDelete(DeleteBehavior.Cascade);
 
-                    b.HasOne("FormsAdminGP.Core.Entities.LandingPage", "LandingPage")
+                    b.HasOne("FormsAdminGP.Domain.LandingPage", "LandingPage")
                         .WithMany()
                         .HasForeignKey("LandingPageId")
                         .OnDelete(DeleteBehavior.Cascade);
                 });
 
-            modelBuilder.Entity("FormsAdminGP.Core.Entities.InfoRequest", b =>
+            modelBuilder.Entity("FormsAdminGP.Domain.InfoRequest", b =>
                 {
-                    b.HasOne("FormsAdminGP.Core.Entities.LandingPage", "LandingPage")
+                    b.HasOne("FormsAdminGP.Domain.LandingPage", "LandingPage")
                         .WithMany()
                         .HasForeignKey("LandingPageId");
                 });
 
-            modelBuilder.Entity("FormsAdminGP.Core.Entities.UserRole", b =>
+            modelBuilder.Entity("FormsAdminGP.Domain.UserRole", b =>
                 {
-                    b.HasOne("FormsAdminGP.Core.Entities.Role", "Role")
+                    b.HasOne("FormsAdminGP.Domain.Role", "Role")
                         .WithMany("UserRoles")
                         .HasForeignKey("RoleId")
                         .OnDelete(DeleteBehavior.Cascade);
 
-                    b.HasOne("FormsAdminGP.Core.Entities.User", "User")
+                    b.HasOne("FormsAdminGP.Domain.User", "User")
                         .WithMany("UserRoles")
                         .HasForeignKey("UserId")
                         .OnDelete(DeleteBehavior.Cascade);
                 });
 
-            modelBuilder.Entity("FormsAdminGP.Core.Entities.UserToken", b =>
+            modelBuilder.Entity("FormsAdminGP.Domain.UserToken", b =>
                 {
-                    b.HasOne("FormsAdminGP.Core.Entities.User", "User")
+                    b.HasOne("FormsAdminGP.Domain.User", "User")
                         .WithMany("UserTokens")
                         .HasForeignKey("UserId");
                 });

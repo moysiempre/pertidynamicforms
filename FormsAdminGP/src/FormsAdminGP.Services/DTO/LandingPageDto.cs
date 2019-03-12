@@ -1,4 +1,4 @@
-﻿using FormsAdminGP.Core.Entities;
+﻿using FormsAdminGP.Domain;
 using System.ComponentModel.DataAnnotations;
 
 namespace FormsAdminGP.Services.DTO

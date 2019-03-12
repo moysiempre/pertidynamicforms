@@ -1,5 +1,5 @@
 ﻿using AutoMapper;
-using FormsAdminGP.Core.Entities;
+using FormsAdminGP.Domain;
 using FormsAdminGP.Services.DTO;
 using Microsoft.Extensions.DependencyInjection;
 

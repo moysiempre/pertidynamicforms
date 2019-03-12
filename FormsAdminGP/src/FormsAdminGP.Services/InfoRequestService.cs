@@ -1,7 +1,7 @@
 ﻿using AutoMapper;
-using FormsAdminGP.Core.Entities;
-using FormsAdminGP.Core.Events;
+using FormsAdminGP.Common.Events;
 using FormsAdminGP.Core.Interfaces;
+using FormsAdminGP.Domain;
 using FormsAdminGP.Services.DTO;
 using FormsAdminGP.Services.Interfaces;
 using FormsAdminGP.Services.Responses;
@@ -42,7 +42,7 @@ namespace FormsAdminGP.Services
                 var infoRequest = _mapper.Map<InfoRequest>(infoRequestDto);
                 if (string.IsNullOrEmpty(infoRequest.Id))
                 {
-                    infoRequest.Id = Core.Utilities.Utils.NewGuid;
+                    infoRequest.Id = Common.Utilities.Utils.NewGuid;
                     infoRequest.IsActive = true;
                     _infoRequestRepository.Add(infoRequest);
                 }

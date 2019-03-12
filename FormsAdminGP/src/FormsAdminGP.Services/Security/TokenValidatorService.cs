@@ -1,4 +1,4 @@
-using FormsAdminGP.Core.Utilities;
+using FormsAdminGP.Common.Utilities;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using System.IdentityModel.Tokens.Jwt;
 using System.Linq;

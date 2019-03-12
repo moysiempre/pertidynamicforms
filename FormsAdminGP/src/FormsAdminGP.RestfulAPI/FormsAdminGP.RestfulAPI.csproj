@@ -24,6 +24,7 @@
   </ItemGroup>
 
   <ItemGroup>
+    <ProjectReference Include="..\FormsAdminGP.Common\FormsAdminGP.Common.csproj" />
     <ProjectReference Include="..\FormsAdminGP.Data\FormsAdminGP.Data.csproj" />
     <ProjectReference Include="..\FormsAdminGP.Services\FormsAdminGP.Services.csproj" />
   </ItemGroup>

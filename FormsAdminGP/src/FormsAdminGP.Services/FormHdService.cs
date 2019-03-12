@@ -1,7 +1,7 @@
 ﻿using AutoMapper;
-using FormsAdminGP.Core.Entities;
-using FormsAdminGP.Core.Events;
+using FormsAdminGP.Common.Events;
 using FormsAdminGP.Core.Interfaces;
+using FormsAdminGP.Domain;
 using FormsAdminGP.Services.DTO;
 using FormsAdminGP.Services.Interfaces;
 using FormsAdminGP.Services.Responses;
@@ -48,7 +48,7 @@ namespace FormsAdminGP.Services
                 var formHd = _mapper.Map<FormHd>(formHdDto);
                 if (string.IsNullOrEmpty(formHd.Id))
                 {
-                    formHd.Id = Core.Utilities.Utils.NewGuid;
+                    formHd.Id = Common.Utilities.Utils.NewGuid;
                     _formHdRepository.Add(formHd);
                 }
                 else
@@ -125,7 +125,7 @@ namespace FormsAdminGP.Services
                 var formDetail = _mapper.Map<FormDetail>(formDetailDto);
                 if (string.IsNullOrEmpty(formDetail.Id))
                 {
-                    formDetail.Id = Core.Utilities.Utils.NewGuid;
+                    formDetail.Id = Common.Utilities.Utils.NewGuid;
                     formDetail.IsActive = true;
                     _formDetailRepository.Add(formDetail);
                 }

@@ -1,7 +1,7 @@
 ﻿using AutoMapper;
-using FormsAdminGP.Core.Entities;
-using FormsAdminGP.Core.Events;
+using FormsAdminGP.Common.Events;
 using FormsAdminGP.Core.Interfaces;
+using FormsAdminGP.Domain;
 using FormsAdminGP.Services.DTO;
 using FormsAdminGP.Services.Interfaces;
 using FormsAdminGP.Services.Responses;
@@ -46,7 +46,7 @@ namespace FormsAdminGP.Services
                 var landingPage = _mapper.Map<LandingPage>(landingPageDto);
                 if (string.IsNullOrEmpty(landingPage.Id))
                 {
-                    landingPage.Id = Core.Utilities.Utils.NewGuid; 
+                    landingPage.Id = Common.Utilities.Utils.NewGuid; 
                     _landingPageRepository.Add(landingPage);
 
                 }

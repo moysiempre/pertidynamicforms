@@ -1,12 +1,12 @@
-﻿using FormsAdminGP.Core.Entities;
-using FormsAdminGP.Core.Utilities;
+﻿using FormsAdminGP.Common.Events;
+using FormsAdminGP.Common.Utilities;
 using FormsAdminGP.Data.Repositories.Security;
+using FormsAdminGP.Domain;
+using FormsAdminGP.Services.Responses;
+using Microsoft.AspNetCore.Http;
 using System;
 using System.Security.Claims;
 using System.Threading.Tasks;
-using Microsoft.AspNetCore.Http;
-using FormsAdminGP.Services.Responses;
-using FormsAdminGP.Core.Events;
 
 namespace FormsAdminGP.Services
 {

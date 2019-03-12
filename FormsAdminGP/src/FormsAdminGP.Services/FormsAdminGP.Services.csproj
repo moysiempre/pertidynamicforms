@@ -5,6 +5,7 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <ProjectReference Include="..\FormsAdminGP.Common\FormsAdminGP.Common.csproj" />
     <ProjectReference Include="..\FormsAdminGP.Data\FormsAdminGP.Data.csproj" />
   </ItemGroup>
 

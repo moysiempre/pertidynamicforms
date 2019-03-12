@@ -1,5 +1,5 @@
-﻿using FormsAdminGP.Core.Entities;
-using FormsAdminGP.Core.Utilities;
+﻿using FormsAdminGP.Common.Utilities;
+using FormsAdminGP.Domain;
 using FormsAdminGP.Services;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;

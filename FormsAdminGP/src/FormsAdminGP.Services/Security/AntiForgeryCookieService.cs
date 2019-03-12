@@ -1,4 +1,4 @@
-using FormsAdminGP.Core.Utilities;
+using FormsAdminGP.Common.Utilities;
 using Microsoft.AspNetCore.Antiforgery;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Http;

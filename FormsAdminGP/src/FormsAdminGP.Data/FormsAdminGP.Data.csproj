@@ -10,7 +10,7 @@
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\FormsAdminGP.Core\FormsAdminGP.Core.csproj" />
+    <ProjectReference Include="..\FormsAdminGP.Domain\FormsAdminGP.Domain.csproj" />
   </ItemGroup>
 
 </Project>

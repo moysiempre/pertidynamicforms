@@ -1,5 +1,5 @@
-﻿using FormsAdminGP.Core.Entities;
-using FormsAdminGP.Data.Interfaces;
+﻿using FormsAdminGP.Data.Interfaces;
+using FormsAdminGP.Domain;
 
 namespace FormsAdminGP.Core.Interfaces
 {

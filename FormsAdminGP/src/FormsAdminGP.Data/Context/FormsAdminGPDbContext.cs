@@ -1,4 +1,4 @@
-﻿using FormsAdminGP.Core.Entities;
+﻿using FormsAdminGP.Domain;
 using Microsoft.EntityFrameworkCore;
 
 namespace FormsAdminGP.Data.Context

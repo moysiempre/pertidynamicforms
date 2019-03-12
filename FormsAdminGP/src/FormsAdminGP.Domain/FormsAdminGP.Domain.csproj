@@ -4,4 +4,8 @@
     <TargetFramework>netcoreapp2.2</TargetFramework>
   </PropertyGroup>
 
+  <ItemGroup>
+    <ProjectReference Include="..\FormsAdminGP.Common\FormsAdminGP.Common.csproj" />
+  </ItemGroup>
+
 </Project>

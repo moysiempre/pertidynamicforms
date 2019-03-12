@@ -1,4 +1,4 @@
-﻿using FormsAdminGP.Core.Entities;
+﻿using FormsAdminGP.Domain;
 using FormsAdminGP.Data.Interfaces;
 
 namespace FormsAdminGP.Core.Interfaces

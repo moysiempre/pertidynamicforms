@@ -1,5 +1,5 @@
-using FormsAdminGP.Core.Entities;
-using FormsAdminGP.Core.Utilities;
+using FormsAdminGP.Common.Utilities;
+using FormsAdminGP.Domain;
 using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Options;
 using Microsoft.IdentityModel.Tokens;
