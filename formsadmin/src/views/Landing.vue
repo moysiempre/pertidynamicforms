@@ -6,7 +6,7 @@
         <landing-list />
       </div>
       <div class="col-12 col-sm-6 col-md-7 col-lg-5 mt-3 mt-sm-0" v-if="lpAction !== 'read'">
-        <LandingNew :title="title" :landing="landing" @onSaved="onItemSaved" @onCancel="onCancel"/>
+        <LandingNew :title="title" @onCancel="onCancel"/>
       </div>
     </div>
   </div>
@@ -19,10 +19,7 @@ export default {
   components: { 'landing-list': LandingList, LandingNew },
   data() {
     return {
-      title: "ALTA LANDING PAGE",
-      landings: [],
-      landing: {},
-      mode: "read"
+      title: "ALTA LANDING PAGE"     
     };
   },
    computed: {
@@ -30,24 +27,16 @@ export default {
   },
   methods: {
     onItemSaved() {
-      this.mode = "read";
-      console.log("onItemSaved");
+      
     },
     onChangedMode(data) {
-      if (data && data.id) {
-        this.mode = "update";
-        console.log("changedMode", data.id);
-      } else {
-        this.mode = "create";
-      }
-
-      console.log("new mode is: " + data);
+      
     },
     onCancel() {
-      this.mode = "read";
+       
     },
     validateMode() {
-      return this.mode == "create" || this.mode == "update" ? true : false;
+      
     }
   }, 
   

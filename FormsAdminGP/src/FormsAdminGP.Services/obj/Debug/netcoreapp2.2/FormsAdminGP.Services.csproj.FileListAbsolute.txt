@@ -1,14 +1,12 @@
 C:\Workspaces\github\pertidynamicforms\FormsAdminGP\src\FormsAdminGP.Services\bin\Debug\netcoreapp2.2\FormsAdminGP.Services.deps.json
 C:\Workspaces\github\pertidynamicforms\FormsAdminGP\src\FormsAdminGP.Services\bin\Debug\netcoreapp2.2\FormsAdminGP.Services.dll
 C:\Workspaces\github\pertidynamicforms\FormsAdminGP\src\FormsAdminGP.Services\bin\Debug\netcoreapp2.2\FormsAdminGP.Services.pdb
-C:\Workspaces\github\pertidynamicforms\FormsAdminGP\src\FormsAdminGP.Services\bin\Debug\netcoreapp2.2\FormsAdminGP.Core.dll
 C:\Workspaces\github\pertidynamicforms\FormsAdminGP\src\FormsAdminGP.Services\bin\Debug\netcoreapp2.2\FormsAdminGP.Data.dll
 C:\Workspaces\github\pertidynamicforms\FormsAdminGP\src\FormsAdminGP.Services\bin\Debug\netcoreapp2.2\Microsoft.AspNetCore.Antiforgery.dll
 C:\Workspaces\github\pertidynamicforms\FormsAdminGP\src\FormsAdminGP.Services\bin\Debug\netcoreapp2.2\Microsoft.AspNetCore.Authentication.JwtBearer.dll
 C:\Workspaces\github\pertidynamicforms\FormsAdminGP\src\FormsAdminGP.Services\bin\Debug\netcoreapp2.2\Microsoft.IdentityModel.Tokens.dll
 C:\Workspaces\github\pertidynamicforms\FormsAdminGP\src\FormsAdminGP.Services\bin\Debug\netcoreapp2.2\System.IdentityModel.Tokens.Jwt.dll
 C:\Workspaces\github\pertidynamicforms\FormsAdminGP\src\FormsAdminGP.Services\bin\Debug\netcoreapp2.2\FormsAdminGP.Data.pdb
-C:\Workspaces\github\pertidynamicforms\FormsAdminGP\src\FormsAdminGP.Services\bin\Debug\netcoreapp2.2\FormsAdminGP.Core.pdb
 C:\Workspaces\github\pertidynamicforms\FormsAdminGP\src\FormsAdminGP.Services\bin\Debug\netcoreapp2.2\Microsoft.AspNetCore.Antiforgery.xml
 C:\Workspaces\github\pertidynamicforms\FormsAdminGP\src\FormsAdminGP.Services\bin\Debug\netcoreapp2.2\Microsoft.AspNetCore.Authentication.JwtBearer.xml
 C:\Workspaces\github\pertidynamicforms\FormsAdminGP\src\FormsAdminGP.Services\bin\Debug\netcoreapp2.2\Microsoft.IdentityModel.Tokens.pdb
@@ -48,3 +46,7 @@ C:\Workspace\github\moysiempre\pertidynamicforms\FormsAdminGP\src\FormsAdminGP.S
 C:\Workspace\github\moysiempre\pertidynamicforms\FormsAdminGP\src\FormsAdminGP.Services\obj\Debug\netcoreapp2.2\FormsAdminGP.Services.csproj.CopyComplete
 C:\Workspace\github\moysiempre\pertidynamicforms\FormsAdminGP\src\FormsAdminGP.Services\obj\Debug\netcoreapp2.2\FormsAdminGP.Services.dll
 C:\Workspace\github\moysiempre\pertidynamicforms\FormsAdminGP\src\FormsAdminGP.Services\obj\Debug\netcoreapp2.2\FormsAdminGP.Services.pdb
+C:\Workspaces\github\pertidynamicforms\FormsAdminGP\src\FormsAdminGP.Services\bin\Debug\netcoreapp2.2\FormsAdminGP.Common.dll
+C:\Workspaces\github\pertidynamicforms\FormsAdminGP\src\FormsAdminGP.Services\bin\Debug\netcoreapp2.2\FormsAdminGP.Domain.dll
+C:\Workspaces\github\pertidynamicforms\FormsAdminGP\src\FormsAdminGP.Services\bin\Debug\netcoreapp2.2\FormsAdminGP.Common.pdb
+C:\Workspaces\github\pertidynamicforms\FormsAdminGP\src\FormsAdminGP.Services\bin\Debug\netcoreapp2.2\FormsAdminGP.Domain.pdb

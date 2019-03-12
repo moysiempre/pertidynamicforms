@@ -5,31 +5,39 @@
         <FormList @changedMode="onChangedMode($event)"/>
       </div>
 
-      <div class="col-12 col-sm-6 col-md-7 col-lg-5 mt-3 mt-sm-0" v-if="validateMode() == true">
-        <FormNew @onCancel="onCancel"/>
+      <div
+        class="col-12 col-sm-6 col-md-7 col-lg-5 mt-3 mt-sm-0"
+        v-if="fAction == 'create' || fAction == 'update'"
+      >
+        <FormNew/>
       </div>
 
-      <div class="row" hidden>
-        <div class="col-md-6">
-          <FormItemNew/>
-          <div class="row">
-            <div class="col-12 mt-3">
-              <ag-grid-vue
-                :gridOptions="gridOptions"
-                style="width:100%"
-                class="ag-theme-balham"
-                :columnDefs="columnDefs"
-                :rowData="rowData"
-                @grid-ready="onGridReady"
-                :paginationPageSize="5"
-                :pagination="true"
-              ></ag-grid-vue>
+      <div
+        class="col-12 col-sm-6 col-md-7 col-lg-8 mt-3 mt-sm-0"
+        v-if="fAction == 'detail'"
+      >
+        <div class="row">
+          <div class="col-md-8">
+            <FormItemNew/>
+            <div class="row">
+              <div class="col-12 mt-3">
+                <ag-grid-vue
+                  :gridOptions="gridOptions"
+                  style="width:100%"
+                  class="ag-theme-balham"
+                  :columnDefs="columnDefs"
+                  :rowData="rowData"
+                  @grid-ready="onGridReady"
+                  :paginationPageSize="5"
+                  :pagination="true"
+                ></ag-grid-vue>
+              </div>
             </div>
           </div>
-        </div>
 
-        <div class="col-md-3">
-          <form-generator :schema="formItems"></form-generator>
+          <div class="col-md-4">
+            <form-generator :schema="formItems"></form-generator>
+          </div>
         </div>
       </div>
     </div>
@@ -42,6 +50,7 @@ import { AgGridVue } from "ag-grid-vue";
 import FormNew from "@/components/FormNew.vue";
 import FormItemNew from "@/components/FormItemNew.vue";
 import FormList from "@/components/FormList.vue";
+import { mapState } from "vuex";
 
 export default {
   components: {
@@ -75,9 +84,12 @@ export default {
       rowData: null
     };
   },
+  computed: {
+    ...mapState(["fAction"])
+  },
   methods: {
     fetchData() {
-      console.log("BEFORE fetchData");       
+      console.log("BEFORE fetchData");
     },
     onSubmit() {
       this.formItems.push(this.factoryData);

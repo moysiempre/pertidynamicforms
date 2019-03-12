@@ -4,14 +4,16 @@ using FormsAdminGP.Data.Context;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 namespace FormsAdminGP.Data.Migrations
 {
     [DbContext(typeof(FormsAdminGPDbContext))]
-    partial class FormsAdminGPDbContextModelSnapshot : ModelSnapshot
+    [Migration("20190312212810_firstRun02")]
+    partial class firstRun02
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -52,8 +54,6 @@ namespace FormsAdminGP.Data.Migrations
 
                     b.Property<DateTime>("CreatedDate");
 
-                    b.Property<string>("FilePath");
-
                     b.Property<bool>("IsActive");
 
                     b.Property<string>("Name");
@@ -63,6 +63,8 @@ namespace FormsAdminGP.Data.Migrations
                     b.Property<string>("UpdatedBy");
 
                     b.Property<DateTime?>("UpdatedDate");
+
+                    b.Property<string>("filepath");
 
                     b.HasKey("Id");
 

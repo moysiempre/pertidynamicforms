@@ -2,7 +2,6 @@
   <div class="card border-light">
     <div class="card-body">
       <h5 class="mt-0">{{title}}</h5>
-      <button type="button" class="btn btn-primary" @click="myToastr">toastr</button>
       <form @submit.prevent="onSubmit" class="mt-3">
         <div class="form-group">
           <label class="mb-0" for="name">

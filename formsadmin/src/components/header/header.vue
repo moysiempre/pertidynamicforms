@@ -100,6 +100,37 @@ nav {
       }
     }
   }
+
+  .dropdown-menu {
+    background-color: #fff;
+    box-shadow: 0 0 15px 1px rgba(69, 65, 78, 0.2);
+    border: 1px solid rgba(25, 118, 210, 0.15) !important;  
+     -webkit-box-shadow: 0 1px 15px 1px rgba(76, 15, 218, 0.06) !important;
+    -moz-box-shadow: 0 1px 15px 1px rgba(76, 15, 218, 0.06) !important;
+    box-shadow: 0 1px 15px 1px rgba(76, 15, 218, 0.06) !important;
+
+    &:before {
+      position: absolute;
+      top: -7px;
+      right: 9px;
+      display: inline-block !important;
+      border-right: 7px solid transparent;
+      border-bottom: 7px solid #ccc;
+      border-left: 7px solid transparent;
+      border-bottom-color: rgba(0, 0, 0, 0.2);
+      content: "";
+    }
+    &:after {
+      position: absolute;
+      top: -6px;
+      right: 10px;
+      display: inline-block !important;
+      border-right: 6px solid transparent;
+      border-bottom: 6px solid #fff;
+      border-left: 6px solid transparent;
+      content: "";
+    }
+  }
 }
 </style>
 

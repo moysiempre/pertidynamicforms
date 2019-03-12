@@ -6,10 +6,12 @@ namespace FormsAdminGP.Services.DTO
 {
     public class FormHdDto : Entity<string>
     {
+
+        [Required]
+        public string Name { get; set; }
         [Required]
         public string Title { get; set; }
-        [Required]
-        public string Description { get; set; }
-        public virtual IEnumerable<FormDetail> FormDetails { get; set; }
+        public string FilePath { get; set; }
+        public virtual ICollection<FormDetail> FormDetails { get; set; }
     }
 }

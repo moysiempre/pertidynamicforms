@@ -1,9 +1,9 @@
 <template>
   <div class="card border-light">
     <div class="card-body">
-      <h5 class="mt-2">NUEVO</h5>
+      <h5 class="mt-0">{{title}}</h5>
       <form @submit.prevent="onSubmit" class="mt-3">
-        <div class="form-group" :class="{invalid: $v.formData.name.$error}">
+        <div class="form-group">
           <label class="mb-0" for="name">
             Nombre del formulario
             <span class="i-required">*</span>
@@ -13,11 +13,10 @@
             class="form-control"
             id="name"
             placeholder="Digite el nombre del formulario"
-            @blur="$v.formData.name.$touch()"
-            v-model="formData.name"
+            v-model="formHd.name"
           >
         </div>
-        <div class="form-group" :class="{invalid: $v.formData.formTitle.$error}">
+        <div class="form-group">
           <label class="mb-0" for="formTitle">
             Título del formulario
             <span class="i-required">*</span>
@@ -27,31 +26,20 @@
             class="form-control"
             id="formTitle"
             placeholder="Digite el título del formulario"
-            @blur="$v.formData.formTitle.$touch()"
-            v-model="formData.formTitle"
+            v-model="formHd.title"
           >
-        </div>
-        <div class="form-group" :class="{invalid: $v.formData.landings.$error}">
-          <label class="mb-0" for="landings">Landing pages Asociados</label>
-          <select
-            class="custom-select mr-sm-2"
-            id="landings"
-            @blur="$v.formData.landings.$touch()"
-            v-model="formData.landings"
-            required
-          >
-            <option value>Seleccione...</option>
-            <option value="1">One</option>
-            <option value="2">Two</option>
-            <option value="3">Three</option>
-          </select>
         </div>
         <div class="form-group">
+          <label class="mb-0" for="landings">Landing pages Asociados</label>
+          <select class="custom-select mr-sm-2" id="landings" v-model="formHd.landings" required>
+            <option value>Seleccione...</option>
+            <option  v-for="item in landingPages" :key="item.id" :value="item.id">{{item.name}}</option>
+          </select>
+        </div>
+
+        <div class="form-group" v-if="formHd.id">
           <label class="mb-0" for>Ubicación del archivo a subir</label>
-          <div class="custom-file">
-            <input type="file" class="custom-file-input" id="validatedCustomFile" required>
-            <label class="custom-file-label" for="validatedCustomFile">Choose file...</label>
-          </div>
+          <input type="file" id="file" ref="file" v-on:change="handleFileUpload()">
         </div>
 
         <div class="row">
@@ -61,7 +49,7 @@
                 type="checkbox"
                 class="custom-control-input"
                 id="cboIsActive"
-                v-model="formData.isActive"
+                v-model="formHd.isActive"
               >
               <label class="custom-control-label" for="cboIsActive">Es Activo</label>
             </div>
@@ -73,11 +61,7 @@
                 @click="onCancel"
                 class="btn btn-outline-warning btn-sm mx-1"
               >CANCELAR</button>
-              <button
-                type="submit"
-                class="btn btn-primary btn-sm"
-                :disabled="$v.formData.$invalid"
-              >GUARDAR</button>
+              <button type="submit" class="btn btn-primary btn-sm">GUARDAR</button>
             </div>
           </div>
         </div>
@@ -87,12 +71,16 @@
 </template>
 <script>
 import { required } from "vuelidate/lib/validators";
+import axios from "axios";
+import { mapState } from "vuex";
 
 export default {
   data() {
     return {
-      title: "ALTA LANDING PAGE",
-      formData: { name: "", formTitle: "" }
+      title: "ALTA FORMULARIO",
+      formData: { name: "", formTitle: "" },
+      file: {},
+      landingPages: []
     };
   },
   validations: {
@@ -102,12 +90,62 @@ export default {
       landings: { required }
     }
   },
+  beforeMount(){
+    this.loadLandingPages();
+  },
+  computed: {
+    ...mapState(["formHd"])
+  },
   methods: {
+    loadLandingPages() {
+      axios.get("api-landingpage").then(response => {
+        this.landingPages = response.data;
+      });
+    },
+    updateStore(formData) {
+      let action = this.$store.state.fAction;
+      if (action == "create") {
+        this.$store.state.formHds.push(formData);
+      }
+    },
     onSubmit() {
-      this.$emit("onSaved");
+      let formHd = this.$store.state.formHd;
+
+      console.log("formHd: ", formHd);
+      axios({ method: "POST", url: "api-forms", data: formHd })
+        .then(response => {
+          formHd.id = response.data.id;
+          this.updateStore(formHd);
+          this.onCancel();
+          this.$snotify.success("this.body for snotify");
+        })
+        .catch(err => {
+          console.log(err);
+          this.$snotify.error("this.body for snotify");
+        });
+    },
+    handleFileUpload() {
+      this.file = this.$refs.file.files[0];
+      console.log("file handled", this.file.name);
+    },
+    fileUpload() {
+      let formData = new FormData();
+      formData.append("file", this.file);
+      axios
+        .post("api-fileupload", formData, {
+          headers: {
+            "Content-Type": "multipart/form-data"
+          }
+        })
+        .then(function() {
+          console.log("SUCCESS!!");
+        })
+        .catch(function(error) {
+          console.log("FAILURE!!", error);
+        });
     },
     onCancel() {
-      this.$emit("onCancel");
+      this.$store.state.fAction = "read";
     }
   }
 };

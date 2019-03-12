@@ -1,5 +1,6 @@
 ﻿using FormsAdminGP.Services.DTO;
 using FormsAdminGP.Services.Interfaces;
+using FormsAdminGP.Services.Request;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using System.Threading.Tasks;
@@ -24,6 +25,7 @@ namespace FormsAdminGP.RestfulAPI.Controllers
             var list = await _landindPageService.GetAllAsync();
             return Ok(list);
         }
+
 
         [HttpGet("{id}")]
         [AllowAnonymous]

@@ -8,7 +8,10 @@ export default new Vuex.Store({
   state: {
     landingPages: [],
     landingPage: {},
+    formHds:[],
+    formHd: {},
     lpAction: "read",
+    fAction: "read",
     auth: null,
     loading: false,
   },

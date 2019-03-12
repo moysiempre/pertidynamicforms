@@ -2,9 +2,13 @@
   <div class="card border-light helix">
     <div class="card-header">
       <h5 class="mt-2">FORMULARIOS</h5>
+      <a class="btn btn-link" @click="setAction('create', {})">
+        <i class="pe-7s-close pe-rotate-45" style="font-size:1.5rem"></i>
+        <br>
+      </a>
     </div>
     <div class="card-body p-0">
-      <div class="input-group mb-0">
+      <div class="input-group mb-0 search-by">
         <input type="text" class="form-control" placeholder="filtrar por landing page">
         <div class="input-group-append">
           <span class="input-group-text" id="basic-addon2">
@@ -15,13 +19,13 @@
       <ul class="list-group" v-if="formHds">
         <li
           class="list-group-item d-flex justify-content-between"
-          v-for="item in formHds"
+          v-for="item in filterSearch"
           :key="item.id"
         >
           <div>
-            <h6 class="mb-0">{{item.title}}</h6>
+            <h6 class="mb-0">{{item.name}}</h6>
             <p class="mb-0" style="color:#75818b">
-              <small>{{item.description}}</small>
+              <small>{{item.title}}</small>
             </p>
           </div>
           <div class="d-flex align-items-center c-pointer">
@@ -35,10 +39,13 @@
               >
                 <i class="pe-7s-more"></i>
               </button>
-              <div class="dropdown-menu dropdown-menu-right">
-                <button class="dropdown-item" type="button">Editar</button>
-                <button class="dropdown-item" type="button">Seleccionar</button>
-                <button class="dropdown-item" type="button">ver detalle</button>
+              <div class="dropdown-menu dropdown-menu-right dropdown-wll">
+                <p class="m-0">
+                  <a role="button" class="btn btn-link" @click="setAction('update', item)">Editar</a>
+                </p>
+                <p class="m-0">
+                  <a role="button" class="btn btn-link" @click="setAction('detail', null)">ver detalle</a>
+                </p>
               </div>
             </div>
           </div>
@@ -50,29 +57,42 @@
 </template>
 <script>
 import axios from "axios";
+import { mapState } from "vuex";
 export default {
   data() {
     return {
-      mode: "read",
-      formHds: []
+      searchby: ""
     };
   },
   mounted() {
     this.load();
   },
+  computed: {
+    ...mapState(["formHds"]),
+    filterSearch() {
+      return this.$store.state.formHds.filter(item => {
+        return (
+          !this.searchby ||
+          item.title.toLowerCase().indexOf(this.searchby.toLowerCase()) > -1
+        );
+      });
+    }
+  },
   methods: {
     load() {
       axios.get("api-forms").then(response => {
-        console.log(response.data);
-        this.formHds = response.data;
+        this.$store.state.formHds = response.data;
       });
     },
-    createFormHd() {
-      this.$emit("changedMode", {});
+    setAction(action, item) {
+      this.$store.state.formHd = item;
+      this.$store.state.fAction = action;
     },
-    updateFormHd(item) {
-      this.$emit("changedMode", item);
-    }
+    itemEdit(item) {
+      this.$store.state.formHd = item;
+      this.$store.state.fAction = "update";
+    },
+    itemDetail() {}
   }
 };
 </script>

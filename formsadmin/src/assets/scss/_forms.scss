@@ -37,6 +37,7 @@ select {
 .custom-checkbox .custom-control-input:checked~.custom-control-label::before {
     background-color: #405668;
 }
+
 .custom-checkbox .custom-control-input:checked~.custom-control-label::before {
     background-color: #405668;
 }
@@ -48,5 +49,69 @@ select {
 
 .custom-control-input:active~.custom-control-label::before {
     color: #fff;
-    background-color: rgba(64, 86, 104, .5) ;
+    background-color: rgba(64, 86, 104, .5);
+}
+
+.search-by {
+    input {
+        border-radius: 0;
+        border-top-color: transparent;
+        border-left-color: transparent;
+    }
+
+    .input-group-text {
+        border-top-color: transparent;
+        border-radius: 0;
+        border-right-color: transparent;
+        padding: 2px 7px;
+
+        i {
+            font-size: 1.6rem;
+        }
+    }
+}
+
+input[type=file] {
+    border: 1px solid #ddd;
+    padding: 5px;
+    border-radius: 5px;
+}
+
+.dropdown-wll {
+    a {
+        font-size: .75rem;
+        padding: 0 0px 0px 19px;
+
+        &:hover {
+            color: #0056b3 !important;
+        }
+    }
+
+    background-color: #fff;
+    -webkit-box-shadow: 0 1px 15px 1px rgba(76, 15, 218, 0.06) !important;
+    -moz-box-shadow: 0 1px 15px 1px rgba(76, 15, 218, 0.06) !important;
+    box-shadow: 0 1px 15px 1px rgba(76, 15, 218, 0.06) !important;
+
+    &:before {
+        position: absolute;
+        top: -7px;
+        right: 9px;
+        display: inline-block !important;
+        border-right: 7px solid transparent;
+        border-bottom: 7px solid #ccc;
+        border-left: 7px solid transparent;
+        border-bottom-color: rgba(0, 0, 0, 0.2);
+        content: "";
+    }
+
+    &:after {
+        position: absolute;
+        top: -6px;
+        right: 10px;
+        display: inline-block !important;
+        border-right: 6px solid transparent;
+        border-bottom: 6px solid #fff;
+        border-left: 6px solid transparent;
+        content: "";
+    }
 }

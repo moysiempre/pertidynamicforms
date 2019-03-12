@@ -51,8 +51,7 @@ import { mapState } from "vuex";
 export default {
   data() {
     return {
-      searchby: "",
-      pages: []
+      searchby: ""
     };
   },
   mounted() {
@@ -70,34 +69,19 @@ export default {
     }
   },
   methods: {
-    setAction(action, item) {
-      this.$store.state.landingPage = item;
-      this.$store.state.lpAction = action;
-    },
-    load() {
+     load() {
       axios.get("api-landingpage").then(response => {
         this.$store.state.landingPages = response.data
       });
-    }
+    },
+    setAction(action, item) {
+      this.$store.state.landingPage = item;
+      this.$store.state.lpAction = action;
+    }   
   }
 };
 </script>
 <style lang="scss">
-.search-by {
-  input {
-    border-radius: 0;
-    border-top-color: transparent;
-    border-left-color: transparent;
-  }
-  .input-group-text {
-    border-top-color: transparent;
-    border-radius: 0;
-    border-right-color: transparent;
-    padding: 2px 7px;
-    i {
-      font-size: 1.6rem;
-    }
-  }
-}
+
 </style>
 

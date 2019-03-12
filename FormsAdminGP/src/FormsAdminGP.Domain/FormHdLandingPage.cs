@@ -6,5 +6,6 @@
         public LandingPage LandingPage { get; set; }
         public string FormHdId { get; set; }
         public FormHd FormHd { get; set; }
+        public bool IsActive { get; set; }
     }
 }
