@@ -18,17 +18,7 @@ export default {
     "app-sidebar": Sidebar
   },
   created: function () {
-    Axios.interceptors.response.use(undefined, function (err) {
-      return new Promise(function (resolve, reject) {
-        if (err.status === 401 && err.config && !err.config.__isRetryRequest) {
-          this.$store.dispatch(logout)
-          console.log("from interceptors IF FOR [logout]");
-        } else{
-          console.log("from interceptors ELSE");
-        }
-        throw err;
-      });
-    });
+    
   }
 };
 </script>
@@ -39,6 +29,8 @@ export default {
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
   color: #2c3e50;
+  border: 0px solid red;
+  height: 100%;
 }
 #nav {
   padding: 30px;
@@ -52,11 +44,11 @@ export default {
 }
 .main-container {
   margin-left: 50px;
-  min-height: calc(87vh - 43px);
+  min-height: calc(87vh - 50px);
   overflow: hidden;
   display: block;
-  height: calc(87vh - 43px);
-  overflow-y: auto;
+  height: calc(98.2vh - 50px);
+   
   position: relative;
 }
 </style>

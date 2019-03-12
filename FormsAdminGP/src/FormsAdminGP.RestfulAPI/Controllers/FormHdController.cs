@@ -32,6 +32,7 @@ namespace FormsAdminGP.RestfulAPI.Controllers
         }
 
         [HttpPost]
+        [IgnoreAntiforgeryToken]
         public async Task<IActionResult> Post([FromBody]FormHdDto formHdDto)
         {
             if (ModelState.IsValid)
@@ -44,6 +45,7 @@ namespace FormsAdminGP.RestfulAPI.Controllers
         }
 
         [HttpPost("detail")]
+        [IgnoreAntiforgeryToken]
         public async Task<IActionResult> PostDetail([FromBody]FormDetailDto formDetailDto)
         {
             if (ModelState.IsValid)

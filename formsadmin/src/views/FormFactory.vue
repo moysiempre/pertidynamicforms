@@ -1,11 +1,11 @@
 <template>
   <div class="container-fluid h-100">
     <div class="row h-100">
-      <div class="col-12 col-sm-5 col-md-4 col-lg-3">
-        <FormList :formHds="formHds" @changedMode="onChangedMode($event)"/>
+      <div class="col-12 col-sm-6 col-md-5 col-lg-4">
+        <FormList @changedMode="onChangedMode($event)"/>
       </div>
 
-      <div class="col-12 col-sm-7 col-md-6 col-lg-5 mt-3 mt-sm-0" v-if="validateMode() == true">
+      <div class="col-12 col-sm-6 col-md-7 col-lg-5 mt-3 mt-sm-0" v-if="validateMode() == true">
         <FormNew @onCancel="onCancel"/>
       </div>
 
@@ -41,12 +41,10 @@ import FormGenerator from "@/components/forms/FormGenerator";
 import { AgGridVue } from "ag-grid-vue";
 import FormNew from "@/components/FormNew.vue";
 import FormItemNew from "@/components/FormItemNew.vue";
-import LandingList from "@/components/LandingList.vue";
 import FormList from "@/components/FormList.vue";
 
 export default {
   components: {
-    LandingList,
     FormList,
     FormNew,
     FormItemNew,
@@ -57,7 +55,6 @@ export default {
     return {
       msg: "Welcome to Your Vue.js App",
       mode: "read",
-      formHds: [],
       formItems: [
         {
           fieldType: "textInput",
@@ -80,16 +77,7 @@ export default {
   },
   methods: {
     fetchData() {
-      console.log("BEFORE fetchData");
-      this.$http.get("http://localhost:64423/landing/api-forms").then(
-        response => {
-          this.formHds = response.body;
-          console.log(this.formHds);
-        },
-        error => {
-          console.log(error);
-        }
-      );
+      console.log("BEFORE fetchData");       
     },
     onSubmit() {
       this.formItems.push(this.factoryData);

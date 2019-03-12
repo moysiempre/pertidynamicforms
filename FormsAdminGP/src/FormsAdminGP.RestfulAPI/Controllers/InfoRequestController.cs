@@ -30,6 +30,7 @@ namespace FormsAdminGP.RestfulAPI.Controllers
         }
 
         [HttpPost]
+        [IgnoreAntiforgeryToken]
         public async Task<IActionResult> Post([FromBody]InfoRequestDto infoRequestDto)
         {
             if (ModelState.IsValid)

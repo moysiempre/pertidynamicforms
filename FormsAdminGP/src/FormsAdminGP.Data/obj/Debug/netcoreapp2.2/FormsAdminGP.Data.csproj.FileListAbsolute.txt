@@ -10,3 +10,15 @@ C:\Workspace\github\moysiempre\pertidynamicforms\FormsAdminGP\src\FormsAdminGP.D
 C:\Workspace\github\moysiempre\pertidynamicforms\FormsAdminGP\src\FormsAdminGP.Data\obj\Debug\netcoreapp2.2\FormsAdminGP.Data.csproj.CopyComplete
 C:\Workspace\github\moysiempre\pertidynamicforms\FormsAdminGP\src\FormsAdminGP.Data\obj\Debug\netcoreapp2.2\FormsAdminGP.Data.dll
 C:\Workspace\github\moysiempre\pertidynamicforms\FormsAdminGP\src\FormsAdminGP.Data\obj\Debug\netcoreapp2.2\FormsAdminGP.Data.pdb
+C:\Workspaces\github\pertidynamicforms\FormsAdminGP\src\FormsAdminGP.Data\bin\Debug\netcoreapp2.2\FormsAdminGP.Data.deps.json
+C:\Workspaces\github\pertidynamicforms\FormsAdminGP\src\FormsAdminGP.Data\bin\Debug\netcoreapp2.2\FormsAdminGP.Data.dll
+C:\Workspaces\github\pertidynamicforms\FormsAdminGP\src\FormsAdminGP.Data\bin\Debug\netcoreapp2.2\FormsAdminGP.Data.pdb
+C:\Workspaces\github\pertidynamicforms\FormsAdminGP\src\FormsAdminGP.Data\bin\Debug\netcoreapp2.2\FormsAdminGP.Core.dll
+C:\Workspaces\github\pertidynamicforms\FormsAdminGP\src\FormsAdminGP.Data\bin\Debug\netcoreapp2.2\FormsAdminGP.Core.pdb
+C:\Workspaces\github\pertidynamicforms\FormsAdminGP\src\FormsAdminGP.Data\obj\Debug\netcoreapp2.2\FormsAdminGP.Data.csprojAssemblyReference.cache
+C:\Workspaces\github\pertidynamicforms\FormsAdminGP\src\FormsAdminGP.Data\obj\Debug\netcoreapp2.2\FormsAdminGP.Data.csproj.CoreCompileInputs.cache
+C:\Workspaces\github\pertidynamicforms\FormsAdminGP\src\FormsAdminGP.Data\obj\Debug\netcoreapp2.2\FormsAdminGP.Data.AssemblyInfoInputs.cache
+C:\Workspaces\github\pertidynamicforms\FormsAdminGP\src\FormsAdminGP.Data\obj\Debug\netcoreapp2.2\FormsAdminGP.Data.AssemblyInfo.cs
+C:\Workspaces\github\pertidynamicforms\FormsAdminGP\src\FormsAdminGP.Data\obj\Debug\netcoreapp2.2\FormsAdminGP.Data.csproj.CopyComplete
+C:\Workspaces\github\pertidynamicforms\FormsAdminGP\src\FormsAdminGP.Data\obj\Debug\netcoreapp2.2\FormsAdminGP.Data.dll
+C:\Workspaces\github\pertidynamicforms\FormsAdminGP\src\FormsAdminGP.Data\obj\Debug\netcoreapp2.2\FormsAdminGP.Data.pdb

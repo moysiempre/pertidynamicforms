@@ -1,0 +1,9 @@
+C:\Workspaces\github\pertidynamicforms\FormsAdminGP\src\FormsAdminGP.Core\bin\Debug\netcoreapp2.1\FormsAdminGP.Core.deps.json
+C:\Workspaces\github\pertidynamicforms\FormsAdminGP\src\FormsAdminGP.Core\bin\Debug\netcoreapp2.1\FormsAdminGP.Core.dll
+C:\Workspaces\github\pertidynamicforms\FormsAdminGP\src\FormsAdminGP.Core\bin\Debug\netcoreapp2.1\FormsAdminGP.Core.pdb
+C:\Workspaces\github\pertidynamicforms\FormsAdminGP\src\FormsAdminGP.Core\obj\Debug\netcoreapp2.1\FormsAdminGP.Core.csprojAssemblyReference.cache
+C:\Workspaces\github\pertidynamicforms\FormsAdminGP\src\FormsAdminGP.Core\obj\Debug\netcoreapp2.1\FormsAdminGP.Core.csproj.CoreCompileInputs.cache
+C:\Workspaces\github\pertidynamicforms\FormsAdminGP\src\FormsAdminGP.Core\obj\Debug\netcoreapp2.1\FormsAdminGP.Core.AssemblyInfoInputs.cache
+C:\Workspaces\github\pertidynamicforms\FormsAdminGP\src\FormsAdminGP.Core\obj\Debug\netcoreapp2.1\FormsAdminGP.Core.AssemblyInfo.cs
+C:\Workspaces\github\pertidynamicforms\FormsAdminGP\src\FormsAdminGP.Core\obj\Debug\netcoreapp2.1\FormsAdminGP.Core.dll
+C:\Workspaces\github\pertidynamicforms\FormsAdminGP\src\FormsAdminGP.Core\obj\Debug\netcoreapp2.1\FormsAdminGP.Core.pdb

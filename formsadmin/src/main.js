@@ -10,7 +10,7 @@ Vue.use(Vuelidate)
 //Vue.prototype.$http = Axios;
 Axios.defaults.baseURL = 'http://localhost:60829/landing/';
 
-const token = localStorage.getItem('token')
+const token = localStorage.getItem('access_token')
 if (token) {
   Axios.defaults.headers.common['Authorization'] = 'bearer ' + token
 }

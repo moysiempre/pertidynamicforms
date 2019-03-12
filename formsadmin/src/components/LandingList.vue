@@ -1,7 +1,7 @@
 <template>
   <div class="card border-light helix">
     <div class="card-header">
-      <h5 class="mt-2">LANDING PAGES {{lpAction}}</h5>
+      <h5 class="mt-2">LANDING PAGES</h5>
       <button class="btn btn-primary" hidden @click="setAction('create', {})">+</button>
     </div>
     <div class="card-body p-0">
@@ -16,7 +16,7 @@
       <ul
         class="list-group"
         v-if="landingPages"
-        style="height: 200px;overflow: hidden;overflow-y: auto;"
+        style="height: 100%;overflow: hidden;overflow-y: auto;"
       >
         <li
           class="list-group-item d-flex justify-content-between"
@@ -29,24 +29,7 @@
               <small>{{item.description}}</small>
             </p>
           </div>
-          <div class="d-flex align-items-center c-pointer">
-            <div class="btn-group">
-              <button
-                type="button"
-                class="btn btn-link btn-sm"
-                data-toggle="dropdown"
-                aria-haspopup="true"
-                aria-expanded="false"
-              >
-                <i class="pe-7s-more"></i>
-              </button>
-              <div class="dropdown-menu dropdown-menu-right">
-                <button class="dropdown-item" type="button">Editar</button>
-                <button class="dropdown-item" type="button">Seleccionar</button>
-                <button class="dropdown-item" type="button">ver detalle</button>
-              </div>
-            </div>
-          </div>
+          
         </li>
       </ul>
       <div class="alert alert-warning" v-if="!landingPages">no hay registro</div>
@@ -54,18 +37,30 @@
   </div>
 </template>
 <script>
+import axios from "axios";
 import { mapState } from "vuex";
 export default {
+  data() {
+    return {
+      landingPages: []
+    };
+  },
   mounted() {
-    this.$store.dispatch("getLandingPages");
+    this.load();
   },
   computed: {
-    ...mapState(["landingPages", "lpAction"])
+    ...mapState(["lpAction"])
   },
   methods: {
     setAction(action, item) {
       this.$store.state.landingPage = item;
       this.$store.state.lpAction = action;
+    },
+    load() {
+      axios.get("api-landingpage").then(response => {
+        console.log(response.data);
+        this.landingPages = response.data
+      });
     }
   }
 };

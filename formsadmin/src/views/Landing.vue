@@ -15,7 +15,7 @@ import LandingList from "@/components/LandingList.vue";
 import LandingNew from "@/components/LandingNew.vue";
 import { mapState } from "vuex";
 export default {
-  components: { LandingList, LandingNew },
+  components: { 'landing-list': LandingList, LandingNew },
   data() {
     return {
       title: "ALTA LANDING PAGE",
