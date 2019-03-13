@@ -1,7 +1,7 @@
 <template>
   <div class="card border-light bg-xlight">
     <div class="card-body">
-      <h5 class="mt-2">NUEVO</h5>
+      <h5 class="mt-0">{{title}}</h5>
       <form id="factoryForm" class="mt-3">
         <div class="row">
           <div class="col-md-5">
@@ -55,15 +55,7 @@
                 >
                 <label class="custom-control-label" for="cboIsRequired">Es obligatorio</label>
               </div>
-              <div class="custom-control custom-checkbox">
-                <input
-                  type="checkbox"
-                  class="custom-control-input"
-                  id="cboAttachFile"
-                  v-model="factoryData.attachFile"
-                >
-                <label class="custom-control-label" for="cboAttachFile">Adjunta archivo</label>
-              </div>
+               
             </div>
           </div>
           <div class="col-md-6">
@@ -86,6 +78,7 @@
 export default {
   data() {
     return {
+      title: "DETALLE FORMULARIO",
       factoryData: {}
     };
   },
