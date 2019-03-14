@@ -28,17 +28,36 @@ namespace FormsAdminGP.Data.Context
 
             base.OnModelCreating(builder);
 
-            // Custom application mappings
-            builder.Entity<LandingPage>().ToTable("LandingPages", "landing");
+            // Custom application mappings  
+            builder.Entity<LandingPage>(entity => {
+                entity.ToTable("LandingPages", "landing");
+                entity.Property(e => e.Name).HasMaxLength(225).IsRequired();
+                entity.Property(e => e.Description).HasMaxLength(450);
+                entity.Property(e => e.FilePath).HasMaxLength(450).IsRequired();
+                entity.Property(e => e.TypeId).IsRequired();
+            });
 
-            builder.Entity<FormHd>(entity => {
+
+            builder.Entity<FormHd>(entity =>
+            {
                 entity.ToTable("FormHds", "landing");
+                entity.Property(e => e.Name).HasMaxLength(225).IsRequired();
+                entity.Property(e => e.Title).HasMaxLength(225).IsRequired();
+                entity.Property(e => e.FilePath).HasMaxLength(450).IsRequired();
+
                 entity.HasMany(p => p.FormDetails)
                         .WithOne()
                         .HasForeignKey(b => b.FormHdId);
             });
           
-            builder.Entity<FormDetail>().ToTable("FormDetails", "landing");
+  
+            builder.Entity<FormDetail>(entity =>
+            {
+                entity.ToTable("FormDetails", "landing");
+                entity.Property(e => e.FieldLabel).HasMaxLength(225).IsRequired();
+                entity.Property(e => e.FieldTypeId).HasMaxLength(50).IsRequired();
+            });
+
 
             builder.Entity<InfoRequest>().ToTable("InfoRequests", "landing");
 

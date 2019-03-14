@@ -15,3 +15,4 @@ C:\Workspaces\github\pertidynamicforms\FormsAdminGP\src\FormsAdminGP.Common\obj\
 C:\Workspaces\github\pertidynamicforms\FormsAdminGP\src\FormsAdminGP.Common\obj\Debug\netcoreapp2.2\FormsAdminGP.Common.AssemblyInfo.cs
 C:\Workspaces\github\pertidynamicforms\FormsAdminGP\src\FormsAdminGP.Common\obj\Debug\netcoreapp2.2\FormsAdminGP.Common.dll
 C:\Workspaces\github\pertidynamicforms\FormsAdminGP\src\FormsAdminGP.Common\obj\Debug\netcoreapp2.2\FormsAdminGP.Common.pdb
+C:\Workspace\github\moysiempre\pertidynamicforms\FormsAdminGP\src\FormsAdminGP.Common\obj\Debug\netcoreapp2.2\FormsAdminGP.Common.csprojAssemblyReference.cache
