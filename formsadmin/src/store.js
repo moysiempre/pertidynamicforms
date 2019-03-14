@@ -8,12 +8,18 @@ export default new Vuex.Store({
   state: {
     landingPages: [],
     landingPage: {},
-    formHds:[],
+    formHds: [],
     formHd: {},
+    formItem: {
+      fieldTypeId: "textInput",
+      order: 1
+    },
     lpAction: "read",
-    fAction: "read",
+    fhAction: "read",
+    fdAction: "read",
     auth: null,
     loading: false,
+    fieldTypes: []
   },
   mutations: {
     SET_LANDING_PAGES: (state, landingPages) => {

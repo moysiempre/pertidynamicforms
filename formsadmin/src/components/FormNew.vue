@@ -103,7 +103,7 @@ export default {
       });
     },
     updateStore(formData) {
-      let action = this.$store.state.fAction;
+      let action = this.$store.state.fhAction;
       if (action == "create") {
         this.$store.state.formHds.push(formData);
       }
@@ -145,7 +145,7 @@ export default {
         });
     },
     onCancel() {
-      this.$store.state.fAction = "read";
+      this.$store.state.fhAction = "read";
     }
   }
 };

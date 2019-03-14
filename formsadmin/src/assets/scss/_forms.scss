@@ -71,6 +71,14 @@ select {
     }
 }
 
+.btn-link {
+    color: #0056b3 !important;
+
+    &:hover {
+        color: #405668 !important;
+    }
+}
+
 input[type=file] {
     border: 1px solid #ddd;
     padding: 5px;

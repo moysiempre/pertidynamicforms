@@ -1,24 +1,22 @@
 <template>
   <div class="card bg-elight h-100">
-    <h6 class="text-right mt-0 mb-3 mx-3">VISTA PREVIA</h6>
+    <div class="card-header bg-transparent" style="border-bottom-color: transparent">
+      <h6 class="text-right mt-0 mb-0 mx-3">VISTA PREVIA</h6>
+    </div>
     <div class="card mx-2">
       <div class="card-header bg-white">
         <h6 class="mt-2">Obtener asesoría especializada</h6>
       </div>
       <div class="card-body">
-        <form>
+        <form v-if="formHd.formDetails">
           <component
-            v-for="(field, index) in schema"
+            v-for="(field, index) in formHd.formDetails"
             :key="index"
-            :is="field.fieldType"
+            :is="field.fieldTypeId"
             :placeholder="field.fieldLabel"
           ></component>
 
-          
-            <div class="form-group text-center">
-              <button type="button" class="btn btn-sm btn-outline-info">Enviar form</button>
-            </div>
-          
+           
         </form>
       </div>
     </div>
@@ -28,15 +26,19 @@
 <script>
 import NumberInput from "./NumberInput";
 import TextInput from "./TextInput";
+import SubmitInput from "./SubmitInput";
+import { mapState } from "vuex";
 
 export default {
   name: "FormGenerator",
-  components: { TextInput, NumberInput },
-  props: ["schema"],
+  components: { TextInput, NumberInput,  SubmitInput},
   data() {
     return {
       formData: this.value || {}
     };
+  },
+  computed: {
+    ...mapState(["formHd"])
   },
   methods: {}
 };

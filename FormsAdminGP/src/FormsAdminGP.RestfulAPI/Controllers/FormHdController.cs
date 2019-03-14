@@ -1,7 +1,12 @@
-﻿using FormsAdminGP.Services.DTO;
+﻿using FormsAdminGP.Common.Enums;
+using FormsAdminGP.Common.Utilities;
+using FormsAdminGP.Services.DTO;
 using FormsAdminGP.Services.Interfaces;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
+using System;
+using System.Collections.Generic;
+using System.Linq;
 using System.Threading.Tasks;
 
 namespace FormsAdminGP.RestfulAPI.Controllers
@@ -31,6 +36,20 @@ namespace FormsAdminGP.RestfulAPI.Controllers
             return Ok(item);
         }
 
+        [HttpGet("fieldTypes")]
+        [AllowAnonymous]
+        public async Task<IActionResult> GetFieldTypes()
+        {
+            var list = new List<FieldTypeDto>();
+            await Task.Run(() =>
+            {
+                list = Enum.GetValues(typeof(FieldType)).Cast<object>()
+                .Select(p => new FieldTypeDto { Id = Convert.ToInt32(p), Description = ((Enum)p).GetEnumDescription(), Name = ((Enum)p).ToString() })
+                .OrderBy(p => p.Id).ToList();
+            });
+            return Ok(list);
+        }
+
         [HttpPost]
         [IgnoreAntiforgeryToken]
         public async Task<IActionResult> Post([FromBody]FormHdDto formHdDto)
@@ -42,6 +61,13 @@ namespace FormsAdminGP.RestfulAPI.Controllers
             }
 
             return NoContent();           
+        }
+
+        [HttpDelete("{id}")]
+        public async Task<IActionResult> Delete(string id)
+        {
+            var item = await _formHdService.DeleteAsync(id);
+            return Ok(item);
         }
 
         [HttpPost("detail")]
@@ -58,10 +84,11 @@ namespace FormsAdminGP.RestfulAPI.Controllers
             
         }
 
-        [HttpDelete("{id}")]
-        public async Task<IActionResult> Delete(string id)
+        [HttpDelete("detail/{id}")]
+        [IgnoreAntiforgeryToken]
+        public async Task<IActionResult> DeleteDetailAsync(string id)
         {
-            var item = await _formHdService.DeleteAsync(id);
+            var item = await _formHdService.DeleteDetailAsync(id);
             return Ok(item);
         }
     }

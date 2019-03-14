@@ -1,7 +1,7 @@
 <template>
   <div class="card border-light helix">
     <div class="card-header">
-      <h5 class="mt-2">FORMULARIOS</h5>
+      <h6 class="mt-2">FORMULARIOS</h6>
       <a class="btn btn-link" @click="setAction('create', {})">
         <i class="pe-7s-close pe-rotate-45" style="font-size:1.5rem"></i>
         <br>
@@ -44,7 +44,7 @@
                   <a role="button" class="btn btn-link" @click="setAction('update', item)">Editar</a>
                 </p>
                 <p class="m-0">
-                  <a role="button" class="btn btn-link" @click="setAction('detail', null)">ver detalle</a>
+                  <a role="button" class="btn btn-link" @click="setAction('detail', item)">ver detalle</a>
                 </p>
               </div>
             </div>
@@ -86,13 +86,11 @@ export default {
     },
     setAction(action, item) {
       this.$store.state.formHd = item;
-      this.$store.state.fAction = action;
-    },
-    itemEdit(item) {
-      this.$store.state.formHd = item;
-      this.$store.state.fAction = "update";
-    },
-    itemDetail() {}
+      this.$store.state.fhAction = action;
+      if(action == "detail"){
+        this.$store.state.formItem.formHdId = item.id;
+      }
+    },    
   }
 };
 </script>

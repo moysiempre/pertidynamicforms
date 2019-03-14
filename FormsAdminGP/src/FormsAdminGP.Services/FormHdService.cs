@@ -7,6 +7,7 @@ using FormsAdminGP.Services.Interfaces;
 using FormsAdminGP.Services.Responses;
 using NLog;
 using System.Collections.Generic;
+using System.Linq;
 using System.Threading.Tasks;
 
 namespace FormsAdminGP.Services
@@ -31,12 +32,21 @@ namespace FormsAdminGP.Services
         public async Task<IEnumerable<FormHdDto>> GetAllAsync()
         {
             var list = await _formHdRepository.FindBy(x=>x.IsActive, t=> t.FormDetails);
+            foreach (var item in list)
+            {
+                item.FormDetails = item.FormDetails.OrderBy(x => x.Order).ToList();
+            }
             return _mapper.Map<List<FormHdDto>>(list);
         }
 
         public async Task<FormHdDto> GetByIdAsync(string id)
         {
             var item = await _formHdRepository.FindEntityBy(x => x.Id == id, t => t.FormDetails);
+            if(item != null)
+            {
+                item.FormDetails = item.FormDetails.OrderBy(x => x.Order).ToList();
+            }
+           
             return _mapper.Map<FormHdDto>(item);
         }
 

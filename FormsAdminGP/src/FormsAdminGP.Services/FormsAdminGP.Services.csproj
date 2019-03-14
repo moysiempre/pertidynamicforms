@@ -5,12 +5,14 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\FormsAdminGP.Common\FormsAdminGP.Common.csproj" />
-    <ProjectReference Include="..\FormsAdminGP.Data\FormsAdminGP.Data.csproj" />
+    <Compile Remove="FileManager\**" />
+    <EmbeddedResource Remove="FileManager\**" />
+    <None Remove="FileManager\**" />
   </ItemGroup>
 
   <ItemGroup>
-    <Folder Include="FileManager\" />
+    <ProjectReference Include="..\FormsAdminGP.Common\FormsAdminGP.Common.csproj" />
+    <ProjectReference Include="..\FormsAdminGP.Data\FormsAdminGP.Data.csproj" />
   </ItemGroup>
 
   <ItemGroup>

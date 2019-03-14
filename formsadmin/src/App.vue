@@ -5,21 +5,30 @@
     <div class="main-container">
       <router-view/>
     </div>
-     <vue-snotify></vue-snotify>
+    <vue-snotify></vue-snotify>
   </div>
 </template>
 <script>
 import Header from "@/components/header/header.vue";
 import Sidebar from "@/components/sidebar/sidebar.vue";
-// import Axios from "axios"
+import axios from "axios";
 export default {
   name: "App",
   components: {
     "app-header": Header,
     "app-sidebar": Sidebar
   },
-  created: function () {
-    
+  created: function() {},
+  mounted() {
+    this.load();
+  },
+  methods: {
+    load() {
+      axios.get("api-forms/fieldTypes").then(response => {
+        this.$store.state.fieldTypes = response.data;
+        console.log("fieldTypes", response.data);
+      });
+    }
   }
 };
 </script>
@@ -35,13 +44,6 @@ export default {
 }
 #nav {
   padding: 30px;
-  a {
-    font-weight: bold;
-    color: #2c3e50;
-    &.router-link-exact-active {
-      color: #42b983;
-    }
-  }
 }
 .main-container {
   margin-left: 50px;
@@ -49,7 +51,7 @@ export default {
   overflow: hidden;
   display: block;
   height: calc(98.2vh - 50px);
-   overflow-y: auto;
+  overflow-y: auto;
   position: relative;
 }
 </style>
