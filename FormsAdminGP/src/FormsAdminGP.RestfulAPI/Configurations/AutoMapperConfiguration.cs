@@ -24,7 +24,10 @@ namespace FormsAdminGP.RestfulAPI
             CreateMap<FormHd, FormHdDto>().ReverseMap();
             CreateMap<FormDetail, FormDetailDto>().ReverseMap();
             CreateMap<InfoRequest, InfoRequestDto>().ReverseMap();
+            CreateMap<DDLCatalog, DDLCatalogDto>().ReverseMap();
             
+
+
         }
     }
 }

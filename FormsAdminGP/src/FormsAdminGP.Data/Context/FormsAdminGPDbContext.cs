@@ -15,6 +15,7 @@ namespace FormsAdminGP.Data.Context
         public virtual DbSet<FormDetail> FormDetails { get; set; }
         public virtual DbSet<FormHdLandingPage> FormHdLandingPage { get; set; }
         public virtual DbSet<InfoRequest> InfoRequests { get; set; }
+        public virtual DbSet<DDLCatalog> DDLCatalogs { get; set; }
 
         // SECURITY
         public virtual DbSet<Role> Roles { get; set; }
@@ -28,6 +29,7 @@ namespace FormsAdminGP.Data.Context
 
             base.OnModelCreating(builder);
 
+
             // Custom application mappings  
             builder.Entity<LandingPage>(entity => {
                 entity.ToTable("LandingPages", "landing");
@@ -36,7 +38,6 @@ namespace FormsAdminGP.Data.Context
                 entity.Property(e => e.FilePath).HasMaxLength(450).IsRequired();
                 entity.Property(e => e.TypeId).IsRequired();
             });
-
 
             builder.Entity<FormHd>(entity =>
             {
@@ -50,7 +51,6 @@ namespace FormsAdminGP.Data.Context
                         .HasForeignKey(b => b.FormHdId);
             });
           
-  
             builder.Entity<FormDetail>(entity =>
             {
                 entity.ToTable("FormDetails", "landing");
@@ -58,8 +58,12 @@ namespace FormsAdminGP.Data.Context
                 entity.Property(e => e.FieldTypeId).HasMaxLength(50).IsRequired();
             });
 
-
-            builder.Entity<InfoRequest>().ToTable("InfoRequests", "landing");
+            builder.Entity<InfoRequest>(entity =>
+            {
+                entity.ToTable("InfoRequests", "landing");
+                entity.Property(e => e.InfoRequestData).IsRequired();
+                entity.Property(e => e.LandingPageId).IsRequired();
+            });
 
             builder.Entity<FormHdLandingPage>(entity =>
             {
@@ -68,7 +72,13 @@ namespace FormsAdminGP.Data.Context
                 entity.HasOne(pc => pc.LandingPage).WithMany().HasForeignKey(pc => pc.LandingPageId);
             });
 
-    
+            builder.Entity<DDLCatalog>(entity =>
+            {
+                entity.ToTable("DDLCatalogs", "landing");
+                entity.Property(e => e.Name).HasMaxLength(225).IsRequired();
+            });
+ 
+
             // SECURITY Custom application mappings
             builder.Entity<User>(entity =>
             {
@@ -109,10 +119,6 @@ namespace FormsAdminGP.Data.Context
                 entity.Property(ut => ut.RefreshTokenIdHashSource).HasMaxLength(450);
             });
 
-           
-            
-           
-            
 
         }
     }

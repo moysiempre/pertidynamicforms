@@ -27,11 +27,12 @@
 import NumberInput from "./NumberInput";
 import TextInput from "./TextInput";
 import SubmitInput from "./SubmitInput";
+import SelectList from "./SelectList";
 import { mapState } from "vuex";
 
 export default {
   name: "FormGenerator",
-  components: { TextInput, NumberInput,  SubmitInput},
+  components: { TextInput, NumberInput, SelectList, SubmitInput},
   data() {
     return {
       formData: this.value || {}

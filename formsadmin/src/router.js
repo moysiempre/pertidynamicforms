@@ -5,6 +5,7 @@ import Landing from './views/Landing.vue'
 import FormFactory from './views/FormFactory.vue'
 import Contact from './views/Contact.vue'
 import ContactDetail from './views/ContactDetail.vue'
+import Demo from './views/Demo.vue'
 import store from './store.js'
 
 Vue.use(Router)
@@ -45,6 +46,10 @@ let router = new Router({
       path: '/solicitudes/:id',
       name: 'solicitudesdet',
       component: ContactDetail
+    },{
+      path: '/demo',
+      name: 'demo',
+      component: Demo
     },
     {
       path: '/about',

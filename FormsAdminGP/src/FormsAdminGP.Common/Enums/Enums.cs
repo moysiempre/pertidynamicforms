@@ -15,9 +15,12 @@ namespace FormsAdminGP.Common.Enums
         textInput = 1,
         [Description("Numérico")]
         numberInput,
+        [Description("Dropdown List")]
+        selectList,
         [Description("Radio")]
         radio,
         [Description("Checkbox")]
+
         checkbox,
         [Description("Botón Enviar")]
         submitInput

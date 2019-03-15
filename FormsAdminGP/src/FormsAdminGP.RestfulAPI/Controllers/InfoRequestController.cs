@@ -1,5 +1,6 @@
 ﻿using FormsAdminGP.Services.DTO;
 using FormsAdminGP.Services.Interfaces;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using System.Threading.Tasks;
 
@@ -7,6 +8,7 @@ namespace FormsAdminGP.RestfulAPI.Controllers
 {
     [Produces("application/json")]
     [Route("landing/api-inforequest")]
+    [AllowAnonymous]
     public class InfoRequestController: Controller
     {
         private readonly IInfoRequestService _infoRequestService;
@@ -35,7 +37,7 @@ namespace FormsAdminGP.RestfulAPI.Controllers
         {
             if (ModelState.IsValid)
             {
-                var item = await _infoRequestService.AddOrUpdateAsync(infoRequestDto);
+                var item = await _infoRequestService.AddAsync(infoRequestDto);
                 return Ok(item);
             }
 

@@ -19,6 +19,26 @@ namespace FormsAdminGP.Data.Migrations
                 .HasAnnotation("Relational:MaxIdentifierLength", 128)
                 .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
+            modelBuilder.Entity("FormsAdminGP.Domain.DDLCatalog", b =>
+                {
+                    b.Property<string>("Id")
+                        .ValueGeneratedOnAdd();
+
+                    b.Property<string>("FormDetailId");
+
+                    b.Property<bool>("IsActive");
+
+                    b.Property<string>("Name")
+                        .IsRequired()
+                        .HasMaxLength(225);
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("FormDetailId");
+
+                    b.ToTable("DDLCatalogs","landing");
+                });
+
             modelBuilder.Entity("FormsAdminGP.Domain.FormDetail", b =>
                 {
                     b.Property<string>("Id")
@@ -104,7 +124,8 @@ namespace FormsAdminGP.Data.Migrations
 
                     b.Property<bool>("IsActive");
 
-                    b.Property<string>("LandingPageId");
+                    b.Property<string>("LandingPageId")
+                        .IsRequired();
 
                     b.HasKey("Id");
 
@@ -234,6 +255,13 @@ namespace FormsAdminGP.Data.Migrations
                     b.ToTable("UserTokens","security");
                 });
 
+            modelBuilder.Entity("FormsAdminGP.Domain.DDLCatalog", b =>
+                {
+                    b.HasOne("FormsAdminGP.Domain.FormDetail", "FormDetail")
+                        .WithMany()
+                        .HasForeignKey("FormDetailId");
+                });
+
             modelBuilder.Entity("FormsAdminGP.Domain.FormDetail", b =>
                 {
                     b.HasOne("FormsAdminGP.Domain.FormHd")
@@ -258,7 +286,8 @@ namespace FormsAdminGP.Data.Migrations
                 {
                     b.HasOne("FormsAdminGP.Domain.LandingPage", "LandingPage")
                         .WithMany()
-                        .HasForeignKey("LandingPageId");
+                        .HasForeignKey("LandingPageId")
+                        .OnDelete(DeleteBehavior.Cascade);
                 });
 
             modelBuilder.Entity("FormsAdminGP.Domain.UserRole", b =>

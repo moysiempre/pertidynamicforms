@@ -9,7 +9,7 @@ namespace FormsAdminGP.Services.Interfaces
     {
         Task<IEnumerable<InfoRequestDto>> GetAllAsync();
         Task<InfoRequestDto> GetByIdAsync(string id);
-        Task<BaseResponse> AddOrUpdateAsync(InfoRequestDto infoRequestDto);
+        Task<BaseResponse> AddAsync(InfoRequestDto infoRequestDto);
         Task<BaseResponse> DeleteAsync(string id);
     }
 }

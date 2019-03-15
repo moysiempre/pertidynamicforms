@@ -1,6 +1,7 @@
 ﻿using AutoMapper;
 using FormsAdminGP.Common.Events;
 using FormsAdminGP.Core.Interfaces;
+using FormsAdminGP.Data.Repositories.Interfaces;
 using FormsAdminGP.Domain;
 using FormsAdminGP.Services.DTO;
 using FormsAdminGP.Services.Interfaces;
@@ -17,14 +18,17 @@ namespace FormsAdminGP.Services
         private static Logger logger = LogManager.GetCurrentClassLogger();
         private readonly IFormHdRepository _formHdRepository;
         private readonly IFormDetailRepository _formDetailRepository;
+        private readonly IDDLCatalogRepository _dDLCatalogRepository;
         private readonly IMapper _mapper;
         public FormHdService(
             IFormHdRepository formHdRepository,
             IFormDetailRepository formDetailRepository,
+            IDDLCatalogRepository dDLCatalogRepository,
             IMapper mapper)
         {
             _formHdRepository = formHdRepository;
             _formDetailRepository = formDetailRepository;
+            _dDLCatalogRepository = dDLCatalogRepository;
             _mapper = mapper;
         }
 
@@ -169,21 +173,22 @@ namespace FormsAdminGP.Services
                 var item = await _formDetailRepository.FindEntityBy(x => x.Id == id);
                 if (item == null)
                 {
-                    response.Message = LoggingEvents.DELETE_FAILED_MESSAGE;
+                    response.Message = LoggingEvents.UPDATE_FAILED_MESSAGE;
                     return response;
                 }
 
-                _formDetailRepository.Delete(item);
+                item.IsActive = false;
+                _formDetailRepository.Edit(item);
                 await _formDetailRepository.SaveChanges();
 
                 response.Success = true;
                 response.Id = id;
-                response.Message = LoggingEvents.DELETE_SUCCESS_MESSAGE;
+                response.Message = LoggingEvents.UPDATE_SUCCESS_MESSAGE;
 
             }
             catch (System.Exception)
             {
-                response.Message = LoggingEvents.DELETE_FAILED_MESSAGE;
+                response.Message = LoggingEvents.UPDATE_FAILED_MESSAGE;
                 //logger 
             }
 

@@ -1,10 +1,13 @@
 ﻿using AutoMapper;
+using FormsAdminGP.Common.Enums;
 using FormsAdminGP.Common.Events;
 using FormsAdminGP.Core.Interfaces;
 using FormsAdminGP.Domain;
 using FormsAdminGP.Services.DTO;
+using FormsAdminGP.Services.EmailSender;
 using FormsAdminGP.Services.Interfaces;
 using FormsAdminGP.Services.Responses;
+using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;
 
@@ -13,12 +16,15 @@ namespace FormsAdminGP.Services
     public class InfoRequestService: IInfoRequestService
     {
         private readonly IInfoRequestRepository _infoRequestRepository;
+        private readonly IEmailSenderService _emailSenderService;
         private readonly IMapper _mapper;
         public InfoRequestService(
             IInfoRequestRepository infoRequestRepository,
+            IEmailSenderService emailSenderService,
             IMapper mapper)
         {
             _infoRequestRepository = infoRequestRepository;
+            _emailSenderService = emailSenderService;
             _mapper = mapper;
         }
 
@@ -34,7 +40,7 @@ namespace FormsAdminGP.Services
             return _mapper.Map<InfoRequestDto>(item);
         }
 
-        public async Task<BaseResponse> AddOrUpdateAsync(InfoRequestDto infoRequestDto)
+        public async Task<BaseResponse> AddAsync(InfoRequestDto infoRequestDto)
         {
             var response = new BaseResponse();
             try
@@ -45,21 +51,27 @@ namespace FormsAdminGP.Services
                     infoRequest.Id = Common.Utilities.Utils.NewGuid;
                     infoRequest.IsActive = true;
                     _infoRequestRepository.Add(infoRequest);
+
+                    var item = await _infoRequestRepository.SaveChanges();
+
+                    await SendMailToClient(infoRequestDto.Email);
+
+                    response.Success = true;
+                    response.Id = infoRequest.Id;
+                    response.Message = LoggingEvents.INSERT_SUCCESS_MESSAGE;
+
                 }
                 else
                 {
-                    _infoRequestRepository.Edit(infoRequest);
+                    response.Message = LoggingEvents.INSERT_FAILED_MESSAGE;
                 }
 
-                var item = await _infoRequestRepository.SaveChanges();
-
-                response.Success = true;
-                response.Id = infoRequest.Id;
-                response.Message = LoggingEvents.INSERT_SUCCESS_MESSAGE;
+                
                 
             }
-            catch (System.Exception)
+            catch (System.Exception ex)
             {
+                Console.WriteLine(ex.Message);
                 response.Message = LoggingEvents.INSERT_FAILED_MESSAGE;
                 //logger
             }
@@ -94,6 +106,22 @@ namespace FormsAdminGP.Services
             return response;
         }
 
+
+        private async Task SendMailToClient(string email)
+        {
+            var emails = new List<KeyValuePair<string, WithEMail>>();
+            emails.Add(new KeyValuePair<string, WithEMail>(email, WithEMail.To));
+            var subject = "Mensaje de notificación";
+            var message = $"<div><p>Hola {email}</p><p>¡Gracias por tu interés en Grupo PerTI!</p><p></p>Nos pondremos en contacto contigo lo más pronto posible.<div>";
+            try
+            {
+                await _emailSenderService.SendEmailAsync(emails, subject, message);
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine(ex.Message);
+            }
+        }
         
     }
 }

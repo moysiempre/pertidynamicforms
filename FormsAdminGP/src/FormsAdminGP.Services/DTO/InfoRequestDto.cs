@@ -7,6 +7,7 @@ namespace FormsAdminGP.Services.DTO
     {
         [Required]
         public string InfoRequestData { get; set; }
+        public string Email { get; set; }
         [Required]
         public string LandingPageId { get; set; }
     }

@@ -1,22 +1,32 @@
-﻿using FormsAdminGP.Core.Interfaces;
+﻿
+using FormsAdminGP.Core.EmailSender;
+using FormsAdminGP.Core.Interfaces;
 using FormsAdminGP.Core.Repositories;
 using FormsAdminGP.Data.Repositories;
+using FormsAdminGP.Data.Repositories.Interfaces;
 using FormsAdminGP.Data.Repositories.Security;
 using FormsAdminGP.Services;
+using FormsAdminGP.Services.EmailSender;
 using FormsAdminGP.Services.Interfaces;
 using Microsoft.AspNetCore.Http;
+using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 
 namespace FormsAdminGP.RestfulAPI
 {
     public static class ServicesConfiguration
     {
+        private static IConfiguration _configuration;
         public static IServiceCollection AddRepositoriesConfig(this IServiceCollection services)
         {
+           
+
             services.AddScoped<ILandingPageRepository, LandingPageRepository>()
                 .AddScoped<IFormHdRepository, FormHdRepository>()
                 .AddScoped<IFormDetailRepository, FormDetailRepository>()
-                .AddScoped<IInfoRequestRepository, InfoRequestRepository>();
+                .AddScoped<IInfoRequestRepository, InfoRequestRepository>()
+                .AddScoped<IDDLCatalogRepository, DDLCatalogRepository>();
+            
 
             //SECURITY
             services.AddScoped<IUserRepository, UserRepository>();
@@ -26,8 +36,10 @@ namespace FormsAdminGP.RestfulAPI
             return services;
         }
 
-        public static IServiceCollection AddServicesConfig(this IServiceCollection services)
+        public static IServiceCollection AddServicesConfig(this IServiceCollection services, IConfiguration configuration)
         {
+            _configuration = configuration;
+
             services.AddScoped<ILandindPageService, LandindPageService>()
                 .AddScoped<IFormHdService, FormHdService>()
                 .AddScoped<IInfoRequestService, InfoRequestService>();
@@ -39,7 +51,11 @@ namespace FormsAdminGP.RestfulAPI
             services.AddScoped<IRoleService, RoleService>();
             services.AddScoped<ITokenStoreService, TokenStoreService>();
             services.AddScoped<ITokenValidatorService, TokenValidatorService>();
-            services.AddScoped<ITokenFactoryService, TokenFactoryService>();            
+            services.AddScoped<ITokenFactoryService, TokenFactoryService>();
+
+            //EMAIL
+            services.AddScoped<IEmailSenderService, EmailSenderService>();
+            services.Configure<EmailSettings>(_configuration.GetSection("EmailSettings"));
 
             return services;
         }

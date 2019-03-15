@@ -1,0 +1,88 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Demo - formulario GP</title>
+    <link rel="stylesheet" href="js/bootstrap/css/bootstrap.min.css">
+    <style>
+        .form-group.invalid input {
+                border-color: #dc3545;
+            }
+    </style> 
+</head>
+
+<body class="pt-3">
+    <div id="app" class="container mt-5">
+ 
+        <btn-submit/> 
+
+        <div class="row">
+            <div class="col-md-4 offset-md-4">
+                <div class="card">
+                    <div class="card-header bg-white">
+                        <h5 class="text-center">{{title}}</h5>
+                    </div>
+                    <div class="card-body bg-light p-2">
+                        <div class="container-fluid bg-white pt-3 pb-3">
+                            <form @submit.prevent="onSubmit">
+                                <div class="form-group" :class="{invalid: $v.formData.name.$error}">
+                                    <input type="text" class="form-control" placeholder="Nombre" maxlength="50" @blur="$v.formData.name.$touch()"
+                                        v-model="formData.name">
+                                    <p class="m-0">
+                                        <span class="text-danger" v-if="$v.formData.name.$dirty && !$v.formData.name.required">Please
+                                            enter a name.</span>
+                                    </p>
+                                </div>
+
+                                <div class="form-group" :class="{invalid: $v.formData.email.$error}">
+                                    <input type="text" class="form-control" placeholder="Correo Electrónico" v-model="formData.email"
+                                        @blur="$v.formData.email.$touch()" maxlength="100">
+                                    <p class="m-0">
+                                        <span class="text-danger" v-if="$v.formData.email.$dirty && !$v.formData.email.required">Please
+                                            enter a email.</span>
+                                        <span class="text-danger" v-if="!$v.formData.email.email">Please enter a valid
+                                            email.</span>
+                                    </p>
+                                </div>
+                                <div class="form-group" :class="{invalid: $v.formData.phone.$error}">
+                                    <input type="number" class="form-control" placeholder="Teléfono" min="0" maxlength="10" @blur="$v.formData.phone.$touch()"
+                                        v-model="formData.phone">
+                                    <p class="m-0">
+                                        <span class="text-danger" v-if="$v.formData.phone.$dirty && !$v.formData.phone.required">Please
+                                            enter a phone.</span>
+                                            <span class="text-danger" v-if="$v.formData.phone.$dirty && !$v.formData.phone.minLength">Please
+                                                    enter a phone. 8</span>
+                                    </p>
+                                </div>
+                                <div class="form-group">
+                                    <textarea class="form-control" v-model="formData.comments" maxlength="450"></textarea>
+                                </div>
+                                <div class="form-group pb">
+                                    <button type="submit" class="btn btn-info w-100 mt-2">
+                                        ¡Quiero una asesoría gratis!</button>
+                                </div>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+
+    </div>
+    <script src="https://code.jquery.com/jquery-3.2.1.min.js"></script>
+    <script src="https://unpkg.com/vue/dist/vue.min.js"></script>
+    <script src="./js/vuelidate/dist/vuelidate.min.js"></script>
+    <script src="./js/vuelidate/dist/validators.min.js"></script>
+    <script src="https://unpkg.com/axios/dist/axios.min.js"></script>
+    <!-- <script>
+        Vue.use(window.vuelidate.default)
+        import { required } from "vuelidate/lib/validators";
+    </script> -->
+    <script src="./js/app.js"></script>
+</body>
+
+</html>

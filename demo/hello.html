@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Demo - formulario GP</title>
+    <link rel="stylesheet" href="js/bootstrap/css/bootstrap.min.css">
+    <style>
+        .form-group.invalid input {
+                border-color: #dc3545;
+            }
+    </style>
+</head>
+
+<body>
+    <div class="container">
+        <div class="row">
+            <div class="col-md-4 offset-md-4">
+                <form id="form">
+                    <!-- <p>{{$v.email |json}}</p> -->
+                    <div class="form-group">
+                        <input type="text" class="form-control" name="name" placeholder="Name"
+                        
+                        v-model="name">
+                        <span class="text-danger" v-if="!$v.name.alpha">Please enter a valid name.</span>
+                    </div>
+                    <div class="form-group" :class="{invalid: $v.email.$error}">
+                        <input type="text" class="form-control" name="email" placeholder="Email"
+                        @blur="$v.email.$touch()"
+                        v-model="email">
+                        <span class="text-danger" v-if="$v.email.$dirty && !$v.email.required">Please enter a email.</span>
+                        
+                        <span class="text-danger" v-if="$v.email.$dirty && !$v.email.email">Please enter a valid email.</span>
+                    </div>
+
+                </form>
+            </div>
+        </div>
+    </div>
+    <script src="https://unpkg.com/vue/dist/vue.js"></script>
+    <script src="./js/vuelidate/dist/vuelidate.min.js"></script>
+    <script src="./js/vuelidate/dist/validators.min.js"></script>
+    <script>
+        Vue.use(window.vuelidate.default);
+        let vm = new Vue({
+            el: '#form',
+            data: {
+                name: '',
+                email: ''
+            },
+            validations: {
+                name: {
+                    required: validators.required,
+                    alpha: validators.alpha
+                },
+                email: {
+                    required: validators.required,
+                    email: validators.email
+                }
+            }
+        });
+    </script>
+</body>
+
+</html>

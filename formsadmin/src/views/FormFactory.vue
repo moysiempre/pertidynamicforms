@@ -5,9 +5,9 @@
         <FormList @changedMode="onChangedMode($event)"/>
       </div>
 
-      <div
+      <div 
         class="col-12 col-sm-6 col-md-7 col-lg-5 mt-3 mt-sm-0"
-        v-if="fhAction == 'create' || fhAction == 'update'"
+        v-if="fhAction == 'create' || fhAction == 'update'" 
       >
         <FormNew/>
       </div>
