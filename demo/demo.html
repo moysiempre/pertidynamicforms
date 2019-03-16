@@ -9,15 +9,14 @@
     <link rel="stylesheet" href="js/bootstrap/css/bootstrap.min.css">
     <style>
         .form-group.invalid input {
-                border-color: #dc3545;
-            }
-    </style> 
+            border-color: #dc3545;
+        }
+    </style>
 </head>
 
 <body class="pt-3">
-    <div id="app" class="container mt-5">
- 
-        <btn-submit/> 
+    <div id="app" v-cloak class="container mt-5">
+
 
         <div class="row">
             <div class="col-md-4 offset-md-4">
@@ -28,41 +27,15 @@
                     <div class="card-body bg-light p-2">
                         <div class="container-fluid bg-white pt-3 pb-3">
                             <form @submit.prevent="onSubmit">
-                                <div class="form-group" :class="{invalid: $v.formData.name.$error}">
-                                    <input type="text" class="form-control" placeholder="Nombre" maxlength="50" @blur="$v.formData.name.$touch()"
-                                        v-model="formData.name">
+                                <div v-for="(item, index) in dataList" class="form-group" :class="{invalid: $v.formData.name.$error}">
+
+                                    <input v-if="item.fieldTypeId =='textInput'" type="text" :name="dataList[index].name" class="form-control"
+                                        :placeholder="item.title" maxlength="50" @blur="$v.formData.name.$touch()" v-model="dataList[index].name">
                                     <p class="m-0">
                                         <span class="text-danger" v-if="$v.formData.name.$dirty && !$v.formData.name.required">Please
                                             enter a name.</span>
                                     </p>
-                                </div>
 
-                                <div class="form-group" :class="{invalid: $v.formData.email.$error}">
-                                    <input type="text" class="form-control" placeholder="Correo Electrónico" v-model="formData.email"
-                                        @blur="$v.formData.email.$touch()" maxlength="100">
-                                    <p class="m-0">
-                                        <span class="text-danger" v-if="$v.formData.email.$dirty && !$v.formData.email.required">Please
-                                            enter a email.</span>
-                                        <span class="text-danger" v-if="!$v.formData.email.email">Please enter a valid
-                                            email.</span>
-                                    </p>
-                                </div>
-                                <div class="form-group" :class="{invalid: $v.formData.phone.$error}">
-                                    <input type="number" class="form-control" placeholder="Teléfono" min="0" maxlength="10" @blur="$v.formData.phone.$touch()"
-                                        v-model="formData.phone">
-                                    <p class="m-0">
-                                        <span class="text-danger" v-if="$v.formData.phone.$dirty && !$v.formData.phone.required">Please
-                                            enter a phone.</span>
-                                            <span class="text-danger" v-if="$v.formData.phone.$dirty && !$v.formData.phone.minLength">Please
-                                                    enter a phone. 8</span>
-                                    </p>
-                                </div>
-                                <div class="form-group">
-                                    <textarea class="form-control" v-model="formData.comments" maxlength="450"></textarea>
-                                </div>
-                                <div class="form-group pb">
-                                    <button type="submit" class="btn btn-info w-100 mt-2">
-                                        ¡Quiero una asesoría gratis!</button>
                                 </div>
                             </form>
                         </div>
@@ -70,6 +43,7 @@
                 </div>
             </div>
         </div>
+
 
 
     </div>

@@ -1,8 +1,22 @@
 Vue.use(window.vuelidate.default);
-let vm = new Vue({
-    el: '#app',
-    components: [ "btnsubmit"],
+Vue.component('app-data', {
     data() {
+        return {
+            owner: '',
+            msg: 'HOLA msg'
+        }
+    },            
+    template: `<div>{{msg}}</div>`
+});
+Vue.component('textInput', {
+    name: "textInput",
+    props: ["placeholder", "name"],   
+    template: `<div><input type="text" class="form-control" :name="name" :placeholder="placeholder"></div>`
+});
+
+new Vue({
+    el: '#app',
+    data: function() {
         return {
             title: '¡Tu empresa merece su app en android!',
             baseUrl: "http://localhost:60829/landing/",
@@ -10,6 +24,17 @@ let vm = new Vue({
 
             },
             errors: [],
+            dataList: [{
+                id: "df1",
+                fieldTypeId: "textInput",
+                title: "Nombre",
+                name: "nombre"
+            }, {
+                id: "df2",
+                fieldTypeId: "textInput",
+                title: "Apellido",
+                name: "apellido"
+            }]
         }
     },
     validations: {
@@ -50,30 +75,20 @@ let vm = new Vue({
     },
     created: function () {
 
-        axios.get(this.baseUrl + 'api-inforequest')
-            .then(function (response) {
-                console.log("inforequest: ", response.data);
-            })
-            .catch(function (error) {
-                console.log('Error: ' + error);
-            });
-        axios.get(this.baseUrl + 'api-forms/fieldTypes')
-            .then(function (response) {
-                console.log(response.data);
-            })
-            .catch(function (error) {
-                console.log('Error: ' + error);
-            });
+        // axios.get(this.baseUrl + 'api-inforequest')
+        //     .then(function (response) {
+        //         console.log("inforequest: ", response.data);
+        //     })
+        //     .catch(function (error) {
+        //         console.log('Error: ' + error);
+        //     });
+        // axios.get(this.baseUrl + 'api-forms/fieldTypes')
+        //     .then(function (response) {
+        //         console.log(response.data);
+        //     })
+        //     .catch(function (error) {
+        //         console.log('Error: ' + error);
+        //     });
     },
 })
-// Define a new component called button-counter
-Vue.component('btnsubmit', {
  
-    data: function () {
-        return {
-            count: 0,
-            name:"ENVIAR"
-        }
-    },
-    template: '<button type="submit">{{ name }}</button>'
-})
