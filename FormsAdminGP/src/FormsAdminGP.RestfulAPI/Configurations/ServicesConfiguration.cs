@@ -56,7 +56,7 @@ namespace FormsAdminGP.RestfulAPI
             //EMAIL
             services.AddScoped<IEmailSenderService, EmailSenderService>();
             services.Configure<EmailSettings>(_configuration.GetSection("EmailSettings"));
-
+            services.Configure<AppSettings>(_configuration.GetSection("AppSettings"));
             return services;
         }
 

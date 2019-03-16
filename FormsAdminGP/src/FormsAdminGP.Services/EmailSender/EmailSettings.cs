@@ -8,5 +8,11 @@
         public string Password { get; set; }
         public string EmailFrom { get; set; }
         public string DisplayName { get; set; }
-    }   
+    }
+
+    public class AppSettings
+    {
+        public string EbookPath { get; set; }
+    }
+    
 }

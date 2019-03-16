@@ -1,18 +1,18 @@
 <template>
   <aside>
-    <ul v-if="withSidebar">
+    <ul>
       <li>
-        <a>
+        <a class="c-pointer">
           <i class="pe-7s-config fa-2x"></i>
         </a>
       </li>
       <li>
-        <a>
+        <a class="c-pointer">
           <i class="pe-7s-help1 fa-2x"></i>
         </a>
       </li>
       <li class="last">
-        <a>
+        <a class="c-pointer" @click="logout">
           <i class="pe-7s-power fa-2x"></i>
         </a>
       </li>
@@ -21,20 +21,16 @@
 </template>
 <script>
 export default {
-  data() {
-    return {
-      title: "ASIDE",
-      withSidebar: true
-    };
-  },
-  beforeMount() {},
-  mounted() {
-    console.log("ASIDE mounted", this.$route.query);
-  },
-  watch: {
-    // $route(to, from) {
-    //   this.withSidebar = to.path === "/login" ? false : true;
-    // }
+  methods:{
+     logout: function() {      
+      this.$store
+        .dispatch("logout")
+        .then(() => {
+          console.log("to login");
+          this.$router.push({ name: "login" });
+        })
+        .catch(err => console.log(err));
+    }
   }
 };
 </script>

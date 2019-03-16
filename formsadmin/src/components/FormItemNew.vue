@@ -6,27 +6,27 @@
       </div>
     </div>
     <div class="bg-white">
+      <div class="card b-radius-0">
+        <div class="card-body text-right px-2 py-1">
+          <button
+            type="button"
+            class="btn btn-link btn-sm"
+            data-toggle="modal"
+            data-target="#exampleModal"
+          >Agregar Detalle</button>
+        </div>
+      </div>
       <table
         class="table table-striped"
         v-if="formHd && formHd.formDetails && formHd.formDetails.length"
       >
         <thead>
           <tr>
-            <th colspan="5" class="text-right my-1">
-              <button
-                type="button"
-                class="btn btn-link btn-sm"
-                data-toggle="modal"
-                data-target="#exampleModal"
-              >Agregar Detalle</button>
-            </th>
-          </tr>
-          <tr>
             <th>Etiqueta</th>
             <th hidden>Tipo</th>
             <th>Posición</th>
             <th></th>
-            <th></th>
+             
           </tr>
         </thead>
         <tbody>
@@ -51,17 +51,14 @@
                 role="button"
                 v-if="item.operation !== 'update'"
                 class="btn btn-link btn-sm text-warning"
-                @click="onDelete(item.id)"
-                hidden
+                @click="onDelete(item.id)"                 
               >Inhabilitar</a>
             </td>
-            <td>
-              <input type="checkbox" name id>
-            </td>
+            
           </tr>
         </tbody>
       </table>
-      <p v-else class="alert alert-warning">No registro encontrado</p>
+      <p v-else class="alert alert-warning m-0 py-1 b-radius-0">No registro encontrado</p>
     </div>
 
     <!-- Modal -->
@@ -143,10 +140,18 @@
                 <div class="col-md-6">
                   <div class="form-group text-right">
                     <button
+                      hidden
                       type="button"
                       class="btn btn-outline-warning btn-sm mx-1"
                       @click="onReset()"
                     >RESETEAR</button>
+                    
+                    <button
+                      type="button"
+                      class="btn btn-outline-warning btn-sm mx-1"
+                      data-dismiss="modal"
+                    >SALIR</button>
+                    
                     <button
                       type="button"
                       class="btn btn-dark btn-sm px-3"
@@ -157,10 +162,6 @@
                 </div>
               </div>
             </form>
-          </div>
-          <div class="modal-footer">
-            <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-            <button type="button" class="btn btn-primary">Save changes</button>
           </div>
         </div>
       </div>

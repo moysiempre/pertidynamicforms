@@ -1,7 +1,7 @@
 <template>
-  <div id="app">
-    <app-header/>
-    <app-sidebar/>
+  <div id="app" v-cloak>
+    <app-header v-if="withSidebar"/>
+    <app-sidebar v-if="withSidebar"/>
     <div class="main-container">
       <router-view/>
     </div>
@@ -14,20 +14,30 @@ import Sidebar from "@/components/sidebar/sidebar.vue";
 import axios from "axios";
 export default {
   name: "App",
+  data() {
+    return {
+      withSidebar: true
+    };
+  },
   components: {
     "app-header": Header,
     "app-sidebar": Sidebar
   },
   created: function() {},
   mounted() {
+    console.log("ASIDE mounted", this.$route.query);
     this.load();
   },
   methods: {
     load() {
       axios.get("api-forms/fieldTypes").then(response => {
         this.$store.state.fieldTypes = response.data;
-        console.log("fieldTypes", response.data);
       });
+    }
+  },
+  watch: {
+    $route(to, from) {
+      this.withSidebar = to.path === "/login" ? false : true;
     }
   }
 };
