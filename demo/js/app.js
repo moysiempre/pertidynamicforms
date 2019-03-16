@@ -31,21 +31,29 @@ let vm = new Vue({
     methods: {
 
         onSubmit() {
-
-            console.log(this.$v.formData.$valid);
-            // var infoRequestData = JSON.stringify(this.formData);
-            // let infoRequest = {
-            //     infoRequestData: infoRequestData,
-            //     landingPageId: "5bcda8be-a293-46bd-a1da-a63cf4dcba4a",
-            //     email: this.formData.email
-            // }
-            // axios.post(this.baseUrl + 'api-inforequest', infoRequest)
-            //     .then(function (response) {
-            //         console.log("SUCCESS", response.data);
-            //     })
-            //     .catch(function (error) {
-            //         console.log('Error: ' + error);
-            //     });
+            this.clearForm();
+            var infoRequestData = JSON.stringify(this.formData);
+            let infoRequest = {
+                infoRequestData: infoRequestData,
+                landingPageId: "5bcda8be-a293-46bd-a1da-a63cf4dcba4a",
+                email: this.formData.email
+            }
+            axios.post(this.baseUrl + 'api-inforequest', infoRequest)
+                .then( (response) => {
+                    console.log("SUCCESS", response.data);
+                    this.clearForm();
+                })
+                .catch(function (error) {
+                    console.log('Error: ' + error);
+                });
+        },
+        clearForm(){
+            this.formData = {
+                name: "",
+                email: "",
+                phone: ""
+            }
+            this.$v.formData.$reset();
         }
     },
     created: function () {

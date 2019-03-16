@@ -93,6 +93,9 @@ export default {
   beforeMount(){
     this.loadLandingPages();
   },
+  mounted(){
+    $("#file").val("AzureFileController.cs");
+  },
   computed: {
     ...mapState(["formHd"])
   },

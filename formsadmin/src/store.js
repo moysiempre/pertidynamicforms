@@ -19,7 +19,8 @@ export default new Vuex.Store({
     fdAction: "read",
     auth: null,
     loading: false,
-    fieldTypes: []
+    fieldTypes: [],
+    flatLayaout: false
   },
   mutations: {
     SET_LANDING_PAGES: (state, landingPages) => {
