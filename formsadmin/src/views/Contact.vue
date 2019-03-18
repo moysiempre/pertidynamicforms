@@ -13,10 +13,10 @@
             </select>
           </div>
           <div class="col-sm-3">
-            <input type="text" class="form-control mr-1" placeholder="fecha inicio">
+            <date-picker v-model="startDate" :first-day-of-week="1" format="DD/MM/YYYY" :not-after="endDate" :lang="lang"></date-picker>
           </div>
           <div class="col-sm-3">
-            <input type="text" class="form-control" placeholder="fecha fin">
+            <date-picker v-model="endDate" :first-day-of-week="1" format="DD/MM/YYYY" :not-before="startDate"  :not-after="new Date()" :lang="lang"></date-picker>
           </div>
         </div>
       </div>
@@ -44,14 +44,27 @@
 <script>
 import axios from "axios";
 // import Datepicker from "vuejs-datepicker";
+import DatePicker from "vue2-datepicker";
+
 export default {
   name: "HelloWorld",
- // components: { Datepicker },
+  components: { DatePicker },
   data() {
     return {
       title: "SOLICITUDES",
       rowData: [],
-      landingPages: []
+      landingPages: [],
+      startDate: new Date(),
+      endDate: new Date(),
+      lang: {
+        days: ['Sun', 'Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat'],
+        months: ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'],
+        pickers: ['next 7 days', 'next 30 days', 'previous 7 days', 'previous 30 days'],
+        placeholder: {
+          date: 'Select Date',
+          dateRange: 'Select Date Range'
+        }
+      },
     };
   },
   beforeMount() {
@@ -79,5 +92,8 @@ export default {
 };
 </script>
 <style lang="css">
+.mx-datepicker {
+  width: auto !important;
+}
 </style>
  

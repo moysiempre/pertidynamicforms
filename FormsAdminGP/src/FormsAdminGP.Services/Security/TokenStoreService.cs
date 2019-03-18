@@ -151,7 +151,7 @@ namespace FormsAdminGP.Services
             }
 
             var refreshTokenIdHash = Utils.GetSha256Hash(refreshTokenSerial);
-            return _userTokenRepository.FindEntityBy(x => x.RefreshTokenIdHash == refreshTokenIdHash, t => t.User);
+            return _userTokenRepository.FindEntityAsNoTrackingBy(x => x.RefreshTokenIdHash == refreshTokenIdHash, t => t.User);
 
         }
 
@@ -172,7 +172,7 @@ namespace FormsAdminGP.Services
         public async Task<bool> IsValidTokenAsync(string accessToken, string userId)
         {
             var accessTokenHash = Utils.GetSha256Hash(accessToken);
-            var userToken = await _userTokenRepository.FindEntityBy(
+            var userToken = await _userTokenRepository.FindEntityAsNoTrackingBy(
                 x => x.AccessTokenHash == accessTokenHash && x.UserId == userId);
             return userToken?.AccessTokenExpiresDateTime >= DateTimeOffset.UtcNow;
         }

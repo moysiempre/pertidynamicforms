@@ -116,7 +116,7 @@
                 <!-- <pre class="language-json"><code>{{ options  }}</code></pre> -->
               </div>
               <div class="col-6">
-                <pre class="language-json"><code>{{ values  }}</code></pre>
+                <!-- <pre class="language-json"><code>{{ values  }}</code></pre> -->
               </div>
             </div>
           </div>

@@ -1,5 +1,6 @@
 ﻿using FormsAdminGP.Common.Utilities;
 using FormsAdminGP.Domain;
+using FormsAdminGP.RestfulAPI.Models;
 using FormsAdminGP.Services;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
@@ -78,22 +79,23 @@ namespace FormsAdminGP.RestfulAPI.Controllers
 
         [AllowAnonymous]
         [HttpPost("refreshToken")]
-        public async Task<IActionResult> RefreshToken([FromBody]JToken jsonBody)
+        [IgnoreAntiforgeryToken]
+        public async Task<IActionResult> RefreshToken([FromBody]RefreshTokenViewModel request)
         {
-            var refreshTokenValue = jsonBody.Value<string>("refreshToken");
-            if (string.IsNullOrWhiteSpace(refreshTokenValue))
+           
+            if (string.IsNullOrWhiteSpace(request.RefreshToken))
             {
                 return BadRequest("refreshToken is not set.");
             }
 
-            var token = await _tokenStoreService.FindTokenAsync(refreshTokenValue);
+            var token = await _tokenStoreService.FindTokenAsync(request.RefreshToken);
             if (token == null)
             {
                 return Unauthorized();
             }
 
             var result = await _tokenFactoryService.CreateJwtTokensAsync(token.User);
-            await _tokenStoreService.AddUserTokenAsync(token.User, result.RefreshTokenSerial, result.AccessToken, _tokenFactoryService.GetRefreshTokenSerial(refreshTokenValue));
+            await _tokenStoreService.AddUserTokenAsync(token.User, result.RefreshTokenSerial, result.AccessToken, _tokenFactoryService.GetRefreshTokenSerial(request.RefreshToken));
 
             _antiforgery.RegenerateAntiForgeryCookies(result.Claims);
 

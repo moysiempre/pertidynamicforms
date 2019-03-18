@@ -23,6 +23,48 @@ const token = localStorage.getItem('access_token')
 if (token) {
   Axios.defaults.headers.common['Authorization'] = 'bearer ' + token
 }
+
+Axios.interceptors.response.use(undefined, function (error) {
+  const originalRequest = error.config;
+  const refresh_token = localStorage.getItem('refresh_token')
+  if (
+    error.response.status === 401 &&
+    !originalRequest._retry &&
+    refresh_token
+  ) {
+    originalRequest._retry = true;
+
+    const payload = {
+      refresh_token: refresh_token
+    };
+
+    return Axios
+      .post("api-security/refreshToken", payload)
+      .then(response => {
+        const auth = response.data;
+        Axios.defaults.headers.common["Authorization"] = `Bearer ${
+          auth.access_token
+        }`;
+        originalRequest.headers["Authorization"] = `Bearer ${
+          auth.access_token
+        }`;
+        //store.commit("loginSuccess", auth);
+        console.log("loginSuccess refreshToken", auth);
+        return Axios(originalRequest);
+      })
+      .catch(error => {
+        store.commit("logout");
+        router.push({
+          path: "/"
+        });
+        delete Axios.defaults.headers.common["Authorization"];
+        return Promise.reject(error);
+      });
+  }
+
+  return Promise.reject(error);
+});
+
 // const token = localStorage.getItem('token')
 // if (token) {
 //   Vue.prototype.$http.defaults.headers.common['Authorization'] = token

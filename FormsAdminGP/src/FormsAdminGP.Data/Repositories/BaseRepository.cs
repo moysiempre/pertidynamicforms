@@ -48,6 +48,15 @@ namespace FormsAdminGP.Core.Repositories
             return await set.FirstOrDefaultAsync();
         }
 
+        public async Task<T> FindEntityAsNoTrackingBy(Expression<Func<T, bool>> predicate, params Expression<Func<T, object>>[] includes)
+        {
+            var set = _idbset.AsNoTracking().Where(predicate);
+            if (includes != null)
+                set = includes.Aggregate(set, (current, include) => current.Include(include));
+
+            return await set.FirstOrDefaultAsync();
+        }
+
 
         public virtual T Add(T entity)
         {
