@@ -70,7 +70,7 @@
   </div>
 </template>
 <script>
-import { required } from "vuelidate/lib/validators";
+
 import axios from "axios";
 import { mapState } from "vuex";
 
@@ -82,13 +82,6 @@ export default {
       file: {},
       landingPages: []
     };
-  },
-  validations: {
-    formData: {
-      name: { required },
-      formTitle: { required },
-      landings: { required }
-    }
   },
   beforeMount(){
     this.loadLandingPages();

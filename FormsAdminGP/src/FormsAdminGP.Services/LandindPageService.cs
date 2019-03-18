@@ -4,7 +4,6 @@ using FormsAdminGP.Core.Interfaces;
 using FormsAdminGP.Domain;
 using FormsAdminGP.Services.DTO;
 using FormsAdminGP.Services.Interfaces;
-using FormsAdminGP.Services.Request;
 using FormsAdminGP.Services.Responses;
 using Microsoft.Extensions.Logging;
 using System.Collections.Generic;
@@ -43,10 +42,22 @@ namespace FormsAdminGP.Services
         {
             var response = new BaseResponse();
             try
-            {
+            {               
+
+                //mappear el DTO
                 var landingPage = _mapper.Map<LandingPage>(landingPageDto);
                 if (string.IsNullOrEmpty(landingPage.Id))
                 {
+
+                    //validar el nombre del landing page
+                    var landing = await _landingPageRepository.FindEntityBy(x => x.Name.Trim().ToLower() == landingPageDto.Name.Trim().ToLower());
+                    if (landing != null)
+                    {
+                        response.Message = LoggingEvents.INSERT_DUPLICATED_MESSAGE;
+                        return response;
+                    }
+
+
                     landingPage.Id = Common.Utilities.Utils.NewGuid; 
                     _landingPageRepository.Add(landingPage);
 

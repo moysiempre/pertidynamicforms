@@ -55,7 +55,7 @@
 <script>
 // @ is an alias to /src
 
-import { required, email } from "vuelidate/lib/validators";
+ 
 
 export default {
   name: "login",
@@ -67,20 +67,7 @@ export default {
       }
     };
   },
-  validations: {
-    formData: {
-      email: {
-        required,
-        email
-      },
-      password: {
-        required
-      },
-      repassword: {
-        required
-      }
-    }
-  },
+ 
   methods: {
     onSubmit() {
       console.log("onSubmit " + new Date().toDateString());

@@ -3,92 +3,149 @@
 <head>
     <title>Vue.js with dynamic form rows and jQuery Validation</title>
     <link rel="stylesheet" href="js/bootstrap/css/bootstrap.min.css">
-    <script src="https://code.jquery.com/jquery-3.3.1.min.js"></script>
-    <script src="https://cdn.jsdelivr.net/npm/jquery-validation@1.17.0/dist/jquery.validate.min.js"></script>
-    <script src="https://cdn.jsdelivr.net/npm/jquery-validation-unobtrusive@3.2.10/dist/jquery.validate.unobtrusive.min.js"></script>
-    <script src="https://cdn.jsdelivr.net/npm/vue@2.5.16/dist/vue.js"></script>
-    <script src="./js/jsplus.js"></script>
+
+    <script src="https://code.jquery.com/jquery-3.2.1.min.js"></script>
+    <script src="https://unpkg.com/vue/dist/vue.min.js"></script>
+    <script src="https://unpkg.com/vee-validate@latest"></script>
+    <script src="https://unpkg.com/axios/dist/axios.min.js"></script>
+
 </head>
 
 <body>
-    <div id="app">
+    <div class="container" id="app">
         <form id="contactForm">
 
 
-            <div class="col-md-6">
-                <div class="form-group mb-2">
-                    <label for="nombre" class="mb-0">Email</label>
-                    <input type="email" name="nombre" value="" id="nombre" class="form-control mb-0" placeholder="NOMBRE"
-                        required>
-                    <div class="invalid-feedback mt-0">Introduce un nombre.</div>
+            <div class="row">
+                <div class="col-md-12">
+                    <ul class="list">
+                        <li v-for="(field, index) in fields">
+                            <div class="form-group" v-if="field.fieldType === 'text'">
+                                <input v-validate="'required'" :name="field.name" type="text" class="form-control">
+                                <span class="text-danger">{{ getErrMsg(errors, field.name) }}</span>
+                            </div>
+                            <div class="form-group" v-if="field.fieldType === 'email'">
+                                <input v-validate="'required|email'" :name="field.name" type="text" class="form-control">
+                                <span class="text-danger">{{ getErrMsg(errors, field.name) }}</span>
+
+                            </div>
+                            <div class="form-group" v-if="field.fieldType === 'numeric'">
+                                <input v-validate="'required|numeric|min:10'" :name="field.name" maxlength="10" type="text"
+                                    class="form-control">
+                                <span class="text-danger">{{ errors.first(field.name) }}</span>
+                            </div>
+                        </li>
+
+                    </ul>
+                    
+                    <button class="btn btn-outline-primary" v-on:click.prevent="onSubmit()">Validate Form</button>
                 </div>
+
+                <hr>
+
+
             </div>
 
-
-             
-            <button v-on:click.prevent="onSubmit()">Validate Form</button>
-             
         </form>
     </div>
     <script>
+        const formId="20324de6-203c-449d-8887-2aa66820a46f";
+        const dictionary = {
+            en: {
+
+            }
+        };
+        Vue.use(VeeValidate, {
+            locale: 'en',
+            dictionary: dictionary.en
+        });
         var app = new Vue({
             el: '#app',
             data() {
                 return {
-                    rows: [{
-                        value: ''
-                    }],
-                    dataList: [{
-                        id: "df1",
-                        fieldTypeId: "textInput",
-                        title: "Nombre",
-                        name: "nombre",
-                        isRequired: true
+                    title: "Hello",
+                    baseUrl: "http://localhost:60829/landing/",
+                    fields: [{
+                        fieldType: 'text',
+                        label: "Nombre St",
+                        name: 'cname',
+                        value: ""
                     }, {
-                        id: "df2",
-                        fieldTypeId: "textInput",
-                        title: "Apellido",
-                        name: "apellido",
-                        isRequired: false
+                        fieldType: 'email',
+                        label: "Email St ",
+                        name: 'cemail',
+                        value: ""
+                    }, {
+                        fieldType: 'numeric',
+                        label: "Teléfono St",
+                        name: 'cphone',
+                        value: ""
                     }]
                 }
             },
+
+
             methods: {
-                onSubmit: function (){
-                    $('#contactForm').submit(function (event) {
-                        console.log('submit');
-                        event.preventDefault();
-                        if (this.checkValidity()) {
-                            console.log('VALID');
-                        } else{
-                            console.log('inVALID');
-                        };
+                load(formId) {
+                    console.log("formId: ", formId);
+                    axios.get(this.baseUrl + 'api-forms/' + formId).then((response) => {
+                        console.log("SUCCESS", response.data);
                     });
                 },
-                onAddRow: function () {
-                    this.rows.push({
-                        value: ''
-                    });
+                onSubmit: function () {
+                    this.$validator.validateAll();
+
                 },
-                onValidate: function () {
-                     
+                getErrMsg(errors, field) {
+                    var message = "";
+                    var error = errors.items.find(x => x.field == field);
+                    if (error) {
+                        switch (error.rule) {
+                            case 'required':
+                                message = `El campo ${field} es obligatorio.`
+                                break;
+                            case 'email':
+                                message = `El campo ${field} debe ser un correo electrónico válido.`
+                                break;
+                            default:
+                                break;
+                        }
+                    } else {
+                        message = "";
+                    }
+                   
+                    return message
                 }
             },
             beforeMount() {
-               
-                
+                this.load(formId);
+
             },
             mounted() {
-                $("#contactForm").uivalidate();
+
             },
             beforeUpdate: function () {
-                
+
             },
             updated: function () {
-               
+
             }
         });
     </script>
+    <style>
+        .list {
+            padding: 0;
+            list-style: none;
+        }
+
+        .list li {
+            text-decoration: none;
+        }
+
+        .is-danger input {
+            border: 1px solid red;
+        }
+    </style>
 </body>
 
 </html>

@@ -13,14 +13,15 @@ namespace FormsAdminGP.Common.Enums
     {
         [Description("Texto alfanumérico")]
         textInput = 1,
-        [Description("Numérico")]
-        numberInput,
+        [Description("Email")]
+        emailInput,
+        [Description("Teléfono")]
+        phoneInput,            
         [Description("Dropdown List")]
         selectList,
         [Description("Radio")]
         radio,
         [Description("Checkbox")]
-
         checkbox,
         [Description("Botón Enviar")]
         submitInput

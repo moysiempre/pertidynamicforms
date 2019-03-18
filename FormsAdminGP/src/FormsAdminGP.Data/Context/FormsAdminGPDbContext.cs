@@ -34,9 +34,7 @@ namespace FormsAdminGP.Data.Context
             builder.Entity<LandingPage>(entity => {
                 entity.ToTable("LandingPages", "landing");
                 entity.Property(e => e.Name).HasMaxLength(225).IsRequired();
-                entity.Property(e => e.Description).HasMaxLength(450);
-                entity.Property(e => e.FilePath).HasMaxLength(450).IsRequired();
-                entity.Property(e => e.TypeId).IsRequired();
+                entity.Property(e => e.Description).HasMaxLength(450);              
             });
 
             builder.Entity<FormHd>(entity =>
@@ -44,11 +42,12 @@ namespace FormsAdminGP.Data.Context
                 entity.ToTable("FormHds", "landing");
                 entity.Property(e => e.Name).HasMaxLength(225).IsRequired();
                 entity.Property(e => e.Title).HasMaxLength(225).IsRequired();
-                entity.Property(e => e.FilePath).HasMaxLength(450).IsRequired();
+                entity.Property(e => e.FilePath).HasMaxLength(450);
 
                 entity.HasMany(p => p.FormDetails)
                         .WithOne()
-                        .HasForeignKey(b => b.FormHdId);
+                        .HasForeignKey(b => b.FormHdId).IsRequired().OnDelete(DeleteBehavior.Restrict);
+                
             });
           
             builder.Entity<FormDetail>(entity =>
@@ -68,14 +67,15 @@ namespace FormsAdminGP.Data.Context
             builder.Entity<FormHdLandingPage>(entity =>
             {
                 entity.HasKey(pc => new { pc.FormHdId, pc.LandingPageId });
-                entity.HasOne(pc => pc.FormHd).WithMany().HasForeignKey(pc => pc.FormHdId);
-                entity.HasOne(pc => pc.LandingPage).WithMany().HasForeignKey(pc => pc.LandingPageId);
+                entity.HasOne(pc => pc.FormHd).WithMany().HasForeignKey(pc => pc.FormHdId).IsRequired().OnDelete(DeleteBehavior.Restrict);
+                entity.HasOne(pc => pc.LandingPage).WithMany().HasForeignKey(pc => pc.LandingPageId).IsRequired().OnDelete(DeleteBehavior.Restrict);
             });
 
             builder.Entity<DDLCatalog>(entity =>
             {
                 entity.ToTable("DDLCatalogs", "landing");
                 entity.Property(e => e.Name).HasMaxLength(225).IsRequired();
+                entity.Property(e => e.FormDetailId).HasMaxLength(450).IsRequired();
             });
  
 

@@ -20,7 +20,35 @@
     box-shadow: 0 0 0 0.2rem rgba(64, 86, 104, .5) !important;
 }
 
+.swal-button {
+    background-color: #405668;
 
+    &:not([disabled]):hover {
+        background-color: rgba(64, 86, 104, .85);
+    }
+}
+
+.swal-button--danger {
+    background-color: #e64942 !important;
+}
+
+.swal-button--cancel {
+    color: #555;
+    background-color: #efefef !important;
+}
+
+.swal-button:focus {
+    outline: none;
+    box-shadow: 0 0 0 1px #fff, 0 0 0 3px rgba(43, 114, 165, .29);
+}
+
+
+.swal-button:active {
+    background-color: rgba(64, 86, 104, .85) !important;
+    ;
+}
+.swal-footer {
+    text-align: center;}
 // INPUTS
 .form-control:not(textarea),
 .custom-select,

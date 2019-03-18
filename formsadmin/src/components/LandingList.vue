@@ -2,7 +2,7 @@
   <div>
     <div class="card border-light helix">
       <div class="card-header">
-        <h5 class="mt-2">LANDING PAGES</h5>
+        <h6 class="mt-2">LANDING PAGES</h6>
         <a class="btn btn-link" @click="setAction('create', {})">
           <i class="pe-7s-close pe-rotate-45" style="font-size:1.5rem"></i>
           <br>
@@ -75,6 +75,9 @@ export default {
       });
     },
     setAction(action, item) {
+      if(action == "create"){
+        item.isActive = true;
+      }
       this.$store.state.landingPage = item;
       this.$store.state.lpAction = action;
     }   

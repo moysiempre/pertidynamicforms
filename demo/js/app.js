@@ -1,29 +1,51 @@
 Vue.use(window.vuelidate.default);
-Vue.component('app-data', {
+Vue.component('numberInput', {
     data() {
         return {
             owner: '',
-            msg: 'HOLA msg'
+            msg: 'HOLA msg',
+            
         }
-    },            
+    },
     template: `<div>{{msg}}</div>`
 });
+
 Vue.component('textInput', {
     name: "textInput",
-    props: ["placeholder", "name"],   
+    props: ["placeholder", "name"],
+    template: `<div><input type="text" class="form-control" :name="name" :placeholder="placeholder"></div>`
+});
+
+Vue.component('emailInput', {
+    name: "emailInput",
+    props: ["placeholder", "name"],
+    data() {
+        return {
+            title: ""
+        }
+    },
     template: `<div><input type="text" class="form-control" :name="name" :placeholder="placeholder"></div>`
 });
 
 new Vue({
     el: '#app',
-    data: function() {
+    data: function () {
         return {
             title: '¡Tu empresa merece su app en android!',
             baseUrl: "http://localhost:60829/landing/",
             formData: {
 
             },
+            name: '',
+            minLength: 3,
+            valName: 'validatorName',
             errors: [],
+            milista: [] = [
+                {
+                    name: "apellido",
+                    placeholder: "Apellido"
+                }
+            ],
             dataList: [{
                 id: "df1",
                 fieldTypeId: "textInput",
@@ -37,20 +59,11 @@ new Vue({
             }]
         }
     },
-    validations: {
-        formData: {
+    validations() {
+        return {
             name: {
-                required: validators.required
-            },
-            email: {
-                required: validators.required,
-                email: validators.email
-            },
-            phone: {
-                required: validators.required,
-                minLength: validators.minLength(10),
-                maxLength: validators.maxLength(10)
-            },
+                [this.valName]: validators. minLength(this.minLength)
+            }
         }
     },
     methods: {
@@ -64,7 +77,7 @@ new Vue({
                 email: this.formData.email
             }
             axios.post(this.baseUrl + 'api-inforequest', infoRequest)
-                .then( (response) => {
+                .then((response) => {
                     console.log("SUCCESS", response.data);
                     this.clearForm();
                 })
@@ -72,7 +85,7 @@ new Vue({
                     console.log('Error: ' + error);
                 });
         },
-        clearForm(){
+        clearForm() {
             this.formData = {
                 name: "",
                 email: "",
@@ -99,4 +112,3 @@ new Vue({
         //     });
     },
 })
- 

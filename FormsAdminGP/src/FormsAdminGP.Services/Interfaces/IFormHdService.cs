@@ -14,6 +14,7 @@ namespace FormsAdminGP.Services.Interfaces
 
         Task<IEnumerable<FormDetailDto>> GetDetailAllAsync(string formHdId);
         Task<FormDetailDto> GetDetailByIdAsync(string id);
+        Task<IEnumerable<BaseDetailSettings>> GetBaseDetail();
         Task<BaseResponse> AddOrUpdateDetailAsync(FormDetailDto formDetailDto);
         Task<BaseResponse> DeleteDetailAsync(string id);
     }

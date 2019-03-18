@@ -1,5 +1,5 @@
 ﻿using FormsAdminGP.Common.Enums;
-using FormsAdminGP.Core.EmailSender;
+using FormsAdminGP.Services.DTO;
 using Microsoft.Extensions.Options;
 using System;
 using System.Collections.Generic;

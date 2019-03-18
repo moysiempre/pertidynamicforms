@@ -1,48 +1,35 @@
 <template>
   <div class="card border-light">
+    <div class="card-header">
+      <h6 class="my-0">ALTA LANDING PAGE</h6>
+    </div>
     <div class="card-body">
-      <h5 class="mt-0">{{title}}</h5>
-      <form @submit.prevent="onSubmit" class="mt-3">
+      <form @submit.prevent="onSubmit">
         <div class="form-group">
           <label class="mb-0" for="name">
             Nombre del landing page
             <span class="i-required">*</span>
           </label>
           <input
+            v-validate="'required'"
             type="text"
             class="form-control"
-            id="name"
+            name="name"
+            maxlength="150"
             placeholder="Digite el nombre del landing page"
             v-model="landingPage.name"
           >
         </div>
-        <div class="form-group">
-          <label class="mb-0" for="typeId">
-            Tipo de landing page
-            <span class="i-required">*</span>
-          </label>
-          <select class="custom-select mr-sm-2" id="typeId" v-model="landingPage.typeId" required>
-            <option value>Seleccione...</option>
-            <option value="1">One</option>
-            <option value="2">Two</option>
-            <option value="3">Three</option>
-          </select>
-        </div>
 
         <div class="form-group">
-          <label class="mb-0" for>Descripción del landing page</label>
+          <label class="mb-0" for="description">Descripción del landing page</label>
           <textarea
             class="form-control"
+            name="description"
+            maxlength="400"
             placeholder="Digite una descripción del landing page"
             v-model="landingPage.description"
           ></textarea>
-        </div>
-        <div class="form-group">
-          <label class="mb-0" for>Ubicación del Landing page</label>
-          <div class="custom-file">
-            <input type="file" class="custom-file-input" id="validatedCustomFile">
-            <label class="custom-file-label" for="validatedCustomFile">Choose file...</label>
-          </div>
         </div>
 
         <div class="row">
@@ -64,17 +51,15 @@
                 @click="onCancel"
                 class="btn btn-outline-warning btn-sm mx-1"
               >CANCELAR</button>
-              <button type="submit" class="btn btn-primary btn-sm">GUARDAR</button>
+              <button type="submit" class="btn btn-primary btn-sm" :disabled="!isFormValid">GUARDAR</button>
             </div>
           </div>
         </div>
       </form>
     </div>
-   
   </div>
 </template>
 <script>
-import { required } from "vuelidate/lib/validators";
 import axios from "axios";
 import { mapState } from "vuex";
 export default {
@@ -89,35 +74,41 @@ export default {
     };
   },
   computed: {
-    ...mapState(["landingPage"])
+    ...mapState(["landingPage"]),
+    isFormValid() {
+      return !Object.keys(this.fields).some(key => this.fields[key].invalid);
+    }
   },
-  validations: {
-    name: { required },
-    typeId: { required }
-  },
-
-  methods: {
-    updateStore(formData) {
-      let action = this.$store.state.lpAction;
-      if (action == "create") {
-        this.$store.state.landingPages.push(formData);
-      }  
-    },
+  methods: {   
     onSubmit() {
       let landingPage = this.$store.state.landingPage;
       axios({ method: "POST", url: "api-landingpage", data: landingPage })
         .then(response => {
-          landingPage.id = response.data.id;
-          this.updateStore(landingPage);
-          this.onCancel();
-          this.$snotify.success("this.body for snotify");
+          if (response && response.data && response.data.id) {
+            landingPage.id = response.data.id;
+            this.updateStore(landingPage);
+            this.$swal(response.data.message, {
+              icon: "success"
+            });
+            this.onCancel();
+          } else {
+            this.$swal(response.data.message, {
+              icon: "warning"
+            });
+          }
         })
         .catch(err => {
           console.log(err);
+          this.$swal("No se pudo dar de alta al landing page", {
+            icon: "warning"
+          });
         });
     },
-    myToastr(){
-      this.$snotify.success("this.body for snotify");
+    updateStore(formData) {
+      let action = this.$store.state.lpAction;
+      if (action == "create") {
+        this.$store.state.landingPages.push(formData);
+      }
     },
     onCancel() {
       this.$store.state.lpAction = "read";

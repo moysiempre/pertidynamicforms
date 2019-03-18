@@ -1,4 +1,4 @@
-﻿using FormsAdminGP.Core.EmailSender;
+﻿using FormsAdminGP.Services.DTO;
 using FormsAdminGP.Services.Responses;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Options;

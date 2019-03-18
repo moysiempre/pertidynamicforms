@@ -2,8 +2,8 @@
 {
     public class FormHdLandingPageDto
     {
-        public int Id { get; set; }
-        public int LandingPageID { get; set; }        
-        public int FormHdID { get; set; }       
+        public string LandingPageId { get; set; }       
+        public string FormHdId { get; set; }     
+        public bool IsActive { get; set; }
     }
 }

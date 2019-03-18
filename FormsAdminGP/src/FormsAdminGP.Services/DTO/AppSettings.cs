@@ -1,4 +1,8 @@
-﻿namespace FormsAdminGP.Core.EmailSender
+﻿using System;
+using System.Collections.Generic;
+using System.Text;
+
+namespace FormsAdminGP.Services.DTO
 {
     public class EmailSettings
     {
@@ -14,5 +18,9 @@
     {
         public string EbookPath { get; set; }
     }
-    
+
+    public class BaseDetailSettings : FormDetailDto
+    {
+
+    }
 }

@@ -1,16 +1,16 @@
-﻿
-using FormsAdminGP.Core.EmailSender;
-using FormsAdminGP.Core.Interfaces;
+﻿using FormsAdminGP.Core.Interfaces;
 using FormsAdminGP.Core.Repositories;
 using FormsAdminGP.Data.Repositories;
 using FormsAdminGP.Data.Repositories.Interfaces;
 using FormsAdminGP.Data.Repositories.Security;
 using FormsAdminGP.Services;
+using FormsAdminGP.Services.DTO;
 using FormsAdminGP.Services.EmailSender;
 using FormsAdminGP.Services.Interfaces;
 using Microsoft.AspNetCore.Http;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
+using System.Collections.Generic;
 
 namespace FormsAdminGP.RestfulAPI
 {
@@ -24,6 +24,7 @@ namespace FormsAdminGP.RestfulAPI
             services.AddScoped<ILandingPageRepository, LandingPageRepository>()
                 .AddScoped<IFormHdRepository, FormHdRepository>()
                 .AddScoped<IFormDetailRepository, FormDetailRepository>()
+                .AddScoped<IFormHdLandingPageRepository, FormHdLandingPageRepository>()
                 .AddScoped<IInfoRequestRepository, InfoRequestRepository>()
                 .AddScoped<IDDLCatalogRepository, DDLCatalogRepository>();
             
@@ -57,6 +58,7 @@ namespace FormsAdminGP.RestfulAPI
             services.AddScoped<IEmailSenderService, EmailSenderService>();
             services.Configure<EmailSettings>(_configuration.GetSection("EmailSettings"));
             services.Configure<AppSettings>(_configuration.GetSection("AppSettings"));
+            services.Configure<List<BaseDetailSettings>>(_configuration.GetSection("BaseDetailSettings"));
             return services;
         }
 

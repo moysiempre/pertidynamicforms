@@ -30,8 +30,9 @@ export default {
   },
   methods: {
     load() {
-      axios.get("api-forms/fieldTypes").then(response => {
-        this.$store.state.fieldTypes = response.data;
+      axios.get("api-forms/basedetail").then(response => {
+        this.$store.state.baseDetails = response.data;
+        console.log('baseDetails: ', response.data)
       });
     }
   },

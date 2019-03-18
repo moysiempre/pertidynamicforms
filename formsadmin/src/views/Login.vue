@@ -4,23 +4,23 @@
       <h5 class="text-center font-weight-normal mb-3">LOGIN</h5>
       <div class="card-body">
         <form @submit.prevent="onSubmit">
-          <div class="form-group" :class="{invalid: $v.userName.$error}">
+          <div class="form-group">
             <input
               type="email"
               id="userName"
               class="form-control"
               placeholder="Digite su correo electrónico"
-              @blur="$v.userName.$touch()"
+             
               v-model="userName"
             >
           </div>
-          <div class="form-group" :class="{invalid: $v.password.$error}">
+          <div class="form-group">
             <input
               type="password"
               id="password"
               class="form-control"
               placeholder="digite su contraseña"
-              @blur="$v.password.$touch()"
+            
               v-model="password"
             >
           </div>
@@ -28,7 +28,7 @@
           <div class="form-group">
             <button
               type="submit"
-              :disabled="$v.$invalid"
+
               class="btn btn-primary w-100"
             >INICIA SESIÓN</button>
           </div>
@@ -45,8 +45,7 @@
 
 <script>
 // @ is an alias to /src
-
-import { required, email } from "vuelidate/lib/validators";
+ 
 export default {
   name: "login",
   data() {
@@ -55,15 +54,7 @@ export default {
       password: ""
     };
   },
-  validations: {
-    userName: {
-      required,
-      email
-    },
-    password: {
-      required
-    }
-  },
+ 
   computed: {},
   methods: {
     onSubmit: function() {

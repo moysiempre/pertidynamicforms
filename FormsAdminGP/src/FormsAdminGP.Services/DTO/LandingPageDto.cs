@@ -9,9 +9,6 @@ namespace FormsAdminGP.Services.DTO
         public string Name { get; set; }
         [Required]
         public string Description { get; set; }
-        [Required]
-        public string FilePath { get; set; }
-        [Required]
-        public short TypeId { get; set; }
+         
     }
 }

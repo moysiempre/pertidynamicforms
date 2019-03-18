@@ -16,7 +16,7 @@
 
 <body class="pt-3">
     <div id="app" v-cloak class="container mt-5">
- 
+
 
         <div class="row">
             <div class="col-md-4 offset-md-4">
@@ -27,16 +27,29 @@
                     <div class="card-body bg-light p-2">
                         <div class="container-fluid bg-white pt-3 pb-3">
                             <form @submit.prevent="onSubmit">
-                                <div v-for="(item, index) in dataList" class="form-group" :class="{invalid: $v.formData.name.$error}">
 
-                                    <input v-if="item.fieldTypeId =='textInput'" type="text" :name="dataList[index].name" class="form-control"
-                                        :placeholder="item.title" maxlength="50" @blur="$v.formData.name.$touch()" v-model="dataList[index].name">
-                                    <p class="m-0">
-                                        <span class="text-danger" v-if="$v.formData.name.$dirty && !$v.formData.name.required">Please
-                                            enter a name.</span>
-                                    </p>
-
+                                <div class="form-group">
+                                    <label class="form__label">Validator name</label>
+                                    <input class="form__input" v-model.trim="valName" @input="$v.$touch()" />
                                 </div>
+                                <div class="form-group">
+                                    <label class="form__label">Dynamic min length</label>
+                                    <input class="form__input" type="number" v-model.number="minLength" @input="$v.$touch()" />
+                                </div>
+                                <div class="form-group" :class="{ 'form-group--error': $v.name.$error }">
+                                    <label class="form__label">Name</label>
+                                    <input class="form__input" v-model.trim="$v.name.$model" />
+                                </div>
+                                <div class="error" v-if="!$v.name[valName]">Field is invalid</div>
+<hr>
+                                <div v-for="(item, index) in milista" ::key="index">
+                                    <div class="form-group" :class="{ 'form-group--error': milista[index].name.$error }">
+                                        <label class="form__label">{{item.placeholder}}</label>
+                                        <input class="form__input" v-model.trim="item.name" />
+                                    </div>                                    
+                                </div>
+                                <!-- <tree-view :data="$v" :options="{rootObjectKey: '$v', maxDepth: 2}"></tree-view> -->
+
                             </form>
                         </div>
                     </div>

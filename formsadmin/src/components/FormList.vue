@@ -1,8 +1,8 @@
 <template>
   <div class="card border-light helix">
     <div class="card-header">
-      <h6 class="mt-2">FORMULARIOS</h6>
-      <a class="btn btn-link" @click="setAction('create', {})">
+      <h6 class="mt-2">LANDING PAGES</h6>
+      <a class="btn btn-link" :class ="{'visibility-hidden': fhAction !== 'read'}" @click="setAction('create', {})">
         <i class="pe-7s-close pe-rotate-45" style="font-size:1.5rem"></i>
         <br>
       </a>
@@ -17,37 +17,18 @@
         </div>
       </div>
       <ul class="list-group" v-if="formHds">
-        <li
-          class="list-group-item d-flex justify-content-between"
-          v-for="item in filterSearch"
-          :key="item.id"
-        >
-          <div>
+        <li class="list-group-item" v-for="item in filterSearch" :key="item.id">
+          <div v-if="fhAction == 'read'" @click="setAction('update', item)">
             <h6 class="mb-0">{{item.name}}</h6>
             <p class="mb-0" style="color:#75818b">
               <small>{{item.title}}</small>
             </p>
           </div>
-          <div class="d-flex align-items-center c-pointer">
-            <div class="btn-group">
-              <button
-                type="button"
-                class="btn btn-link btn-sm"
-                data-toggle="dropdown"
-                aria-haspopup="true"
-                aria-expanded="false"
-              >
-                <i class="pe-7s-more"></i>
-              </button>
-              <div class="dropdown-menu dropdown-menu-right dropdown-wll">
-                <p class="m-0">
-                  <a role="button" class="btn btn-link" @click="setAction('update', item)">Editar</a>
-                </p>
-                <p class="m-0">
-                  <a role="button" class="btn btn-link" @click="setAction('detail', item)">ver detalle</a>
-                </p>
-              </div>
-            </div>
+          <div v-else class="c-wait">
+            <h6 class="mb-0">{{item.name}}</h6>
+            <p class="mb-0" style="color:#75818b">
+              <small>{{item.title}}</small>
+            </p>
           </div>
         </li>
       </ul>
@@ -68,7 +49,7 @@ export default {
     this.load();
   },
   computed: {
-    ...mapState(["formHds"]),
+    ...mapState(["formHds", "baseDetails", "fhAction"]),
     filterSearch() {
       return this.$store.state.formHds.filter(item => {
         return (
@@ -82,15 +63,23 @@ export default {
     load() {
       axios.get("api-forms").then(response => {
         this.$store.state.formHds = response.data;
+        console.log("formHds", response.data);
       });
     },
     setAction(action, item) {
-      this.$store.state.formHd = item;
       this.$store.state.fhAction = action;
-      if(action == "detail"){
-        this.$store.state.formItem.formHdId = item.id;
+      if (action == "create") {
+        let formHd = {
+          id: "",
+          isActive: true,
+          formDetails: this.baseDetails
+        };
+        this.$store.state.formHd = formHd;
       }
-    },    
+      if (action == "update") {
+        this.$store.state.formHd = item;
+      }
+    }
   }
 };
 </script>

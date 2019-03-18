@@ -6,6 +6,7 @@ using FormsAdminGP.Domain;
 using FormsAdminGP.Services.DTO;
 using FormsAdminGP.Services.Interfaces;
 using FormsAdminGP.Services.Responses;
+using Microsoft.Extensions.Options;
 using NLog;
 using System.Collections.Generic;
 using System.Linq;
@@ -18,17 +19,24 @@ namespace FormsAdminGP.Services
         private static Logger logger = LogManager.GetCurrentClassLogger();
         private readonly IFormHdRepository _formHdRepository;
         private readonly IFormDetailRepository _formDetailRepository;
+        private readonly IFormHdLandingPageRepository _formHdLandingPageRepository;
         private readonly IDDLCatalogRepository _dDLCatalogRepository;
+
+        private readonly IOptions<List<BaseDetailSettings>> _baseDetailSettings;
         private readonly IMapper _mapper;
         public FormHdService(
             IFormHdRepository formHdRepository,
             IFormDetailRepository formDetailRepository,
+            IFormHdLandingPageRepository formHdLandingPageRepository,
             IDDLCatalogRepository dDLCatalogRepository,
+            IOptions<List<BaseDetailSettings>> baseDetailSettings,
             IMapper mapper)
         {
             _formHdRepository = formHdRepository;
             _formDetailRepository = formDetailRepository;
+            _formHdLandingPageRepository = formHdLandingPageRepository;
             _dDLCatalogRepository = dDLCatalogRepository;
+            _baseDetailSettings = baseDetailSettings;
             _mapper = mapper;
         }
 
@@ -36,11 +44,14 @@ namespace FormsAdminGP.Services
         public async Task<IEnumerable<FormHdDto>> GetAllAsync()
         {
             var list = await _formHdRepository.FindBy(x=>x.IsActive, t=> t.FormDetails);
-            foreach (var item in list)
+            var listDto = _mapper.Map<List<FormHdDto>>(list);
+            foreach (var item in listDto)
             {
                 item.FormDetails = item.FormDetails.OrderBy(x => x.Order).ToList();
+                var formHdLandingPage = await _formHdLandingPageRepository.FindBy(x => x.FormHdId == item.Id);
+                item.FormHdLandingPage = _mapper.Map<List<FormHdLandingPageDto>>(formHdLandingPage);
             }
-            return _mapper.Map<List<FormHdDto>>(list);
+            return listDto;
         }
 
         public async Task<FormHdDto> GetByIdAsync(string id)
@@ -62,8 +73,24 @@ namespace FormsAdminGP.Services
                 var formHd = _mapper.Map<FormHd>(formHdDto);
                 if (string.IsNullOrEmpty(formHd.Id))
                 {
+                    //validar el nombre del landing page
+                    var form = await _formHdRepository.FindEntityBy(x => x.Name.Trim().ToLower() == formHdDto.Name.Trim().ToLower());
+                    if (form != null)
+                    {
+                        response.Message = LoggingEvents.INSERT_DUPLICATED_MESSAGE;
+                        return response;
+                    }
+
+
                     formHd.Id = Common.Utilities.Utils.NewGuid;
                     _formHdRepository.Add(formHd);
+
+                    foreach (var landingDto in formHdDto.FormHdLandingPage)
+                    {
+                        var landing = _mapper.Map<FormHdLandingPage>(landingDto);
+                        landing.FormHdId = formHd.Id;
+                        _formHdLandingPageRepository.Add(landing);
+                    }
                 }
                 else
                 {
@@ -129,6 +156,19 @@ namespace FormsAdminGP.Services
         {
             var item = await _formDetailRepository.FindEntityBy(x => x.Id == id);
             return _mapper.Map<FormDetailDto>(item);
+        }
+
+        public async Task<IEnumerable<BaseDetailSettings>> GetBaseDetail()
+        {
+            var list = new List<BaseDetailSettings>();
+            await Task.Run(() =>
+            {
+                //list = Enum.GetValues(typeof(FieldType)).Cast<object>()
+                //.Select(p => new FormDetailDto { FormHdId = Convert.ToInt32(p).ToString(),  FieldLabel = ((Enum)p).GetEnumDescription(), FieldTypeId = ((Enum)p).ToString() })
+                //.OrderBy(p => p.FormHdId).ToList();
+                list = _baseDetailSettings.Value.ToList();
+            });
+            return list;
         }
 
         public async Task<BaseResponse> AddOrUpdateDetailAsync(FormDetailDto formDetailDto)

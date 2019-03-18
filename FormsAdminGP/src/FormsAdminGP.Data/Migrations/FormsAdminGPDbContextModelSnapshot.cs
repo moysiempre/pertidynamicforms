@@ -24,7 +24,9 @@ namespace FormsAdminGP.Data.Migrations
                     b.Property<string>("Id")
                         .ValueGeneratedOnAdd();
 
-                    b.Property<string>("FormDetailId");
+                    b.Property<string>("FormDetailId")
+                        .IsRequired()
+                        .HasMaxLength(450);
 
                     b.Property<bool>("IsActive");
 
@@ -52,7 +54,8 @@ namespace FormsAdminGP.Data.Migrations
                         .IsRequired()
                         .HasMaxLength(50);
 
-                    b.Property<string>("FormHdId");
+                    b.Property<string>("FormHdId")
+                        .IsRequired();
 
                     b.Property<bool>("IsActive");
 
@@ -77,7 +80,6 @@ namespace FormsAdminGP.Data.Migrations
                     b.Property<DateTime>("CreatedDate");
 
                     b.Property<string>("FilePath")
-                        .IsRequired()
                         .HasMaxLength(450);
 
                     b.Property<bool>("IsActive");
@@ -146,17 +148,11 @@ namespace FormsAdminGP.Data.Migrations
                     b.Property<string>("Description")
                         .HasMaxLength(450);
 
-                    b.Property<string>("FilePath")
-                        .IsRequired()
-                        .HasMaxLength(450);
-
                     b.Property<bool>("IsActive");
 
                     b.Property<string>("Name")
                         .IsRequired()
                         .HasMaxLength(225);
-
-                    b.Property<short>("TypeId");
 
                     b.Property<string>("UpdatedBy");
 
@@ -259,14 +255,16 @@ namespace FormsAdminGP.Data.Migrations
                 {
                     b.HasOne("FormsAdminGP.Domain.FormDetail", "FormDetail")
                         .WithMany()
-                        .HasForeignKey("FormDetailId");
+                        .HasForeignKey("FormDetailId")
+                        .OnDelete(DeleteBehavior.Cascade);
                 });
 
             modelBuilder.Entity("FormsAdminGP.Domain.FormDetail", b =>
                 {
                     b.HasOne("FormsAdminGP.Domain.FormHd")
                         .WithMany("FormDetails")
-                        .HasForeignKey("FormHdId");
+                        .HasForeignKey("FormHdId")
+                        .OnDelete(DeleteBehavior.Restrict);
                 });
 
             modelBuilder.Entity("FormsAdminGP.Domain.FormHdLandingPage", b =>
@@ -274,12 +272,12 @@ namespace FormsAdminGP.Data.Migrations
                     b.HasOne("FormsAdminGP.Domain.FormHd", "FormHd")
                         .WithMany()
                         .HasForeignKey("FormHdId")
-                        .OnDelete(DeleteBehavior.Cascade);
+                        .OnDelete(DeleteBehavior.Restrict);
 
                     b.HasOne("FormsAdminGP.Domain.LandingPage", "LandingPage")
                         .WithMany()
                         .HasForeignKey("LandingPageId")
-                        .OnDelete(DeleteBehavior.Cascade);
+                        .OnDelete(DeleteBehavior.Restrict);
                 });
 
             modelBuilder.Entity("FormsAdminGP.Domain.InfoRequest", b =>

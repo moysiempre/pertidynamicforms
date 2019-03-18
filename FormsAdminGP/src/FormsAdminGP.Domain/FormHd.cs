@@ -14,5 +14,6 @@ namespace FormsAdminGP.Domain
         public string FilePath { get; set; }
 
         public virtual ICollection<FormDetail> FormDetails { get; set; }
+         
     }
 }

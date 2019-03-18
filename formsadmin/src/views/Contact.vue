@@ -43,10 +43,10 @@
 </template>
 <script>
 import axios from "axios";
-import Datepicker from "vuejs-datepicker";
+// import Datepicker from "vuejs-datepicker";
 export default {
   name: "HelloWorld",
-  components: { Datepicker },
+ // components: { Datepicker },
   data() {
     return {
       title: "SOLICITUDES",

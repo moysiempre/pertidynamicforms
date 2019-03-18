@@ -13,5 +13,6 @@ namespace FormsAdminGP.Services.DTO
         public string Title { get; set; }
         public string FilePath { get; set; }
         public virtual ICollection<FormDetailDto> FormDetails { get; set; }
+        public virtual ICollection<FormHdLandingPageDto> FormHdLandingPage { get; set; }
     }
 }
