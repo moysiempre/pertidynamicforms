@@ -79,7 +79,7 @@ export default {
       return !Object.keys(this.fields).some(key => this.fields[key].invalid);
     }
   },
-  methods: {   
+  methods: {
     onSubmit() {
       let landingPage = this.$store.state.landingPage;
       axios({ method: "POST", url: "api-landingpage", data: landingPage })
@@ -107,7 +107,7 @@ export default {
     updateStore(formData) {
       let action = this.$store.state.lpAction;
       if (action == "create") {
-        this.$store.state.landingPages.push(formData);
+        this.$store.commit("ADD_landing_Page", formData);
       }
     },
     onCancel() {

@@ -1,4 +1,5 @@
 ﻿using FormsAdminGP.Domain;
+using System;
 using System.ComponentModel.DataAnnotations;
 
 namespace FormsAdminGP.Services.DTO
@@ -10,5 +11,6 @@ namespace FormsAdminGP.Services.DTO
         public string Email { get; set; }
         [Required]
         public string LandingPageId { get; set; }
+        public DateTime RequestDate { get; set; }
     }
 }

@@ -1,8 +1,12 @@
 <template>
   <div class="card border-light helix">
     <div class="card-header">
-      <h6 class="mt-2">LANDING PAGES</h6>
-      <a class="btn btn-link" :class ="{'visibility-hidden': fhAction !== 'read'}" @click="setAction('create', {})">
+      <h6 class="mt-2">FORMULARIOS</h6>
+      <a
+        class="btn btn-link"
+        :class="{'visibility-hidden': fhAction !== 'read'}"
+        @click="setAction('create', {})"
+      >
         <i class="pe-7s-close pe-rotate-45" style="font-size:1.5rem"></i>
         <br>
       </a>
@@ -18,13 +22,13 @@
       </div>
       <ul class="list-group" v-if="formHds">
         <li class="list-group-item" v-for="item in filterSearch" :key="item.id">
-          <div v-if="fhAction == 'read'" @click="setAction('update', item)">
+          <div @click="setAction('update', item)">
             <h6 class="mb-0">{{item.name}}</h6>
             <p class="mb-0" style="color:#75818b">
               <small>{{item.title}}</small>
             </p>
           </div>
-          <div v-else class="c-wait">
+          <div class="c-wait" hidden>
             <h6 class="mb-0">{{item.name}}</h6>
             <p class="mb-0" style="color:#75818b">
               <small>{{item.title}}</small>
@@ -34,6 +38,8 @@
       </ul>
       <div class="alert alert-warning" v-if="!formHds">no hay registro</div>
     </div>
+
+    <!-- <pre class="language-json"><code>{{ options  }}</code></pre> -->
   </div>
 </template>
 <script>
@@ -49,7 +55,7 @@ export default {
     this.load();
   },
   computed: {
-    ...mapState(["formHds", "baseDetails", "fhAction"]),
+    ...mapState(["formHds", "baseDetails", "fhAction", "options"]),
     filterSearch() {
       return this.$store.state.formHds.filter(item => {
         return (
@@ -61,6 +67,7 @@ export default {
   },
   methods: {
     load() {
+      this.$store.dispatch("landingPages");
       axios.get("api-forms").then(response => {
         this.$store.state.formHds = response.data;
         console.log("formHds", response.data);
@@ -75,9 +82,21 @@ export default {
           formDetails: this.baseDetails
         };
         this.$store.state.formHd = formHd;
+         this.$store.commit("updateValues", []);
       }
+
       if (action == "update") {
         this.$store.state.formHd = item;
+        let _values = [];
+        if (item && item.formHdLandingPage && item.formHdLandingPage.length) {
+          item.formHdLandingPage.forEach(element => {
+            var landing = this.options.find(x => x.id == element.landingPageId);
+            if (landing) {
+              _values.push(landing);
+            }          
+          });
+          this.$store.commit("updateValues", _values);
+        }
       }
     }
   }

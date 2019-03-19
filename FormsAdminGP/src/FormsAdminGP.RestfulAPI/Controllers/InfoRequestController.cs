@@ -1,5 +1,6 @@
 ﻿using FormsAdminGP.Services.DTO;
 using FormsAdminGP.Services.Interfaces;
+using FormsAdminGP.Services.Request;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using System.Threading.Tasks;
@@ -21,6 +22,13 @@ namespace FormsAdminGP.RestfulAPI.Controllers
         public async Task<IActionResult> Get()
         {
             var list = await _infoRequestService.GetAllAsync();
+            return Ok(list);
+        }
+
+        [HttpGet("getby")]
+        public async Task<IActionResult> GetByAsync(BaseRequest request)
+        {
+            var list = await _infoRequestService.GetByAsync(request);
             return Ok(list);
         }
 

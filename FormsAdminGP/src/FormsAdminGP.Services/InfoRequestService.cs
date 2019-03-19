@@ -6,9 +6,11 @@ using FormsAdminGP.Domain;
 using FormsAdminGP.Services.DTO;
 using FormsAdminGP.Services.EmailSender;
 using FormsAdminGP.Services.Interfaces;
+using FormsAdminGP.Services.Request;
 using FormsAdminGP.Services.Responses;
 using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Threading.Tasks;
 
 namespace FormsAdminGP.Services
@@ -32,6 +34,34 @@ namespace FormsAdminGP.Services
         {
             var list = await _infoRequestRepository.GetAll();
             return _mapper.Map<List<InfoRequestDto>>(list);  
+        }
+
+        public async Task<IEnumerable<InfoRequestDto>> GetByAsync(BaseRequest request)
+        {
+            var list = await _infoRequestRepository.GetAll();
+            if (!string.IsNullOrEmpty(request.LandingPageId))
+            {
+                list = list.Where(x => x.LandingPageId == request.LandingPageId);
+            }            
+
+            if (request.StartDate.HasValue && request.EndDate.HasValue)
+            {
+                list = list.Where(x => x.RequestDate >= request.StartDate && x.RequestDate <= request.EndDate);
+            }
+            else
+            {
+                if (request.StartDate.HasValue)
+                {
+                    list = list.Where(x => x.RequestDate >= request.StartDate);
+                }
+
+                if (request.EndDate.HasValue)
+                {
+                    list = list.Where(x => x.RequestDate <= request.EndDate);
+                }
+            }
+
+            return _mapper.Map<List<InfoRequestDto>>(list);
         }
 
         public async Task<InfoRequestDto> GetByIdAsync(string id)

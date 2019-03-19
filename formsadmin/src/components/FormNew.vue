@@ -1,152 +1,286 @@
 <template>
   <div class="card border-light">
+    <div class="card-header">
+      <h6 class="my-0">{{title}}</h6>
+    </div>
     <div class="card-body">
-      <h5 class="mt-0">{{title}}</h5>
-      <form @submit.prevent="onSubmit" class="mt-3">
-        <div class="form-group">
-          <label class="mb-0" for="name">
-            Nombre del formulario
-            <span class="i-required">*</span>
-          </label>
-          <input
-            type="text"
-            class="form-control"
-            id="name"
-            placeholder="Digite el nombre del formulario"
-            v-model="formHd.name"
-          >
-        </div>
-        <div class="form-group">
-          <label class="mb-0" for="formTitle">
-            Título del formulario
-            <span class="i-required">*</span>
-          </label>
-          <input
-            type="text"
-            class="form-control"
-            id="formTitle"
-            placeholder="Digite el título del formulario"
-            v-model="formHd.title"
-          >
-        </div>
-        <div class="form-group">
-          <label class="mb-0" for="landings">Landing pages Asociados</label>
-          <select class="custom-select mr-sm-2" id="landings" v-model="formHd.landings" required>
-            <option value>Seleccione...</option>
-            <option  v-for="item in landingPages" :key="item.id" :value="item.id">{{item.name}}</option>
-          </select>
-        </div>
-
-        <div class="form-group" v-if="formHd.id">
-          <label class="mb-0" for>Ubicación del archivo a subir</label>
-          <input type="file" id="file" ref="file" v-on:change="handleFileUpload()">
-        </div>
-
+      <form @submit.prevent="onSubmit">
         <div class="row">
-          <div class="col-md-4">
-            <div class="custom-control custom-checkbox mb-3">
+          <div class="col-12 col-lg-6">
+            <div class="form-group">
+              <label class="mb-0" for="name">
+                Nombre del formulario
+                <span class="i-required">*</span>
+              </label>
               <input
-                type="checkbox"
-                class="custom-control-input"
-                id="cboIsActive"
-                v-model="formHd.isActive"
+                v-validate="'required'"
+                name="name"
+                type="text"
+                class="form-control"
+                placeholder="Digite el nombre del formulario"
+                v-model="formHd.name"
               >
-              <label class="custom-control-label" for="cboIsActive">Es Activo</label>
+            </div>
+            <div class="form-group">
+              <label class="mb-0" for="formTitle">
+                Título del formulario
+                <span class="i-required">*</span>
+              </label>
+              <input
+                v-validate="'required'"
+                name="formTitle"
+                type="text"
+                class="form-control"
+                placeholder="Digite el título del formulario"
+                v-model="formHd.title"
+              >
+            </div>
+            <div class="form-group">
+              <label class="mb-0" for="landings">
+                Landing pages asociados
+                <span class="i-required">*</span>
+              </label>
+              <multiselect
+                v-validate="'required'"
+                name="landings"
+                placeholder="Agregar landing pages"
+                :value="values"
+                :options="options"
+                label="name"
+                track-by="id"
+                :multiple="true"
+                :searchable="false"
+                @input="updateValueAction"
+              ></multiselect>
+              <!-- <multiselect
+                v-validate="'required'"
+                name="landings"
+                v-model="values"
+                placeholder="Agregar landing pages"
+                label="name"
+                track-by="id"
+                :options="options"
+                :multiple="true"
+                :taggable="true"
+                @tag="addTag"
+                @input="updateValueAction"
+              ></multiselect>-->
+            </div>
+
+            <div class="form-group" v-if="formHd.id">
+              <label class="mb-0" for>Ubicación del archivo a subir</label>
+              <input
+                type="file"
+                class="w-100"
+                id="file"
+                ref="file"
+                v-on:change="handleFileUpload()"
+              >
+            </div>
+
+            <div class="form-group">
+              <div class="custom-control custom-checkbox mb-3">
+                <input
+                  type="checkbox"
+                  class="custom-control-input"
+                  id="cboIsActive"
+                  v-model="formHd.isActive"
+                >
+                <label class="custom-control-label" for="cboIsActive">Es Activo</label>
+              </div>
             </div>
           </div>
-          <div class="col-md-8 mt-3">
+          <div class="col-12 col-lg-6">
+            <p class="mb-0">Detalle</p>
+            <table class="table table-striped">
+              <tbody>
+                <tr v-for="(item, index) in formHd.formDetails" :key="index">
+                  <td>
+                    <div class="custom-control custom-checkbox">
+                      <input
+                        type="checkbox"
+                        class="custom-control-input"
+                        :id="'cboIsActives'+ index"
+                        v-model="item.isActive"
+                      >
+                      <label class="custom-control-label" :for="'cboIsActives'+ index"></label>
+                    </div>
+                  </td>
+                  <td>{{ item.fieldLabel}}</td>
+                  <td>
+                    <a role="button" class="btn btn-link btn-sm" @click="onEdit(item)">editar</a>
+                  </td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+          <div class="col-12">
             <div class="form-group text-right">
               <button
                 type="button"
-                @click="onCancel"
                 class="btn btn-outline-warning btn-sm mx-1"
+                @click="onCancel"
               >CANCELAR</button>
-              <button type="submit" class="btn btn-primary btn-sm">GUARDAR</button>
+              <button type="submit" class="btn btn-primary btn-sm" :disabled="!isFormValid">GUARDAR</button>
+              <!-- <button type="button" @click="test()">ALERT</button> -->
+            </div>
+
+            <div class="row">
+              <div class="col-6">
+                <!-- <pre class="language-json"><code>{{ options  }}</code></pre> -->
+              </div>
+              <div class="col-6">
+                <!-- <pre class="language-json"><code>{{ values  }}</code></pre> -->
+              </div>
             </div>
           </div>
         </div>
       </form>
     </div>
+
+    <!-- Modal -->
+    <div
+      class="modal fade"
+      id="exampleModal"
+      tabindex="-1"
+      role="dialog"
+      aria-labelledby="exampleModalLabel"
+      aria-hidden="true"
+    >
+      <div class="modal-dialog" role="document">
+        <div class="modal-content">
+          <div class="modal-header">
+            <h5 class="modal-title" id="exampleModalLabel">Modal title</h5>
+            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+              <span aria-hidden="true">&times;</span>
+            </button>
+          </div>
+          <div class="modal-body">
+             <FormItemNew :formItem="selectedItem"/>
+          </div>         
+        </div>
+      </div>
+    </div>
   </div>
 </template>
-<script>
 
+<script>
 import axios from "axios";
-import { mapState } from "vuex";
+import Multiselect from "vue-multiselect";
+import { mapState, mapActions } from "vuex";
+ import FormItemNew from "@/components/FormItemNew.vue";
 
 export default {
+  components: { Multiselect, FormItemNew },
   data() {
     return {
       title: "ALTA FORMULARIO",
-      formData: { name: "", formTitle: "" },
       file: {},
-      landingPages: []
+      selectedItem: {}
     };
   },
-  beforeMount(){
-    this.loadLandingPages();
+  beforeMount() {
+    this.load();
   },
-  mounted(){
-    $("#file").val("AzureFileController.cs");
+  mounted() {
+    window.$("#exampleModal").on("hidden.bs.modal", function() {
+      this.selectedItem = {};
+      console.log("SALIENTE Y LIMPIANDO");
+    });
   },
   computed: {
-    ...mapState(["formHd"])
+    ...mapState(["formHd", "values", "options"]),
+    isFormValid() {
+      return !Object.keys(this.fields).some(key => this.fields[key].invalid);
+    }
   },
   methods: {
-    loadLandingPages() {
-      axios.get("api-landingpage").then(response => {
-        this.landingPages = response.data;
-      });
+    ...mapActions(["updateValueAction"]),
+    load() {
+      this.$store.dispatch("landingPages");
+    },
+    handleFileUpload() {},
+    onSubmit() {
+      let formHd = this.$store.state.formHd;
+      let hasDetail = formHd.formDetails.filter(x => x.isActive == true);
+      if (hasDetail && hasDetail.length) {
+        formHd.formHdLandingPage = this.values.map(item => {
+          return {
+            landingPageId: item.id,
+            formHdId: formHd.id,
+            isActive: true
+          };
+        });
+
+        axios({ method: "POST", url: "api-forms", data: formHd })
+          .then(response => {
+            if (response && response.data && response.data.id) {
+              formHd.id = response.data.id;
+              this.updateStore(formHd);
+              this.$swal(response.data.message, {
+                icon: "success"
+              });
+              this.onCancel();
+            } else {
+              this.$swal(response.data.message, {
+                icon: "warning"
+              });
+            }
+          })
+          .catch(err => {
+            console.log(err);
+            this.$swal("No se pudo dar de alta al formulario", {
+              icon: "warning"
+            });
+          });
+      } else {
+        this.$swal({
+          icon: "warning",
+          dangerMode: true,
+          text: "Favor seleccionar detalle del formulario."
+        });
+      }
     },
     updateStore(formData) {
       let action = this.$store.state.fhAction;
       if (action == "create") {
         this.$store.state.formHds.push(formData);
+        this.$store.commit("updateValues", []);
       }
     },
-    onSubmit() {
-      let formHd = this.$store.state.formHd;
-
-      console.log("formHd: ", formHd);
-      axios({ method: "POST", url: "api-forms", data: formHd })
-        .then(response => {
-          formHd.id = response.data.id;
-          this.updateStore(formHd);
-          this.onCancel();
-          this.$snotify.success("this.body for snotify");
-        })
-        .catch(err => {
-          console.log(err);
-          this.$snotify.error("this.body for snotify");
-        });
-    },
-    handleFileUpload() {
-      this.file = this.$refs.file.files[0];
-      console.log("file handled", this.file.name);
-    },
-    fileUpload() {
-      let formData = new FormData();
-      formData.append("file", this.file);
-      axios
-        .post("api-fileupload", formData, {
-          headers: {
-            "Content-Type": "multipart/form-data"
-          }
-        })
-        .then(function() {
-          console.log("SUCCESS!!");
-        })
-        .catch(function(error) {
-          console.log("FAILURE!!", error);
-        });
+    onEdit(item) {
+      console.log("onEdit", item);
+      this.selectedItem = item;
+      window.$("#exampleModal").modal("show");
     },
     onCancel() {
+      this.title = "ALTA FORMULARIO";
       this.$store.state.fhAction = "read";
+      this.$store.state.formHd = {};
     }
   }
 };
 </script>
+<style src="vue-multiselect/dist/vue-multiselect.min.css"></style>
 <style lang="scss">
+.multiselect__tags {
+  padding: 6px 40px 0 10px;
+  border: 1px solid #ced4da;
+}
+.multiselect__tag {
+  padding: 4px 26px 5px 10px;
+  color: #fff;
+  background: #41b883;
+  margin-bottom: 0px;
+}
+.is-danger input {
+  border: 1px solid red;
+}
+.swal-modal {
+  width: 250px;
+}
+.custom-control-label {
+  position: relative;
+  margin-bottom: 17px;
+}
 </style>
-
-

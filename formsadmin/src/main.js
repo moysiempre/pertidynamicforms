@@ -7,6 +7,7 @@ import Snotify from 'vue-snotify';
 import VeeValidate from 'vee-validate';
 import VueSwal from 'vue-swal'
 
+
 Vue.config.productionTip = false
 Vue.use(VueSwal)
 Vue.use(VeeValidate);
@@ -16,6 +17,7 @@ Vue.use(Snotify, {
     showProgressBar: false
   }
 })
+
 //Vue.prototype.$http = Axios;
 Axios.defaults.baseURL = 'http://localhost:60829/landing/';
 
@@ -24,46 +26,57 @@ if (token) {
   Axios.defaults.headers.common['Authorization'] = 'bearer ' + token
 }
 
-Axios.interceptors.response.use(undefined, function (error) {
-  const originalRequest = error.config;
-  const refresh_token = localStorage.getItem('refresh_token')
-  if (
-    error.response.status === 401 &&
-    !originalRequest._retry &&
-    refresh_token
-  ) {
-    originalRequest._retry = true;
+ 
+// Axios.interceptors.response.use(undefined, function (error) {
+//   const originalRequest = error.config;
+//   const refresh_token = localStorage.getItem('refresh_token')
+//   if (
+//     error.response.status === 401 &&
+//     !originalRequest._retry &&
+//     refresh_token
+//   ) {
+//     originalRequest._retry = true;
+//     avata++;
+//     console.log("HACIENDO RARO AQUI: ", avata, originalRequest._retry);
+//     if (avata == 10) {
+//       console.log("HACIENDO RARO AQUI --- ya superando 10: ", avata, originalRequest._retry);
+//       originalRequest._retry = false;
+//       store.commit("logout");
+//       router.push({
+//         path: "/"
+//       });
+//     }
+//     const payload = {
+//       refresh_token: refresh_token
+//     };
 
-    const payload = {
-      refresh_token: refresh_token
-    };
 
-    return Axios
-      .post("api-security/refreshToken", payload)
-      .then(response => {
-        const auth = response.data;
-        Axios.defaults.headers.common["Authorization"] = `Bearer ${
-          auth.access_token
-        }`;
-        originalRequest.headers["Authorization"] = `Bearer ${
-          auth.access_token
-        }`;
-        //store.commit("loginSuccess", auth);
-        console.log("loginSuccess refreshToken", auth);
-        return Axios(originalRequest);
-      })
-      .catch(error => {
-        store.commit("logout");
-        router.push({
-          path: "/"
-        });
-        delete Axios.defaults.headers.common["Authorization"];
-        return Promise.reject(error);
-      });
-  }
+//     // return Axios
+//     //   .post("api-security/refreshToken", payload)
+//     //   .then(response => {
+//     //     const auth = response.data;
+//     //     Axios.defaults.headers.common["Authorization"] = `Bearer ${
+//     //       auth.access_token
+//     //     }`;
+//     //     originalRequest.headers["Authorization"] = `Bearer ${
+//     //       auth.access_token
+//     //     }`;
+//     //     store.commit("loginSuccess", auth);
+//     //     console.log("loginSuccess refreshToken", auth);
+//     //     return Axios(originalRequest);
+//     //   })
+//     //   .catch(error => {
+//     //     store.commit("logout");
+//     //     router.push({
+//     //       path: "/"
+//     //     });
+//     //     delete Axios.defaults.headers.common["Authorization"];
+//     //     return Promise.reject(error);
+//     //   });
+//   }
 
-  return Promise.reject(error);
-});
+//   return Promise.reject(error);
+// });
 
 // const token = localStorage.getItem('token')
 // if (token) {
@@ -71,14 +84,19 @@ Axios.interceptors.response.use(undefined, function (error) {
 // }
 // Vue.http.options.credentials = true;
 // Vue.http.options.root = 'http://localhost:60829/landing/';
-// Vue.http.interceptors.push((request, next) => {
-//   request.headers.set('Authorization', 'bearer ' + localStorage.getItem('bearerToken'))
-//   next(function(response) {
-//     if (response.status === 401) {
-//       this.$router.push({ name: "login" });   
-//     }
-//   });
-// })
+
+Axios.interceptors.response.use(function (response) {
+  return response;
+}, function (error) {
+  if (401 === error.response.status) {
+    store.commit("logout");
+    router.push({
+      path: "/"
+    });
+    delete Axios.defaults.headers.common["Authorization"];
+  }
+  return Promise.reject(error);
+});
 
 // axios({ method: "POST", url: "api-landingpage", data: formData })
 // .then(function(response) {})

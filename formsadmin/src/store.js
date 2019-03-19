@@ -8,7 +8,6 @@ export default new Vuex.Store({
   state: {
     landingPages: [],
     landingPage: {},
-    ddlLandings: [],
     formHds: [],
     formHd: {},
     lpAction: "read",
@@ -16,12 +15,27 @@ export default new Vuex.Store({
     auth: null,
     loading: false,
     baseDetails: [],
-    flatLayaout: false
+    flatLayaout: false,
+
+    values: [],
+    options: []
   },
   mutations: {
-    SET_LANDING_PAGES: (state, landingPages) => {
+    ADD_landing_Page: (state, landingPage) => {
+      state.landingPages.push(landingPage);
+    },
+    GET_landing_Pages: (state, landingPages) => {
       state.landingPages = landingPages;
     },
+    GET_options: (state, options) => {
+      state.options = options;
+    },
+
+    updateValues(state, values) {
+      state.values = values
+    },
+
+
     logout(state) {
       state.auth = null;
     },
@@ -78,9 +92,23 @@ export default new Vuex.Store({
         resolve()
       })
     },
+    updateValueAction({
+      commit
+    }, value) {
+      commit('updateValues', value)
+    },
+    landingPages({
+      commit
+    }) {
+      axios.get("api-landingpage").then(response => {
+        commit("GET_landing_Pages", response.data);
+        commit("GET_options", response.data);
+      });
+    }
   },
   getters: {
     isLoggedIn: state => !!state.token,
     authStatus: state => state.status,
+     
   }
 })

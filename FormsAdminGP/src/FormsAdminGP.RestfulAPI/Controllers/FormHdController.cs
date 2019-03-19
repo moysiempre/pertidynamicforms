@@ -37,9 +37,26 @@ namespace FormsAdminGP.RestfulAPI.Controllers
             return Ok(item);
         }
 
-        [HttpGet("basedetail")]
+        [HttpGet("fieldTypes")]
         [AllowAnonymous]
         public async Task<IActionResult> GetFieldTypes()
+        {
+            var list = new List<FormDetailDto>();
+            await Task.Run(() =>
+             {
+                 list = Enum.GetValues(typeof(FieldType))
+                .Cast<object>()
+                .Select(p => new FormDetailDto { Id = Convert.ToInt32(p).ToString(), FieldTypeId = ((Enum)p).ToString(), FieldLabel = ((Enum)p).GetEnumDescription()})
+               .OrderBy(p => p.Id)
+               .ToList();
+            });
+             
+            return Ok(list);
+        }
+
+        [HttpGet("basedetail")]
+        [AllowAnonymous]
+        public async Task<IActionResult> GetBaseDetail()
         {
             var list = await _formHdService.GetBaseDetail();
             return Ok(list);
