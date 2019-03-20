@@ -36,11 +36,11 @@ export default {
       });
     }
   },
-  watch: {
-    $route(to, from) {
-      this.withSidebar = to.path === "/login" ? false : true;
-    }
-  }
+  // watch: {
+  //   $route(to, from) {
+  //     this.withSidebar = to.path === "/login" ? false : true;
+  //   }
+  // }
 };
 </script>
 <style lang="scss">

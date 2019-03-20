@@ -32,6 +32,7 @@ namespace FormsAdminGP.RestfulAPI
             //SECURITY
             services.AddScoped<IUserRepository, UserRepository>();
             services.AddScoped<IRoleRepository, RoleRepository>();
+            services.AddScoped<IDDLCatalogService, DDLCatalogService>();            
             services.AddScoped<IUserTokenRepository, UserTokenRepository>();
 
             return services;

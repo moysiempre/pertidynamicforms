@@ -1,4 +1,5 @@
 ﻿using AutoMapper;
+using FormsAdminGP.Common.Enums;
 using FormsAdminGP.Common.Events;
 using FormsAdminGP.Core.Interfaces;
 using FormsAdminGP.Data.Repositories.Interfaces;
@@ -44,13 +45,19 @@ namespace FormsAdminGP.Services
         public async Task<IEnumerable<FormHdDto>> GetAllAsync()
         {
             var list = await _formHdRepository.FindBy(x=>x.IsActive, t=> t.FormDetails);
-            var listDto = _mapper.Map<List<FormHdDto>>(list);
-            foreach (var item in listDto)
+            foreach (var item in list)
             {
                 item.FormDetails = item.FormDetails.OrderBy(x => x.Order).ToList();
                 var formHdLandingPage = await _formHdLandingPageRepository.FindBy(x => x.FormHdId == item.Id);
-                item.FormHdLandingPage = _mapper.Map<List<FormHdLandingPageDto>>(formHdLandingPage);
+                item.FormHdLandingPage = formHdLandingPage.ToList();
+                foreach (var detail in item.FormDetails.Where(x=>x.FieldTypeId == FieldType.selectList.ToString()))
+                {
+                    var ddlCatalogs = await _dDLCatalogRepository.FindBy(x => x.FormDetailId == detail.Id);
+                    detail.DDLCatalogs = ddlCatalogs.ToList();
+                }
             }
+
+            var listDto = _mapper.Map<List<FormHdDto>>(list);          
             return listDto;
         }
 
@@ -81,7 +88,6 @@ namespace FormsAdminGP.Services
                         return response;
                     }
 
-
                     formHd.Id = Common.Utilities.Utils.NewGuid;
                     _formHdRepository.Add(formHd);
 
@@ -94,6 +100,24 @@ namespace FormsAdminGP.Services
                 }
                 else
                 {
+
+                    foreach (var landingDto in formHdDto.FormHdLandingPage)
+                    {
+                        var landing = _mapper.Map<FormHdLandingPage>(landingDto);
+                        var formHdLandingPage = await _formHdLandingPageRepository
+                            .FindEntityBy(x => x.LandingPageId == landingDto.LandingPageId && x.FormHdId == landingDto.FormHdId);
+                        if (formHdLandingPage == null)
+                        {
+                            landing.FormHdId = formHd.Id;
+                            _formHdLandingPageRepository.Add(landing);
+                        }
+                        else
+                        {
+                            formHdLandingPage.IsActive = landing.IsActive;
+                            _formHdLandingPageRepository.Edit(formHdLandingPage);
+                        }
+
+                    }
                     _formHdRepository.Edit(formHd);
                 }
 

@@ -18,7 +18,9 @@ export default new Vuex.Store({
     flatLayaout: false,
 
     values: [],
-    options: []
+    options: [],
+
+    isOptSelected: false
   },
   mutations: {
     ADD_landing_Page: (state, landingPage) => {
@@ -29,6 +31,12 @@ export default new Vuex.Store({
     },
     GET_options: (state, options) => {
       state.options = options;
+    },
+
+    ADD_Detalle_Item: (state, detalle) => {
+      if (state.formHd && state.formHd.formDetails && state.formHd.formDetails.length) {
+        state.formHd.formDetails.push(detalle);
+      }
     },
 
     updateValues(state, values) {
@@ -109,6 +117,6 @@ export default new Vuex.Store({
   getters: {
     isLoggedIn: state => !!state.token,
     authStatus: state => state.status,
-     
+
   }
 })

@@ -8,12 +8,12 @@ namespace FormsAdminGP.Domain
     {
          
         public string Name { get; set; }
-
         public string Title { get; set; }
-
         public string FilePath { get; set; }
-
         public virtual ICollection<FormDetail> FormDetails { get; set; }
-         
+
+        [NotMapped]
+        public virtual ICollection<FormHdLandingPage> FormHdLandingPage { get; set; }
+
     }
 }

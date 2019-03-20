@@ -91,7 +91,12 @@
             </div>
           </div>
           <div class="col-12 col-lg-6">
-            <p class="mb-0">Detalle</p>
+            <div class="d-flex justify-content-between align-items-center">
+              <strong>Detalle del Formulario</strong>
+              <button type="button" class="btn btn-link btn-sm" @click="onNew">
+                <i class="pe-7s-close pe-rotate-45" style="font-size:1.5rem"></i>
+              </button>
+            </div>
             <table class="table table-striped">
               <tbody>
                 <tr v-for="(item, index) in formHd.formDetails" :key="index">
@@ -149,15 +154,15 @@
     >
       <div class="modal-dialog" role="document">
         <div class="modal-content">
-          <div class="modal-header">
-            <h5 class="modal-title" id="exampleModalLabel">Modal title</h5>
+          <div class="modal-header py-1">
+            <h5 class="modal-title" id="exampleModalLabel">Detalle del formulario</h5>
             <button type="button" class="close" data-dismiss="modal" aria-label="Close">
               <span aria-hidden="true">&times;</span>
             </button>
           </div>
           <div class="modal-body">
-             <FormItemNew :formItem="selectedItem"/>
-          </div>         
+            <FormItemNew :formItem="selectedItem" :action="action"/>
+          </div>
         </div>
       </div>
     </div>
@@ -168,7 +173,7 @@
 import axios from "axios";
 import Multiselect from "vue-multiselect";
 import { mapState, mapActions } from "vuex";
- import FormItemNew from "@/components/FormItemNew.vue";
+import FormItemNew from "@/components/FormItemNew.vue";
 
 export default {
   components: { Multiselect, FormItemNew },
@@ -176,6 +181,7 @@ export default {
     return {
       title: "ALTA FORMULARIO",
       file: {},
+      action: "read",
       selectedItem: {}
     };
   },
@@ -251,11 +257,31 @@ export default {
     onEdit(item) {
       console.log("onEdit", item);
       this.selectedItem = item;
+      this.action = "update";
+      this.$store.state.isOptSelected = false;
+      if (item && item.fieldTypeId == "selectList") {
+        this.$store.state.isOptSelected = true;
+      }
       window.$("#exampleModal").modal("show");
     },
+    onNew() {
+      console.log("onNew");
+      this.action = "create";
+      this.selectedItem = {
+        fieldTypeId: "textInput",
+        isActive: true,
+        order: 1,
+        isRequired: true,
+        formHdId: this.formHd.id
+      };
+      this.$store.state.isOptSelected = false;
+      window.$("#exampleModal").modal("show");
+    },
+
     onCancel() {
       this.title = "ALTA FORMULARIO";
       this.$store.state.fhAction = "read";
+      this.$store.state.isOptSelected = false;
       this.$store.state.formHd = {};
     }
   }

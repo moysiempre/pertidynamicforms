@@ -86,17 +86,18 @@ export default {
       }
 
       if (action == "update") {
-        this.$store.state.formHd = item;
+        this.$store.state.formHd = item;        
         let _values = [];
+        console.log("update-item", item);
         if (item && item.formHdLandingPage && item.formHdLandingPage.length) {
           item.formHdLandingPage.forEach(element => {
             var landing = this.options.find(x => x.id == element.landingPageId);
             if (landing) {
               _values.push(landing);
             }          
-          });
-          this.$store.commit("updateValues", _values);
+          });          
         }
+        this.$store.commit("updateValues", _values);
       }
     }
   }
