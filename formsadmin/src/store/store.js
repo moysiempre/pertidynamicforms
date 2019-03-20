@@ -1,12 +1,14 @@
 import Vue from 'vue'
 import Vuex from 'vuex'
 import axios from 'axios'
+import landingsModule from "./modules/landings"
+
 
 Vue.use(Vuex)
 
 export default new Vuex.Store({
   state: {
-    landingPages: [],
+
     landingPage: {},
     formHds: [],
     formHd: {},
@@ -23,12 +25,7 @@ export default new Vuex.Store({
     isOptSelected: false
   },
   mutations: {
-    ADD_landing_Page: (state, landingPage) => {
-      state.landingPages.push(landingPage);
-    },
-    GET_landing_Pages: (state, landingPages) => {
-      state.landingPages = landingPages;
-    },
+ 
     GET_options: (state, options) => {
       state.options = options;
     },
@@ -104,19 +101,14 @@ export default new Vuex.Store({
       commit
     }, value) {
       commit('updateValues', value)
-    },
-    landingPages({
-      commit
-    }) {
-      axios.get("api-landingpage").then(response => {
-        commit("GET_landing_Pages", response.data);
-        commit("GET_options", response.data);
-      });
-    }
+    },    
   },
   getters: {
     isLoggedIn: state => !!state.token,
     authStatus: state => state.status,
 
-  }
+  },
+  modules: {
+    landings: landingsModule,
+  },
 })

@@ -1,12 +1,16 @@
 <template>
   <div class="container-fluid h-100 landing">
-    
     <div class="row h-100">
       <div class="col-12 col-sm-6 col-md-5 col-lg-4">
-        <landing-list />
+        <landing-list @action="onAssign"/>
       </div>
-      <div class="col-12 col-sm-6 col-md-7 col-lg-5 mt-3 mt-sm-0" v-if="lpAction !== 'read'">
-        <LandingNew :title="title" @onCancel="onCancel"/>
+      <div class="col-12 col-sm-6 col-md-7 col-lg-5 mt-3 mt-sm-0" v-if="action !== 'read'">
+        <LandingNew
+          :title="title"
+          :landingItem="landingItem"
+          @onCancel="onCancel"
+          @onItemSaved="onItemSaved"
+        />
       </div>
     </div>
   </div>
@@ -14,29 +18,35 @@
 <script>
 import LandingList from "@/components/LandingList.vue";
 import LandingNew from "@/components/LandingNew.vue";
-import { mapState } from "vuex";
 export default {
-  components: { 'landing-list': LandingList, LandingNew },
+  components: { "landing-list": LandingList, LandingNew },
   data() {
     return {
-      title: "ALTA LANDING PAGE"     
+      title: "ALTA LANDING PAGE",
+      action: "read",
+      landingItem: {}
     };
   },
-   computed: {
-    ...mapState(["lpAction"])
-  },
   methods: {
-    onItemSaved() {
-      
+    onAssign(item) {
+      console.log("item?", item);
+      this.action = (item && item.id) ? "update" : "create";
+      this.landingItem = item;
+    },
+    onItemSaved(item) {
+      if (this.action == "create") {
+        console.log("create", item);
+        this.$store.commit("addLandingPage", item);
+      }
+      else{
+          console.log("create?", this.action);
+      }
+      this.onCancel();
     },
     onCancel() {
-       
-    },
-    validateMode() {
-      
+      this.action = "read";
     }
-  }, 
-  
+  }
 };
 </script>
 <style lang="scss">

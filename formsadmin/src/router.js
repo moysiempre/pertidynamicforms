@@ -6,7 +6,7 @@ import FormFactory from './views/FormFactory.vue'
 import Contact from './views/Contact.vue'
 import ContactDetail from './views/ContactDetail.vue'
 
-import store from './store.js'
+import store from './store/store'
 
 Vue.use(Router)
 

@@ -3,7 +3,7 @@
     <div class="card border-light helix">
       <div class="card-header">
         <h6 class="mt-2">LANDING PAGES</h6>
-        <a class="btn btn-link" @click="setAction('create', {})">
+        <a class="btn btn-link" @click="onEmitAct({})">
           <i class="pe-7s-close pe-rotate-45" style="font-size:1.5rem"></i>
           <br>
         </a>
@@ -24,13 +24,14 @@
         </div>
         <ul
           class="list-group"
-          v-if="landingPages"
+          v-if="getLandingPages"
           style="height: 100%;overflow: hidden;overflow-y: auto;"
         >
           <li
             class="list-group-item d-flex justify-content-between"
-            v-for="item in filterSearch "
-            :key="item.id"  @click="setAction('update', item)"
+            v-for="item in filterSearch"
+            :key="item.id"
+            @click="onEmitAct(item)"
           >
             <div>
               <h6 class="mb-0">{{item.name}}</h6>
@@ -40,27 +41,26 @@
             </div>
           </li>
         </ul>
-        <div class="alert alert-warning" v-if="!landingPages">no hay registro</div>
+        <div class="alert alert-warning" v-if="!getLandingPages">no hay registro</div>
       </div>
     </div>
   </div>
 </template>
 <script>
-import axios from "axios";
-import { mapState } from "vuex";
+import { mapGetters } from "vuex";
 export default {
   data() {
     return {
       searchby: ""
     };
   },
-  mounted() {
-    this.load();
+  created() {
+    this.$store.dispatch("loadLandings");
   },
   computed: {
-    ...mapState(["landingPages"]),
+    ...mapGetters(["getLandingPages"]),
     filterSearch() {
-      return this.$store.state.landingPages.filter(item => {
+      return this.getLandingPages.filter(item => {
         return (
           !this.searchby ||
           item.name.toLowerCase().indexOf(this.searchby.toLowerCase()) > -1
@@ -69,22 +69,12 @@ export default {
     }
   },
   methods: {
-     load() {
-      axios.get("api-landingpage").then(response => {
-        this.$store.state.landingPages = response.data
-      });
-    },
-    setAction(action, item) {
-      if(action == "create"){
-        item.isActive = true;
-      }
-      this.$store.state.landingPage = item;
-      this.$store.state.lpAction = action;
-    }   
+    onEmitAct(item) {
+      this.$emit("action", item);
+    }
   }
 };
 </script>
 <style lang="scss">
-
 </style>
 

@@ -17,7 +17,7 @@
             name="name"
             maxlength="150"
             placeholder="Digite el nombre del landing page"
-            v-model="landingPage.name"
+            v-model="landingItem.name"
           >
         </div>
 
@@ -28,7 +28,7 @@
             name="description"
             maxlength="400"
             placeholder="Digite una descripción del landing page"
-            v-model="landingPage.description"
+            v-model="landingItem.description"
           ></textarea>
         </div>
 
@@ -39,7 +39,7 @@
                 type="checkbox"
                 class="custom-control-input"
                 id="customControlValidation1"
-                v-model="landingPage.isActive"
+                v-model="landingItem.isActive"
               >
               <label class="custom-control-label" for="customControlValidation1">Es Activo</label>
             </div>
@@ -61,32 +61,21 @@
 </template>
 <script>
 import axios from "axios";
-import { mapState } from "vuex";
 export default {
-  props: ["title", "landing"],
-  data() {
-    return {
-      name: "",
-      typeId: "",
-      description: "",
-      filePath: "",
-      isActive: ""
-    };
-  },
+  props: ["title", "landingItem"],
   computed: {
-    ...mapState(["landingPage"]),
     isFormValid() {
       return !Object.keys(this.fields).some(key => this.fields[key].invalid);
     }
   },
   methods: {
     onSubmit() {
-      let landingPage = this.$store.state.landingPage;
-      axios({ method: "POST", url: "api-landingpage", data: landingPage })
+      axios
+        .post("api-landingpage", this.landingItem)
         .then(response => {
           if (response && response.data && response.data.id) {
-            landingPage.id = response.data.id;
-            this.updateStore(landingPage);
+            this.landingItem.id = response.data.id;
+            this.$emit("onItemSaved", this.landingItem);
             this.$swal(response.data.message, {
               icon: "success"
             });
@@ -97,21 +86,15 @@ export default {
             });
           }
         })
-        .catch(err => {
-          console.log(err);
+        .catch(error => {
+          console.log(error);
           this.$swal("No se pudo dar de alta al landing page", {
             icon: "warning"
           });
         });
     },
-    updateStore(formData) {
-      let action = this.$store.state.lpAction;
-      if (action == "create") {
-        this.$store.commit("ADD_landing_Page", formData);
-      }
-    },
     onCancel() {
-      this.$store.state.lpAction = "read";
+      this.$emit("onCancel");
     }
   }
 };
