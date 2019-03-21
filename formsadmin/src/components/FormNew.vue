@@ -6,7 +6,7 @@
     <div class="card-body">
       <form @submit.prevent="onSubmit">
         <div class="row">
-          <div class="col-12 col-lg-6">
+          <div class="col-12 col-lg-12 col-xl-12">
             <div class="form-group">
               <label class="mb-0" for="name">
                 Nombre del formulario
@@ -90,7 +90,7 @@
               </div>
             </div>
           </div>
-          <div class="col-12 col-lg-6">
+          <div class="col-12 col-lg-12 col-xl-12">
             <div class="d-flex justify-content-between align-items-center">
               <strong>Detalle del Formulario</strong>
               <button type="button" class="btn btn-link btn-sm" @click="onNew">
@@ -100,7 +100,7 @@
             <table class="table table-striped">
               <tbody>
                 <tr v-for="(item, index) in formHd.formDetails" :key="index">
-                  <td>
+                  <td style="width:20px;">
                     <div class="custom-control custom-checkbox">
                       <input
                         type="checkbox"
@@ -112,7 +112,7 @@
                     </div>
                   </td>
                   <td>{{ item.fieldLabel}}</td>
-                  <td>
+                  <td class="text-right">
                     <a role="button" class="btn btn-link btn-sm" @click="onEdit(item)">editar</a>
                   </td>
                 </tr>
@@ -172,11 +172,11 @@
 <script>
 import axios from "axios";
 import Multiselect from "vue-multiselect";
-import { mapState, mapActions } from "vuex";
+import { mapState, mapActions, mapGetters } from "vuex";
 import FormItemNew from "@/components/FormItemNew.vue";
 
 export default {
-  components: { Multiselect, FormItemNew },
+  components: { Multiselect,FormItemNew },
   data() {
     return {
       title: "ALTA FORMULARIO",
@@ -185,30 +185,28 @@ export default {
       selectedItem: {}
     };
   },
-  beforeMount() {
-    this.load();
+  created() {
+    this.$store.dispatch("loadOptions");
   },
   mounted() {
     window.$("#exampleModal").on("hidden.bs.modal", function() {
       this.selectedItem = {};
-      console.log("SALIENTE Y LIMPIANDO");
     });
   },
   computed: {
-    ...mapState(["formHd", "values", "options"]),
+    ...mapState(["values"]),
+    ...mapGetters(["formHd", "options", "values"]),
     isFormValid() {
       return !Object.keys(this.fields).some(key => this.fields[key].invalid);
     }
   },
   methods: {
     ...mapActions(["updateValueAction"]),
-    load() {
-      this.$store.dispatch("landingPages");
-    },
     handleFileUpload() {},
     onSubmit() {
-      let formHd = this.$store.state.formHd;
+      var formHd = this.$store.getters.formHd;
       let hasDetail = formHd.formDetails.filter(x => x.isActive == true);
+
       if (hasDetail && hasDetail.length) {
         formHd.formHdLandingPage = this.values.map(item => {
           return {
@@ -222,6 +220,7 @@ export default {
           .then(response => {
             if (response && response.data && response.data.id) {
               formHd.id = response.data.id;
+              console.log(formHd);
               this.updateStore(formHd);
               this.$swal(response.data.message, {
                 icon: "success"
@@ -248,9 +247,9 @@ export default {
       }
     },
     updateStore(formData) {
-      let action = this.$store.state.fhAction;
+      let action = this.$store.getters.fAction;
       if (action == "create") {
-        this.$store.state.formHds.push(formData);
+        this.$store.commit("addFormHds", formData);
         this.$store.commit("updateValues", []);
       }
     },
@@ -280,9 +279,9 @@ export default {
 
     onCancel() {
       this.title = "ALTA FORMULARIO";
-      this.$store.state.fhAction = "read";
+      this.$store.commit("setfAction", "read");
       this.$store.state.isOptSelected = false;
-      this.$store.state.formHd = {};
+      this.$store.commit("setFormHd", {});
     }
   }
 };

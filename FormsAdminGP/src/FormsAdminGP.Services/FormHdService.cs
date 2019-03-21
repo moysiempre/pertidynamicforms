@@ -50,7 +50,7 @@ namespace FormsAdminGP.Services
                 item.FormDetails = item.FormDetails.OrderBy(x => x.Order).ToList();
                 var formHdLandingPage = await _formHdLandingPageRepository.FindBy(x => x.FormHdId == item.Id);
                 item.FormHdLandingPage = formHdLandingPage.ToList();
-                foreach (var detail in item.FormDetails.Where(x=>x.FieldTypeId == FieldType.selectList.ToString()))
+                foreach (var detail in item.FormDetails.Where(x=>x.FieldTypeId == FieldType.select.ToString()))
                 {
                     var ddlCatalogs = await _dDLCatalogRepository.FindBy(x => x.FormDetailId == detail.Id);
                     detail.DDLCatalogs = ddlCatalogs.ToList();
@@ -66,7 +66,7 @@ namespace FormsAdminGP.Services
             var item = await _formHdRepository.FindEntityBy(x => x.Id == id, t => t.FormDetails);
             if(item != null)
             {
-                item.FormDetails = item.FormDetails.OrderBy(x => x.Order).ToList();
+                item.FormDetails = item.FormDetails.Where(x=>x.IsActive).OrderBy(x => x.Order).ToList();
             }
            
             return _mapper.Map<FormHdDto>(item);
@@ -118,6 +118,12 @@ namespace FormsAdminGP.Services
                         }
 
                     }
+                    foreach (var detalleDto in formHd.FormDetails)
+                    {
+                        _formDetailRepository.Edit(detalleDto);
+                    }
+
+
                     _formHdRepository.Edit(formHd);
                 }
 

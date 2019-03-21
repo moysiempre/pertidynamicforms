@@ -2,45 +2,26 @@ import Vue from 'vue'
 import Vuex from 'vuex'
 import axios from 'axios'
 import landingsModule from "./modules/landings"
-
+import formHdsModule from "./modules/forms"
 
 Vue.use(Vuex)
 
 export default new Vuex.Store({
   state: {
-
-    landingPage: {},
-    formHds: [],
-    formHd: {},
-    lpAction: "read",
-    fhAction: "read",
+    showFullLayout: true,
+    landingPage: {},     
     auth: null,
     loading: false,
     baseDetails: [],
-    flatLayaout: false,
-
-    values: [],
-    options: [],
-
+    flatLayaout: false, 
     isOptSelected: false
   },
   mutations: {
+
+    setShowFullLayout(state, payload) {
+      state.showFullLayout = payload;
+    }, 
  
-    GET_options: (state, options) => {
-      state.options = options;
-    },
-
-    ADD_Detalle_Item: (state, detalle) => {
-      if (state.formHd && state.formHd.formDetails && state.formHd.formDetails.length) {
-        state.formHd.formDetails.push(detalle);
-      }
-    },
-
-    updateValues(state, values) {
-      state.values = values
-    },
-
-
     logout(state) {
       state.auth = null;
     },
@@ -97,18 +78,18 @@ export default new Vuex.Store({
         resolve()
       })
     },
-    updateValueAction({
-      commit
-    }, value) {
-      commit('updateValues', value)
-    },    
+   
   },
   getters: {
     isLoggedIn: state => !!state.token,
     authStatus: state => state.status,
+    showFullLayout(state) {
+      state.showFullLayout;
+    }
 
   },
   modules: {
     landings: landingsModule,
+    forms: formHdsModule
   },
 })

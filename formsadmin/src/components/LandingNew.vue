@@ -61,6 +61,8 @@
 </template>
 <script>
 import axios from "axios";
+
+
 export default {
   props: ["title", "landingItem"],
   computed: {

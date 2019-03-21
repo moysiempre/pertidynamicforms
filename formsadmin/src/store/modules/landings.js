@@ -1,13 +1,13 @@
  import axios from 'axios';
 
  const state = {
-   landingPages: []
+   landingPages: [] 
  };
 
  const getters = {
-   getLandingPages() {
+  landingPages() {
      return state.landingPages;
-   }
+   },   
  };
 
  const mutations = {
@@ -17,6 +17,7 @@
    addLandingPage: (state, payload) => {
      state.landingPages.push(payload);
    },
+
  };
 
  const actions = {

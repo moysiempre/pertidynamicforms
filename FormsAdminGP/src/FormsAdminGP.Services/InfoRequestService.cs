@@ -80,6 +80,7 @@ namespace FormsAdminGP.Services
                 {
                     infoRequest.Id = Common.Utilities.Utils.NewGuid;
                     infoRequest.IsActive = true;
+                    infoRequest.RequestDate = DateTime.UtcNow;
                     _infoRequestRepository.Add(infoRequest);
 
                     var item = await _infoRequestRepository.SaveChanges();

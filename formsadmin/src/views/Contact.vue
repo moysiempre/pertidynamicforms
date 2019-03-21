@@ -47,7 +47,7 @@
           @first-data-rendered="onFirstDataRendered"
           :rowData="rowData"
           :pagination="true"
-          :paginationPageSize="5"
+          :paginationPageSize="8"
         ></ag-grid-vue>
       </div>
     </div>
@@ -102,20 +102,34 @@ export default {
   beforeMount() {
     this.loadLandingPages();
     this.columnDefs = [
+      { headerName: "FECHA", field: "requestDateStr" },
       {
-        headerName: "ID",
-        field: "id",
+        headerName: "NOMBRE",
+        field: "name",
         sortable: true,
         filter: true,
         resizable: true
       },
       {
-        headerName: "landingPageId",
+        headerName: "EMAIL",
+        field: "email",
+        sortable: true,
+        filter: true,
+        resizable: true
+      },
+      {
+        headerName: "TELÉFONO",
+        field: "phone",
+        sortable: true,
+        filter: true,
+        resizable: true
+      },
+      {
+        headerName: "LANDING PAGE",
         field: "landingPageId",
         resizable: true,
         sort: "asc"
-      },
-      { headerName: "requestDate", field: "requestDate", resizable: true }
+      }
     ];
   },
 
@@ -130,9 +144,13 @@ export default {
         })
         .then(response => {
           this.rowData = response.data;
-          // this.rowData.forEach(element => {
-          //   element.objData = JSON.parse(element.infoRequestData);
-          // });
+          this.rowData.forEach(element => {
+            var data = JSON.parse(element.infoRequestData);
+            element.name = data.name;
+            element.email = data.email;
+            element.phone = data.phone;
+            element.objData = data;
+          });
           console.log("response.data ", response.data);
         });
     },
@@ -180,7 +198,7 @@ export default {
   border-top: 1px solid #fff;
 }
 .ag-theme-balham .ag-header-row {
-    background: #fff;
+  background: #fff;
 }
 </style>
  

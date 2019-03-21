@@ -1,7 +1,7 @@
 <template>
   <div id="app" v-cloak>
-    <app-header v-if="withSidebar"/>
-    <app-sidebar v-if="withSidebar"/>
+    <app-header v-if="showFullLayout"/>
+    <app-sidebar v-if="showFullLayout"/>
     <div class="main-container">
       <router-view/>
     </div>
@@ -12,6 +12,9 @@
 import Header from "@/components/header/header.vue";
 import Sidebar from "@/components/sidebar/sidebar.vue";
 import axios from "axios";
+//import mapGetters from "vuex";
+import { mapState } from "vuex";
+
 export default {
   name: "App",
   data() {
@@ -23,24 +26,20 @@ export default {
     "app-header": Header,
     "app-sidebar": Sidebar
   },
-  created: function() {},
   mounted() {
-    console.log("ASIDE mounted", this.$route.query);
     this.load();
+  },
+  computed: {
+    ...mapState(["showFullLayout"])
   },
   methods: {
     load() {
       axios.get("api-forms/basedetail").then(response => {
         this.$store.state.baseDetails = response.data;
-        console.log('baseDetails: ', response.data)
+        console.log("baseDetails: ", response.data);
       });
     }
-  },
-  // watch: {
-  //   $route(to, from) {
-  //     this.withSidebar = to.path === "/login" ? false : true;
-  //   }
-  // }
+  }   
 };
 </script>
 <style lang="scss">

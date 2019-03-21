@@ -12,5 +12,12 @@ namespace FormsAdminGP.Services.DTO
         [Required]
         public string LandingPageId { get; set; }
         public DateTime RequestDate { get; set; }
+        public string RequestDateStr
+        {
+            get
+            {
+                return (RequestDate.Year > 1)? RequestDate.ToUniversalTime().ToString("dd/MM/yyyy HH:mm:ss"): string.Empty;
+            }
+        }
     }
 }

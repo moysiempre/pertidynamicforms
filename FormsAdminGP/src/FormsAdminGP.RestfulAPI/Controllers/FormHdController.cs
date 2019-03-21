@@ -46,7 +46,10 @@ namespace FormsAdminGP.RestfulAPI.Controllers
              {
                  list = Enum.GetValues(typeof(FieldType))
                 .Cast<object>()
-                .Select(p => new FormDetailDto { Id = Convert.ToInt32(p).ToString(), FieldTypeId = ((Enum)p).ToString(), FieldLabel = ((Enum)p).GetEnumDescription()})
+                .Select(p => new FormDetailDto {
+                    Id = Convert.ToInt32(p).ToString(),
+                    FieldTypeId = ((Enum)p).ToString(),
+                    FieldLabel = ((Enum)p).GetEnumDescription()})
                .OrderBy(p => p.Id)
                .ToList();
             });

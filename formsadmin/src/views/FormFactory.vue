@@ -1,13 +1,13 @@
 <template>
   <div class="container-fluid h-100">
     <div class="row h-100">
-      <div class="col-12 col-sm-6 col-md-5 col-lg-3">
+      <div class="col-12 col-sm-6 col-md-5 col-lg-4">
         <FormList @changedMode="onChangedMode($event)"/>
       </div>
 
       <div
-        class="col-12 col-sm-6 col-md-7 col-lg-6"
-        v-if="fhAction == 'create' || fhAction == 'update'"
+        class="col-12 col-sm-6 col-md-7 col-lg-5"
+        v-if="fAction == 'create' || fAction == 'update'"
       >
         <FormNew/>
       </div>
@@ -22,7 +22,7 @@
 <script>
 import FormList from "@/components/FormList.vue";
 import FormNew from "@/components/FormNew.vue";
-import { mapState } from "vuex";
+import { mapState, mapGetters } from "vuex";
 
 export default {
   components: {
@@ -36,7 +36,7 @@ export default {
     };
   },
   computed: {
-    ...mapState(["fhAction", "formHd"])
+    ...mapGetters(["fAction", "formHd"])
   },
   methods: {},
   beforeMount() {},

@@ -35,7 +35,6 @@ export default {
     },
     onItemSaved(item) {
       if (this.action == "create") {
-        console.log("create", item);
         this.$store.commit("addLandingPage", item);
       }
       else{

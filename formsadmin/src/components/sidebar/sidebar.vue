@@ -21,8 +21,8 @@
 </template>
 <script>
 export default {
-  methods:{
-     logout: function() {      
+  methods: {
+    logout: function() {
       this.$store
         .dispatch("logout")
         .then(() => {

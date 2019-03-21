@@ -12,19 +12,15 @@ namespace FormsAdminGP.Common.Enums
     public enum FieldType : byte
     {
         [Description("Texto alfanumérico")]
-        textInput = 1,
-        [Description("Email")]
-        emailInput,
-        [Description("Teléfono")]
-        phoneInput,            
+        text = 1,      
         [Description("Dropdown List")]
-        selectList,
+        select,
         [Description("Radio")]
         radio,
         [Description("Checkbox")]
         checkbox,
         [Description("Botón Enviar")]
-        submitInput
+        submit
     }
 
     public enum Operation : byte

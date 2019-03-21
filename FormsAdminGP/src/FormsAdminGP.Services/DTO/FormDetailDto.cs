@@ -15,6 +15,7 @@ namespace FormsAdminGP.Services.DTO
         [Required]
         public byte Order { get; set; } = 1;
         public bool IsRequired { get; set; } = true;
+        public string Name => (!string.IsNullOrEmpty(FieldLabel))? FieldLabel.Replace(" ", "").ToLower() : string.Empty;
 
         public virtual ICollection<DDLCatalogDto> DDLCatalogs { get; set; }       
 

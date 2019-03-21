@@ -24,7 +24,7 @@
         </div>
         <ul
           class="list-group"
-          v-if="getLandingPages"
+          v-if="landingPages"
           style="height: 100%;overflow: hidden;overflow-y: auto;"
         >
           <li
@@ -41,7 +41,7 @@
             </div>
           </li>
         </ul>
-        <div class="alert alert-warning" v-if="!getLandingPages">no hay registro</div>
+        <div class="alert alert-warning" v-if="!landingPages">no hay registro</div>
       </div>
     </div>
   </div>
@@ -58,9 +58,9 @@ export default {
     this.$store.dispatch("loadLandings");
   },
   computed: {
-    ...mapGetters(["getLandingPages"]),
+    ...mapGetters(["landingPages"]),
     filterSearch() {
-      return this.getLandingPages.filter(item => {
+      return this.landingPages.filter(item => {
         return (
           !this.searchby ||
           item.name.toLowerCase().indexOf(this.searchby.toLowerCase()) > -1
