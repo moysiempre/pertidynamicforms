@@ -24,7 +24,10 @@
           </div>
 
           <div class="form-group">
-            <button type="submit" class="btn btn-primary w-100">INICIA SESIÓN</button>
+            <button type="submit" class="btn btn-primary w-100" :disabled="isloading">
+              <span>INICIA SESIÓN</span>
+              <btn-loader :isloading="isloading"/>
+            </button>
           </div>
           <div class="form-group">
             <p class="mb-0">
@@ -39,13 +42,15 @@
 
 <script>
 // @ is an alias to /src
-
+import  BtnLoader  from "@/components/BtnLoader.vue";
 export default {
   name: "login",
+  components: { BtnLoader },
   data() {
     return {
       userName: "",
-      password: ""
+      password: "",
+      isloading: false
     };
   },
   created() {
@@ -55,16 +60,20 @@ export default {
   computed: {},
   methods: {
     onSubmit: function() {
+      this.isloading = true;
       let userName = this.userName;
       let password = this.password;
       this.$store
         .dispatch("login", { userName, password })
         .then(() => {
-          console.log("to landing");
+          this.isloading = false;
           this.$store.commit("setShowFullLayout", true);
           this.$router.push({ name: "landing" });
         })
-        .catch(err => console.log(err));
+        .catch(err => {
+          this.isloading = false;
+          console.log(err);
+        });
     }
   }
 };

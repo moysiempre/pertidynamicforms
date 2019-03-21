@@ -10,7 +10,23 @@
                   Tipo de entrada
                   <span class="i-required">*</span>
                 </label>
-                <select
+
+                <select v-if="action == 'update'"
+                  v-validate="'required'"
+                  id="fieldTypeId"
+                  name="fieldTypeId"
+                  class="custom-select"
+                  v-model="formItem.fieldTypeId"
+                  disabled
+                  @change="onChangeOption($event)"
+                >
+                  <option
+                    v-for="(item, index) in fieldTypes_s"
+                    :key="index"
+                    :value="item.fieldTypeId"
+                  >{{item.fieldLabel}}</option>
+                </select>
+                <select v-if="action == 'create'"
                   v-validate="'required'"
                   id="fieldTypeId"
                   name="fieldTypeId"
@@ -24,6 +40,7 @@
                     :value="item.fieldTypeId"
                   >{{item.fieldLabel}}</option>
                 </select>
+
               </div>
             </div>
 
@@ -180,6 +197,9 @@ export default {
     ...mapState(["baseDetails", "isOptSelected"]),
     isFormItemValid() {
       return !Object.keys(this.fields).some(key => this.fields[key].invalid);
+    },
+    fieldTypes_s(){
+      return  this.baseDetails;
     }
   },
   methods: {
@@ -192,7 +212,7 @@ export default {
       var value = event.target.value;
       console.log("this.action", this.action)
       this.$store.state.isOptSelected = false;
-      if (value == "selectList" && this.action =='update') {
+      if (value == "select" && this.action =='update') {
         this.$store.state.isOptSelected = true;
       }
     },
@@ -223,7 +243,7 @@ export default {
         });
     },
     onCancel() {
-      window.$("#exampleModal").modal("hide");
+      window.$("#formNewModal").modal("hide");
     },
     onSubmitItemOpt() {
       const id = this.formItem.id;

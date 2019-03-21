@@ -48,7 +48,7 @@
   </div>
 </template>
 <script>
-import axios from "axios";
+// import axios from "axios";
 import { mapState, mapGetters } from "vuex";
 export default {
   data() {
@@ -75,6 +75,9 @@ export default {
   methods: {
     setAction(action, item) {
       this.$store.commit("setfAction", action);
+      console.log("setfAction", action);
+      console.log("fAction", this.$store.getters.fAction);
+
       if (action == "create") {
         let formHd = {
           id: "",
@@ -92,9 +95,7 @@ export default {
 
         if (item && item.formHdLandingPage && item.formHdLandingPage.length) {
           item.formHdLandingPage.forEach(element => {
-            var landing = this.options.find(
-              x => x.id == element.landingPageId
-            );
+            var landing = this.options.find(x => x.id == element.landingPageId);
             if (landing) {
               _values.push(landing);
             }

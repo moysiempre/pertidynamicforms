@@ -67,8 +67,36 @@ namespace FormsAdminGP.Services
             if(item != null)
             {
                 item.FormDetails = item.FormDetails.Where(x=>x.IsActive).OrderBy(x => x.Order).ToList();
+                foreach (var detail in item.FormDetails.Where(x => x.FieldTypeId == FieldType.select.ToString()))
+                {
+                    var ddlCatalogs = await _dDLCatalogRepository.FindBy(x => x.FormDetailId == detail.Id);
+                    detail.DDLCatalogs = ddlCatalogs.ToList();
+                }
             }
            
+            return _mapper.Map<FormHdDto>(item);
+        }
+
+        public async Task<FormHdDto> GetByLandingPageIdAsync(string landingPageId)
+        {
+            var landings = await _formHdLandingPageRepository.FindBy(x => x.LandingPageId == landingPageId);
+            if(landings.Count() == 0)
+            {
+                return new FormHdDto();
+            }
+
+            var formHdId = landings.FirstOrDefault().FormHdId;
+            var item = await _formHdRepository.FindEntityBy(x => x.Id == formHdId, t => t.FormDetails);
+            if (item != null)
+            {
+                item.FormDetails = item.FormDetails.Where(x => x.IsActive).OrderBy(x => x.Order).ToList();
+                foreach (var detail in item.FormDetails.Where(x => x.FieldTypeId == FieldType.select.ToString()))
+                {
+                    var ddlCatalogs = await _dDLCatalogRepository.FindBy(x => x.FormDetailId == detail.Id);
+                    detail.DDLCatalogs = ddlCatalogs.ToList();
+                }
+            }
+
             return _mapper.Map<FormHdDto>(item);
         }
 

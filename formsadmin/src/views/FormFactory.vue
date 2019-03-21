@@ -13,7 +13,9 @@
       </div>
 
       <div class="col-12 col-sm-6 col-md-7 col-lg-3">
+        <!-- <FormPreview :fields = "fields"/> -->
         <!-- <pre class="language-json"><code>{{ formHd  }}</code></pre> -->
+
       </div>
     </div>
   </div>
@@ -22,12 +24,14 @@
 <script>
 import FormList from "@/components/FormList.vue";
 import FormNew from "@/components/FormNew.vue";
-import { mapState, mapGetters } from "vuex";
+
+import { mapGetters } from "vuex";
 
 export default {
   components: {
     FormList,
     FormNew
+    
   },
   data() {
     return {

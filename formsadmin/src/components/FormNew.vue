@@ -52,19 +52,7 @@
                 :searchable="false"
                 @input="updateValueAction"
               ></multiselect>
-              <!-- <multiselect
-                v-validate="'required'"
-                name="landings"
-                v-model="values"
-                placeholder="Agregar landing pages"
-                label="name"
-                track-by="id"
-                :options="options"
-                :multiple="true"
-                :taggable="true"
-                @tag="addTag"
-                @input="updateValueAction"
-              ></multiselect>-->
+             
             </div>
 
             <div class="form-group" v-if="formHd.id">
@@ -90,10 +78,16 @@
               </div>
             </div>
           </div>
+
           <div class="col-12 col-lg-12 col-xl-12">
             <div class="d-flex justify-content-between align-items-center">
               <strong>Detalle del Formulario</strong>
-              <button type="button" class="btn btn-link btn-sm" @click="onNew">
+              <button
+                type="button"
+                class="btn btn-link btn-sm"
+                @click="onNew"
+                v-if="fAction=='update'"
+              >
                 <i class="pe-7s-close pe-rotate-45" style="font-size:1.5rem"></i>
               </button>
             </div>
@@ -135,6 +129,7 @@
                 <!-- <pre class="language-json"><code>{{ options  }}</code></pre> -->
               </div>
               <div class="col-6">
+                
                 <!-- <pre class="language-json"><code>{{ values  }}</code></pre> -->
               </div>
             </div>
@@ -146,16 +141,16 @@
     <!-- Modal -->
     <div
       class="modal fade"
-      id="exampleModal"
+      id="formNewModal"
       tabindex="-1"
       role="dialog"
-      aria-labelledby="exampleModalLabel"
+      aria-labelledby="formNewModalLabel"
       aria-hidden="true"
     >
       <div class="modal-dialog" role="document">
         <div class="modal-content">
           <div class="modal-header py-1">
-            <h5 class="modal-title" id="exampleModalLabel">Detalle del formulario</h5>
+            <h5 class="modal-title" id="formNewModalLabel">Detalle del formulario</h5>
             <button type="button" class="close" data-dismiss="modal" aria-label="Close">
               <span aria-hidden="true">&times;</span>
             </button>
@@ -176,7 +171,7 @@ import { mapState, mapActions, mapGetters } from "vuex";
 import FormItemNew from "@/components/FormItemNew.vue";
 
 export default {
-  components: { Multiselect,FormItemNew },
+  components: { Multiselect, FormItemNew },
   data() {
     return {
       title: "ALTA FORMULARIO",
@@ -189,13 +184,13 @@ export default {
     this.$store.dispatch("loadOptions");
   },
   mounted() {
-    window.$("#exampleModal").on("hidden.bs.modal", function() {
+    window.$("#formNewModal").on("hidden.bs.modal", function() {
       this.selectedItem = {};
     });
   },
   computed: {
     ...mapState(["values"]),
-    ...mapGetters(["formHd", "options", "values"]),
+    ...mapGetters(["formHd", "options", "values", "fAction"]),
     isFormValid() {
       return !Object.keys(this.fields).some(key => this.fields[key].invalid);
     }
@@ -220,8 +215,7 @@ export default {
           .then(response => {
             if (response && response.data && response.data.id) {
               formHd.id = response.data.id;
-              console.log(formHd);
-              this.updateStore(formHd);
+              this.updateStore();              
               this.$swal(response.data.message, {
                 icon: "success"
               });
@@ -246,10 +240,10 @@ export default {
         });
       }
     },
-    updateStore(formData) {
+    updateStore() {
       let action = this.$store.getters.fAction;
       if (action == "create") {
-        this.$store.commit("addFormHds", formData);
+        this.$store.dispatch("loadFormHds");
         this.$store.commit("updateValues", []);
       }
     },
@@ -258,10 +252,10 @@ export default {
       this.selectedItem = item;
       this.action = "update";
       this.$store.state.isOptSelected = false;
-      if (item && item.fieldTypeId == "selectList") {
+      if (item && item.fieldTypeId == "select") {
         this.$store.state.isOptSelected = true;
       }
-      window.$("#exampleModal").modal("show");
+      window.$("#formNewModal").modal("show");
     },
     onNew() {
       console.log("onNew");
@@ -274,7 +268,7 @@ export default {
         formHdId: this.formHd.id
       };
       this.$store.state.isOptSelected = false;
-      window.$("#exampleModal").modal("show");
+      window.$("#formNewModal").modal("show");
     },
 
     onCancel() {

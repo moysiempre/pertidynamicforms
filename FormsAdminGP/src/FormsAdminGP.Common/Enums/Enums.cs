@@ -14,13 +14,8 @@ namespace FormsAdminGP.Common.Enums
         [Description("Texto alfanumérico")]
         text = 1,      
         [Description("Dropdown List")]
-        select,
-        [Description("Radio")]
-        radio,
-        [Description("Checkbox")]
-        checkbox,
-        [Description("Botón Enviar")]
-        submit
+        select      
+         
     }
 
     public enum Operation : byte

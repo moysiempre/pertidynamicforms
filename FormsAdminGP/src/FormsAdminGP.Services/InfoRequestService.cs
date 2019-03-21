@@ -85,7 +85,7 @@ namespace FormsAdminGP.Services
 
                     var item = await _infoRequestRepository.SaveChanges();
 
-                    await SendMailToClient(infoRequestDto.Email);
+                    await SendMailToClient(infoRequestDto.Email, infoRequestDto.Name);
 
                     response.Success = true;
                     response.Id = infoRequest.Id;
@@ -138,12 +138,13 @@ namespace FormsAdminGP.Services
         }
 
 
-        private async Task SendMailToClient(string email)
+        private async Task SendMailToClient(string email, string name)
         {
             var emails = new List<KeyValuePair<string, WithEMail>>();
+            name = name ?? email;
             emails.Add(new KeyValuePair<string, WithEMail>(email, WithEMail.To));
             var subject = "Mensaje de notificación";
-            var message = $"<div><p>Hola {email}</p><p>¡Gracias por tu interés en Grupo PerTI!</p><p></p>Nos pondremos en contacto contigo lo más pronto posible.<div>";
+            var message = $"<div><p>Hola {name}</p><p>¡Gracias por tu interés en Grupo PerTI!</p><p></p>Nos pondremos en contacto contigo lo más pronto posible.<div>";
             try
             {
                 await _emailSenderService.SendEmailAsync(emails, subject, message);

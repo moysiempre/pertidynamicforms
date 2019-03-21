@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Encapsulatus</title>
+    <link rel="stylesheet" href="js/bootstrap/css/bootstrap.min.css">
+    <style>
+        [v-cloak] .v-cloak--hidden {
+            display: none;
+        }
+    </style>
+</head>
+
+<body>
+
+    <div id="app" v-cloak>
+        <h1 class="text-center">{{ title }} - <small>SIMULATOR</small></h1>        
+        <div class="container-fluid">
+            <container-encapsulated :pageid="'5bcda8be-a293-46bd-a1da-a63cf4dcba4a'"></container-encapsulated>
+        </div>
+    </div>
+
+    <script src="https://code.jquery.com/jquery-3.2.1.min.js"></script>
+    <script src="https://unpkg.com/vue/dist/vue.min.js"></script>
+    <script src="https://unpkg.com/vee-validate@latest"></script>
+    <script src="https://unpkg.com/axios/dist/axios.min.js"></script>
+    <script src="./js/encapsulatus.js"></script>
+</body>
+
+</html>

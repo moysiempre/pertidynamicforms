@@ -37,6 +37,14 @@ namespace FormsAdminGP.RestfulAPI.Controllers
             return Ok(item);
         }
 
+        [HttpGet("landingPageId/{id}")]
+        [AllowAnonymous]
+        public async Task<IActionResult> GetByLandingPageIdAsync(string id)
+        {
+            var item = await _formHdService.GetByLandingPageIdAsync(id);
+            return Ok(item);
+        }
+
         [HttpGet("fieldTypes")]
         [AllowAnonymous]
         public async Task<IActionResult> GetFieldTypes()
