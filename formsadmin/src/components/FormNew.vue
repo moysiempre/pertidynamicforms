@@ -52,16 +52,15 @@
                 :searchable="false"
                 @input="updateValueAction"
               ></multiselect>
-             
             </div>
 
             <div class="form-group" v-if="formHd.id">
               <label class="mb-0" for>Ubicación del archivo a subir</label>
               <input
                 type="file"
-                class="w-100"
                 id="file"
                 ref="file"
+                class="w-100"
                 v-on:change="handleFileUpload()"
               >
             </div>
@@ -129,7 +128,6 @@
                 <!-- <pre class="language-json"><code>{{ options  }}</code></pre> -->
               </div>
               <div class="col-6">
-                
                 <!-- <pre class="language-json"><code>{{ values  }}</code></pre> -->
               </div>
             </div>
@@ -175,7 +173,7 @@ export default {
   data() {
     return {
       title: "ALTA FORMULARIO",
-      file: {},
+      file: "",
       action: "read",
       selectedItem: {}
     };
@@ -197,7 +195,36 @@ export default {
   },
   methods: {
     ...mapActions(["updateValueAction"]),
-    handleFileUpload() {},
+    handleFileUpload() {
+      let formData = new FormData();
+      this.file = this.$refs.file.files[0];
+      formData.append("file", this.file);
+      console.log(this.file);
+      axios
+        .post("api-filemanager/upload", formData, {
+          headers: {
+            "Content-Type": "multipart/form-data"
+          }
+        })
+        .then(response => {
+          if (response && response.data && response.data.success) {
+            this.updateStore();
+            this.$swal(response.data.message, {
+              icon: "success"
+            });
+          } else {
+            this.$swal(response.data.message, {
+              icon: "warning"
+            });
+          }
+        })
+        .catch(err => {
+          console.log(err);
+          this.$swal("No se pudo dar de alta al formulario", {
+            icon: "warning"
+          });
+        });
+    },
     onSubmit() {
       var formHd = this.$store.getters.formHd;
       let hasDetail = formHd.formDetails.filter(x => x.isActive == true);
@@ -214,8 +241,7 @@ export default {
         axios({ method: "POST", url: "api-forms", data: formHd })
           .then(response => {
             if (response && response.data && response.data.id) {
-              formHd.id = response.data.id;
-              this.updateStore();              
+              this.updateStore();
               this.$swal(response.data.message, {
                 icon: "success"
               });
