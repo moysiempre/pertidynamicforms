@@ -24,7 +24,7 @@ export default {
     return {
       title: "ALTA LANDING PAGE",
       action: "read",
-      landingItem: {}
+      landingItem: {},  
     };
   },
   methods: {

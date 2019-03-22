@@ -19,9 +19,9 @@ namespace FormsAdminGP.Services.EmailSender
         }
 
 
-        public async Task SendEmailAsync(List<KeyValuePair<string, WithEMail>> emails, string subject, string message)
+        public async Task SendEmailAsync(List<KeyValuePair<string, WithEMail>> emails, string subject, string message, List<string> attachments)
         {
-            await Task.Run(() => ExecuteAsync(emails, subject, message, new List<string>()));
+            await Task.Run(() => ExecuteAsync(emails, subject, message, attachments));
         }
 
         private async Task<bool> ExecuteAsync(List<KeyValuePair<string, WithEMail>> emails, string subject, string body, List<string> attachments = null)

@@ -51,7 +51,10 @@
                 @click="onCancel"
                 class="btn btn-outline-warning btn-sm mx-1"
               >CANCELAR</button>
-              <button type="submit" class="btn btn-primary btn-sm" :disabled="!isFormValid">GUARDAR</button>
+              <button type="submit" class="btn btn-primary btn-sm" :disabled="!isFormValid || isloading" >
+                <span>GUARDAR</span>
+                <btn-loader :isloading="isloading"/>
+              </button>
             </div>
           </div>
         </div>
@@ -61,10 +64,15 @@
 </template>
 <script>
 import axios from "axios";
-
-
+import BtnLoader from "@/components/BtnLoader.vue";
 export default {
   props: ["title", "landingItem"],
+  components: { BtnLoader },
+  data() {
+    return {
+      isloading: false
+    };
+  },
   computed: {
     isFormValid() {
       return !Object.keys(this.fields).some(key => this.fields[key].invalid);
@@ -72,9 +80,11 @@ export default {
   },
   methods: {
     onSubmit() {
+      this.isloading = true;
       axios
         .post("api-landingpage", this.landingItem)
         .then(response => {
+          this.isloading = false;
           if (response && response.data && response.data.id) {
             this.landingItem.id = response.data.id;
             this.$emit("onItemSaved", this.landingItem);
@@ -89,6 +99,7 @@ export default {
           }
         })
         .catch(error => {
+          this.isloading = false;
           console.log(error);
           this.$swal("No se pudo dar de alta al landing page", {
             icon: "warning"

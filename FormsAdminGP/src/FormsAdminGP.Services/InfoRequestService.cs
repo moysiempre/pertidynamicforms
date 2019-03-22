@@ -8,8 +8,10 @@ using FormsAdminGP.Services.EmailSender;
 using FormsAdminGP.Services.Interfaces;
 using FormsAdminGP.Services.Request;
 using FormsAdminGP.Services.Responses;
+using Microsoft.Extensions.Options;
 using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using System.Threading.Tasks;
 
@@ -19,14 +21,17 @@ namespace FormsAdminGP.Services
     {
         private readonly IInfoRequestRepository _infoRequestRepository;
         private readonly IEmailSenderService _emailSenderService;
+        private readonly IOptions<AppSettings> _appSettings;
         private readonly IMapper _mapper;
         public InfoRequestService(
             IInfoRequestRepository infoRequestRepository,
             IEmailSenderService emailSenderService,
+            IOptions<AppSettings> appSettings,
             IMapper mapper)
         {
             _infoRequestRepository = infoRequestRepository;
             _emailSenderService = emailSenderService;
+            _appSettings = appSettings;
             _mapper = mapper;
         }
 
@@ -38,7 +43,7 @@ namespace FormsAdminGP.Services
 
         public async Task<IEnumerable<InfoRequestDto>> GetByAsync(BaseRequest request)
         {
-            var list = await _infoRequestRepository.GetAll();
+            var list = await _infoRequestRepository.FindBy(x=>x.IsActive, x=>x.LandingPage);
             if (!string.IsNullOrEmpty(request.LandingPageId))
             {
                 list = list.Where(x => x.LandingPageId == request.LandingPageId);
@@ -85,7 +90,10 @@ namespace FormsAdminGP.Services
 
                     var item = await _infoRequestRepository.SaveChanges();
 
-                    await SendMailToClient(infoRequestDto.Email, infoRequestDto.Name);
+                    var baseDir = _appSettings?.Value?.EbookPath ?? string.Empty;
+                    var attach = Path.Combine(baseDir, infoRequestDto.FileName);
+
+                    await SendMailToClient(infoRequestDto.Email, infoRequestDto.Name, attach);
 
                     response.Success = true;
                     response.Id = infoRequest.Id;
@@ -138,16 +146,21 @@ namespace FormsAdminGP.Services
         }
 
 
-        private async Task SendMailToClient(string email, string name)
+        private async Task SendMailToClient(string email, string name, string attach)
         {
             var emails = new List<KeyValuePair<string, WithEMail>>();
+            var attachs = new List<string>();
+            if(!string.IsNullOrEmpty(attach))
+            {
+                attachs.Add(attach);
+            };
             name = name ?? email;
             emails.Add(new KeyValuePair<string, WithEMail>(email, WithEMail.To));
             var subject = "Mensaje de notificación";
             var message = $"<div><p>Hola {name}</p><p>¡Gracias por tu interés en Grupo PerTI!</p><p></p>Nos pondremos en contacto contigo lo más pronto posible.<div>";
             try
             {
-                await _emailSenderService.SendEmailAsync(emails, subject, message);
+                await _emailSenderService.SendEmailAsync(emails, subject, message, attachs);
             }
             catch (Exception ex)
             {

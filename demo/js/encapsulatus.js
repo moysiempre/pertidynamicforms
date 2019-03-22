@@ -14,7 +14,8 @@
      methods: {
          load() {
              axios.get(this.baseUrl + 'api-forms/landingPageId/' + this.pageid).then((response) => {
-                 this.fields = response.data
+                 this.fields = response.data;
+                 console.log(response.data);
              }).catch(error => {
                  console.log(error);
              });;
@@ -28,7 +29,8 @@
                          infoRequestData: infoRequestData,
                          landingPageId: this.pageid,
                          email: this.formData.email,
-                         name: this.formData.name
+                         name: this.formData.name,
+                         fileName: this.fields.filePath,
                      }
                      axios.post(this.baseUrl + 'api-inforequest', infoRequest)
                          .then((response) => {
@@ -69,15 +71,15 @@
      template: `<form id="contactForm">
      <div class="row">
          <div class="col-md-12">
-             
              <div class="card">
                  <div class="card-header bg-white p-0">
                  <div class="text-center alert alert-success mb-0" hidden style="border-radius: 0">{{fields.title}}</div>
                  <h5 class="text-center my-3">{{fields.title}}</h5>   
                  </div>
                  <div class="card-body bg-light p-2">
-                     <div class="container-fluid bg-white pt-3 pb-3" >
-                         <form action="">
+                     <div class="container-fluid bg-white pt-3 pb-3" style="min-height: 200px;" >
+                        <ball-beat :isloading="true"  v-if="!fields.title"/>
+                        <form v-if="fields.title">
                              <div v-for="(field, index) in fields.formDetails" :key="index">
                                  <div class="form-group" v-if="field.fieldTypeId === 'name'">
                                      <label class="mb-0" :for="field.name">{{field.fieldLabel}}</label>
@@ -154,6 +156,10 @@
      props: ["isloading"],
      template: `<span class="spinners white" v-if="isloading"></span>`
  });
+ Vue.component('ballBeat', {
+    name: "ballBeat",
+    template: `<div class="cu-loader-box"><div></div><div></div><div></div></div>`
+});
 
  Vue.use(VeeValidate);
  new Vue({

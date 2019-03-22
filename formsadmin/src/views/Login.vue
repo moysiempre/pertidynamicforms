@@ -65,10 +65,10 @@ export default {
       let password = this.password;
       this.$store
         .dispatch("login", { userName, password })
-        .then(() => {
+        .then((response) => {
           this.isloading = false;
           this.$store.commit("setShowFullLayout", true);
-          this.$router.push({ name: "landing" });
+          this.$router.push({ name: "formularios" });
         })
         .catch(err => {
           this.isloading = false;
