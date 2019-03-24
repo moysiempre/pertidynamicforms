@@ -68,7 +68,7 @@ export default {
         .then(() => {
           this.isloading = false;
           this.$store.commit("setShowFullLayout", true);
-          this.$router.push({ name: "landing" });
+          this.$router.push({ name: "landing-list" });
         })
         .catch(err => {
           this.isloading = false;

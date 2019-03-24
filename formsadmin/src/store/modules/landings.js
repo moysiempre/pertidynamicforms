@@ -1,23 +1,28 @@
  import axios from 'axios';
 
  const state = {
-   landingPages: [] 
+   landingPages: [],
+   landingPage: {},
+   action: "read"
  };
 
  const getters = {
-  landingPages() {
-     return state.landingPages;
-   },   
+
  };
 
  const mutations = {
-   setLandingPages: (state, payload) => {
+   SET_LANDINGS: (state, payload) => {
      state.landingPages = payload;
    },
-   addLandingPage: (state, payload) => {
+   ADD_LANDING: (state, payload) => {
      state.landingPages.push(payload);
    },
-
+   SET_LANDING: (state, payload) => {
+     state.landingPage = payload;
+   },
+   SET_ACTION: (state, payload) => {
+     state.action = payload;
+   },
  };
 
  const actions = {
@@ -26,9 +31,23 @@
    }) {
      axios.get("api-landingpage")
        .then(response => {
-         commit("setLandingPages", response.data)
+         commit("SET_LANDINGS", response.data)
        })
        .catch(console.error);
+   },
+   createOrUpdatelanding({
+     commit
+   }, payload) {
+     return new Promise((resolve, reject) => {
+       axios
+         .post("api-landingpage", payload)
+         .then(response => {            
+           resolve(response);
+         })
+         .catch(error => {
+           reject(error.response);
+         });
+     })
    }
  };
 

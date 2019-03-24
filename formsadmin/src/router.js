@@ -1,10 +1,10 @@
 import Vue from 'vue'
 import Router from 'vue-router'
 import Login from './views/Login.vue'
-import Landing from './views/Landing.vue'
 import FormFactory from './views/FormFactory.vue'
 import Contact from './views/Contact.vue'
 import ContactDetail from './views/ContactDetail.vue'
+import LandingList from './views/LandingList.vue'
 
 import store from './store/store'
 
@@ -28,9 +28,9 @@ let router = new Router({
       component: () => import('./views/ChangePassword.vue')
     },
     {
-      path: '/landing',
-      name: 'landing',
-      component: Landing       
+      path: '/landings',
+      name: 'landing-list',
+      component: LandingList       
     },
     {
       path: '/formularios',
