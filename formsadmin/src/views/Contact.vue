@@ -126,7 +126,7 @@ export default {
       },
       {
         headerName: "LANDING PAGE",
-        field: "landingPageId",
+        field: "landingPageName",
         resizable: true,
         sort: "asc"
       }

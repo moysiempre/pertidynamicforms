@@ -15,6 +15,13 @@
         public const string DELETE_SUCCESS_MESSAGE = "El registro se eliminó con éxito";
         public const string DELETE_FAILED_MESSAGE = "No se pudo eliminar el registro correspondiente";
         public const string MODELSTATE_INVALID_MESSAGE = "No se pudo completar el proceso, favor de validar los campos";
+
+        public const string UPLOAD_FILE_SUCCESS_MESSAGE = "El archivo fue cargado con éxito";
+        public const string UPLOAD_FILE_FAILED_MESSAGE = "No se pudo cargar el archivo";
+        public const string REMOVE_FILE_SUCCESS_MESSAGE = "El archivo fue removido con éxito";
+        public const string REMOVE_FILE_FAILED_MESSAGE = "No se pudo remover el archivo";
+
+
         #endregion
     }
 }

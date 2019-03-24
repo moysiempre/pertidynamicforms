@@ -23,7 +23,7 @@
             </div>
             <div class="form-group">
               <label class="mb-0" for="formTitle">
-                Título del formulario
+                <span>Título del formulario</span>
                 <span class="i-required">*</span>
               </label>
               <input
@@ -56,13 +56,23 @@
 
             <div class="form-group" v-if="formHd.id">
               <label class="mb-0" for>Ubicación del archivo a subir</label>
-              <input
-                type="file"
-                id="file"
-                ref="file"
-                class="w-100"
-                v-on:change="handleFileUpload()"
-              >
+              <div class="d-flex">
+                <input
+                  type="file"
+                  id="file"
+                  ref="file"
+                  class="w-100"
+                  v-on:change="handleFileUpload()"
+                  style="width:115px !important"
+                >
+                <button
+                  type="button"
+                  class="btn btn-warning btn-sm mr-2"
+                  v-if="formHd && formHd.filePath && formHd.filePath.length"
+                  @click="onRemoveFile"
+                >Eliminar</button>
+                <input type="text" class="form-control mt-1" v-model="formHd.filePath">
+              </div>
             </div>
 
             <div class="form-group">
@@ -119,17 +129,10 @@
                 class="btn btn-outline-warning btn-sm mx-1"
                 @click="onCancel"
               >CANCELAR</button>
-              <button type="submit" class="btn btn-primary btn-sm" :disabled="!isFormValid">GUARDAR</button>
-              <!-- <button type="button" @click="test()">ALERT</button> -->
-            </div>
-
-            <div class="row">
-              <div class="col-6">
-                <!-- <pre class="language-json"><code>{{ options  }}</code></pre> -->
-              </div>
-              <div class="col-6">
-                <!-- <pre class="language-json"><code>{{ values  }}</code></pre> -->
-              </div>
+              <button type="submit" class="btn btn-primary btn-sm" :disabled="!isFormValid || isloading">
+                <span>GUARDAR</span>
+                <btn-loader :isloading="isloading"/>
+              </button>
             </div>
           </div>
         </div>
@@ -167,15 +170,17 @@ import axios from "axios";
 import Multiselect from "vue-multiselect";
 import { mapState, mapActions, mapGetters } from "vuex";
 import FormItemNew from "@/components/FormItemNew.vue";
+import BtnLoader from "@/components/BtnLoader.vue";
 
 export default {
-  components: { Multiselect, FormItemNew },
+  components: { Multiselect, FormItemNew, BtnLoader },
   data() {
     return {
       title: "ALTA FORMULARIO",
       file: "",
       action: "read",
-      selectedItem: {}
+      selectedItem: {},
+      isloading: false
     };
   },
   created() {
@@ -199,7 +204,8 @@ export default {
       let formData = new FormData();
       this.file = this.$refs.file.files[0];
       formData.append("file", this.file);
-      console.log(this.file);
+      formData.append("formHdId", this.formHd.id);
+
       axios
         .post("api-filemanager/upload", formData, {
           headers: {
@@ -208,6 +214,7 @@ export default {
         })
         .then(response => {
           if (response && response.data && response.data.success) {
+            this.formHd.filePath = this.file.name;
             this.updateStore();
             this.$swal(response.data.message, {
               icon: "success"
@@ -226,6 +233,7 @@ export default {
         });
     },
     onSubmit() {
+      this.isloading = true
       var formHd = this.$store.getters.formHd;
       let hasDetail = formHd.formDetails.filter(x => x.isActive == true);
 
@@ -238,8 +246,11 @@ export default {
           };
         });
 
+
+
         axios({ method: "POST", url: "api-forms", data: formHd })
           .then(response => {
+            this.isloading = false;
             if (response && response.data && response.data.id) {
               this.updateStore();
               this.$swal(response.data.message, {
@@ -253,6 +264,7 @@ export default {
             }
           })
           .catch(err => {
+            this.isloading = false;
             console.log(err);
             this.$swal("No se pudo dar de alta al formulario", {
               icon: "warning"
@@ -296,7 +308,32 @@ export default {
       this.$store.state.isOptSelected = false;
       window.$("#formNewModal").modal("show");
     },
-
+    onRemoveFile() {
+      var formHdId = this.formHd.id;
+      var fileName = this.formHd.filePath;
+      axios({
+        method: "DELETE",
+        url: `api-filemanager/remove/${formHdId}/${fileName}`
+      })
+        .then(response => {
+          if (response && response.data && response.data.success) {
+            this.formHd.filePath = "";
+            this.$swal(response.data.message, {
+              icon: "success"
+            });
+          } else {
+            this.$swal(response.data.message, {
+              icon: "warning"
+            });
+          }
+        })
+        .catch(err => {
+          console.log(err);
+          this.$swal("No se pudo eliminar el archivo", {
+            icon: "warning"
+          });
+        });
+    },
     onCancel() {
       this.title = "ALTA FORMULARIO";
       this.$store.commit("setfAction", "read");

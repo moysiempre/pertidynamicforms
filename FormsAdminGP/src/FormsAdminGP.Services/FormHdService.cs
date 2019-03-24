@@ -22,7 +22,6 @@ namespace FormsAdminGP.Services
         private readonly IFormDetailRepository _formDetailRepository;
         private readonly IFormHdLandingPageRepository _formHdLandingPageRepository;
         private readonly IDDLCatalogRepository _dDLCatalogRepository;
-
         private readonly IOptions<List<BaseDetailSettings>> _baseDetailSettings;
         private readonly IMapper _mapper;
         public FormHdService(
@@ -171,6 +170,38 @@ namespace FormsAdminGP.Services
 
             return response;
         }
+
+        public async Task<BaseResponse> UpdateFormHdFileAsync(string id, string fileName)
+        {
+            var response = new BaseResponse();
+            try
+            {
+
+                var item = await _formHdRepository.FindEntityBy(x => x.Id == id);
+                if (item == null)
+                {
+                    response.Message = LoggingEvents.UPDATE_FAILED_MESSAGE;
+                    return response;
+                }
+
+                item.FilePath = fileName;
+                _formHdRepository.Edit(item);
+                await _formHdRepository.SaveChanges();
+
+                response.Success = true;
+                response.Id = id;
+                response.Message = LoggingEvents.DELETE_SUCCESS_MESSAGE;
+
+            }
+            catch (System.Exception)
+            {
+                response.Message = LoggingEvents.DELETE_FAILED_MESSAGE;
+                //logger 
+            }
+
+            return response;
+        }
+
 
         public async Task<BaseResponse> DeleteAsync(string id)
         {

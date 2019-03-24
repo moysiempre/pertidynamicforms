@@ -10,8 +10,9 @@
                   Tipo de entrada
                   <span class="i-required">*</span>
                 </label>
-
-                <select v-if="action == 'update'"
+                
+                <select
+                  v-if="action == 'update'"
                   v-validate="'required'"
                   id="fieldTypeId"
                   name="fieldTypeId"
@@ -26,7 +27,8 @@
                     :value="item.fieldTypeId"
                   >{{item.fieldLabel}}</option>
                 </select>
-                <select v-if="action == 'create'"
+                <select
+                  v-if="action == 'create'"
                   v-validate="'required'"
                   id="fieldTypeId"
                   name="fieldTypeId"
@@ -40,7 +42,6 @@
                     :value="item.fieldTypeId"
                   >{{item.fieldLabel}}</option>
                 </select>
-
               </div>
             </div>
 
@@ -109,8 +110,11 @@
                   type="button"
                   class="btn btn-dark btn-sm px-3"
                   @click="onSubmit"
-                  :disabled="!isFormItemValid"
-                >GUARDAR</button>
+                  :disabled="!isFormItemValid || isloading"
+                >
+                  <span>GUARDAR</span>
+                  <btn-loader :isloading="isloading"/>
+                </button>
               </div>
             </div>
           </div>
@@ -136,7 +140,10 @@
                   v-model="ddlCatalogItem.name"
                 >
                 <div class="input-group-append">
-                  <button type="submit" class="btn btn-primary btn-sm">GUARDAR</button>
+                  <button type="submit" class="btn btn-primary btn-sm">
+                    <span>GUARDAR</span>
+                    <btn-loader :isloading="isloadingCat"/>
+                  </button>
                 </div>
               </div>
             </form>
@@ -170,13 +177,18 @@
 <script>
 import { mapState } from "vuex";
 import axios from "axios";
+import BtnLoader from "@/components/BtnLoader.vue";
+
 export default {
   props: ["formItem", "action"],
+  components: { BtnLoader },
   data() {
     return {
       fieldTypes: [],
       ddlCatalogItem: {},
       ddlCatAction: "create",
+      isloading: false,
+      isloadingCat: false,
       options: [
         {
           id: "1",
@@ -198,8 +210,8 @@ export default {
     isFormItemValid() {
       return !Object.keys(this.fields).some(key => this.fields[key].invalid);
     },
-    fieldTypes_s(){
-      return  this.baseDetails;
+    fieldTypes_s() {
+      return this.baseDetails;
     }
   },
   methods: {
@@ -210,15 +222,17 @@ export default {
     },
     onChangeOption(event) {
       var value = event.target.value;
-      console.log("this.action", this.action)
+      console.log("this.action", this.action);
       this.$store.state.isOptSelected = false;
-      if (value == "select" && this.action =='update') {
+      if (value == "select" && this.action == "update") {
         this.$store.state.isOptSelected = true;
       }
     },
     onSubmit() {
+      this.isloading = true;
       axios({ method: "POST", url: "api-forms/detail", data: this.formItem })
         .then(response => {
+          this.isloading = false;
           if (response && response.data && response.data.id) {
             if (this.action == "create") {
               this.formItem.id = response.data.id;
@@ -236,6 +250,7 @@ export default {
           }
         })
         .catch(err => {
+          this.isloading = false;
           console.log(err);
           this.$swal("No se pudo dar de alta al formulario", {
             icon: "warning"
@@ -246,12 +261,20 @@ export default {
       window.$("#formNewModal").modal("hide");
     },
     onSubmitItemOpt() {
+      if (!this.ddlCatalogItem.name) {
+        this.$swal("Favor digite el nombre del catálogo", {
+          icon: "warning"
+        });
+        return;
+      }
+      this.isloadingCat = true;
       const id = this.formItem.id;
       if (this.ddlCatAction == "create") {
         this.ddlCatalogItem.formDetailId = id;
       }
       axios({ method: "POST", url: "api-catalog", data: this.ddlCatalogItem })
         .then(response => {
+          this.isloadingCat = false;
           if (response && response.data && response.data.id) {
             if (this.ddlCatAction == "create") {
               this.ddlCatalogItem.id = response.data.id;
@@ -278,6 +301,7 @@ export default {
           }
         })
         .catch(err => {
+          this.isloadingCat = false;
           console.log(err);
           this.$swal("No se pudo dar de alta al formulario", {
             icon: "warning"
