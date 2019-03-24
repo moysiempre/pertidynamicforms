@@ -17,14 +17,14 @@
 </template>
 <script>
 import LandingList from "@/components/LandingList.vue";
-import LandingNew from "@/components/LandingNew.vue";
+import CreateUpdateLanding from "@/components/CreateUpdateLanding.vue";
 export default {
-  components: { "landing-list": LandingList, LandingNew },
+  components: { "landing-list": LandingList, CreateUpdateLanding },
   data() {
     return {
       title: "ALTA LANDING PAGE",
       action: "read",
-      landingItem: {},  
+      landingItem: {}
     };
   },
   methods: {
@@ -48,7 +48,4 @@ export default {
   }
 };
 </script>
-<style lang="scss">
-</style>
-
-
+ 
