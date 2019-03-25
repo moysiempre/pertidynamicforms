@@ -3,50 +3,43 @@ import axios from 'axios';
 const state = {
     formHds: [],
     formHd: {},
-    fAction: 'read',
+    action: 'read',
     values: [],
     options: [],
+    baseDetails: [],
+    isOptSelected: false
 };
 
-const getters = {
-    formHds() {
-        return state.formHds;
-    },
-    formHd() {
-        return state.formHd;
-    },
-    fAction() {
-        return state.fAction;
-    },
-    options() {
-        return state.options;
-    },
-    values() {
-        return state.values;
-    }
-};
+const getters = {};
 
 const mutations = {
-    setFormHds: (state, payload) => {
+    SET_FORM_HDS: (state, payload) => {
         state.formHds = payload;
     },
-    addFormHds: (state, payload) => {
-        console.log("addFormHds", payload);
-        state.formHds.push(payload);
-    },
-    setFormHd(state, payload) {
+    SET_FORM_HD(state, payload) {
         state.formHd = payload;
     },
-    setfAction(state, payload) {
-        state.fAction = payload;
+    ADD_FORM_HD: (state, payload) => {
+        state.formHds.push(payload);
     },
-    setOptions(state, payload) {
+    SET_ACTION(state, payload) {
+        state.action = payload;
+    },
+    SET_BASE_DETAILS(state, payload) {
+        state.baseDetails = payload;
+    },
+    SET_OPT_SELECTED(state, payload) {
+        state.isOptSelected = payload;
+    },
+
+    SET_OPTIONS(state, payload) {
         state.options = payload;
     },
-    updateValues(state, payload) {
+    SET_VALUES(state, payload) {
         state.values = payload
     },
-    addDetalleItem: (state, detalle) => {
+
+    ADD_DETAIL_ITEM: (state, detalle) => {
         if (state.formHd && state.formHd.formDetails && state.formHd.formDetails.length) {
             state.formHd.formDetails.push(detalle);
         }
@@ -57,25 +50,30 @@ const actions = {
     loadFormHds({
         commit
     }) {
-        axios.get("api-forms")
-            .then(response => {
-                commit("setFormHds", response.data)
-            })
-            .catch(console.error);
+        axios.get("api-forms").then(response => {
+            commit("SET_FORM_HDS", response.data)
+        }).catch(console.error);
     },
+
+    loadBaseDetails({
+        commit
+    }) {
+        axios.get("api-forms/basedetail").then(response => {
+            commit("SET_BASE_DETAILS", response.data)
+        }).catch(console.error);
+    },
+
     updateValueAction({
         commit
     }, payload) {
-        commit('updateValues', payload)
+        commit('SET_VALUES', payload)
     },
     loadOptions({
         commit
     }) {
-        axios.get("api-landingpage")
-            .then(response => {
-                commit("setOptions", response.data)
-            })
-            .catch(console.error);
+        axios.get("api-landingpage").then(response => {
+            commit("SET_OPTIONS", response.data)
+        }).catch(console.error);
     }
 };
 

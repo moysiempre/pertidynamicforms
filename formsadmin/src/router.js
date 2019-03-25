@@ -2,7 +2,7 @@ import Vue from 'vue'
 import Router from 'vue-router'
 import Login from './views/Login.vue'
 import LandingList from './views/LandingList.vue'
-import FormFactory from './views/FormFactory.vue'
+import FormList from './views/FormList.vue'
 import Contact from './views/Contact.vue'
 import ContactDetail from './views/ContactDetail.vue'
 
@@ -35,7 +35,7 @@ let router = new Router({
     {
       path: '/formularios',
       name: 'formularios',
-      component: FormFactory
+      component: FormList
     },
     {
       path: '/solicitudes',

@@ -95,7 +95,7 @@
                 type="button"
                 class="btn btn-link btn-sm"
                 @click="onNew"
-                v-if="fAction=='update'"
+                v-if="action=='update'"
               >
                 <i class="pe-7s-close pe-rotate-45" style="font-size:1.5rem"></i>
               </button>
@@ -129,7 +129,11 @@
                 class="btn btn-outline-warning btn-sm mx-1"
                 @click="onCancel"
               >CANCELAR</button>
-              <button type="submit" class="btn btn-primary btn-sm" :disabled="!isFormValid || isloading">
+              <button
+                type="submit"
+                class="btn btn-primary btn-sm"
+                :disabled="!isFormValid || isloading"
+              >
                 <span>GUARDAR</span>
                 <btn-loader :isloading="isloading"/>
               </button>
@@ -157,7 +161,7 @@
             </button>
           </div>
           <div class="modal-body">
-            <FormItemNew :formItem="selectedItem" :action="action"/>
+            <create-update-form-item :formItem="selectedItem" :action="iaction"/>
           </div>
         </div>
       </div>
@@ -168,23 +172,20 @@
 <script>
 import axios from "axios";
 import Multiselect from "vue-multiselect";
-import { mapState, mapActions, mapGetters } from "vuex";
-import FormItemNew from "@/components/FormItemNew.vue";
+import { mapState, mapActions } from "vuex";
+import CreateUpdateFormItem from "@/components/CreateUpdateFormItem.vue";
 import BtnLoader from "@/components/BtnLoader.vue";
 
 export default {
-  components: { Multiselect, FormItemNew, BtnLoader },
+  props: ["title"],
+  components: { Multiselect, BtnLoader, CreateUpdateFormItem },
   data() {
     return {
-      title: "ALTA FORMULARIO",
       file: "",
-      action: "read",
       selectedItem: {},
-      isloading: false
+      isloading: false,
+      iaction: "read"
     };
-  },
-  created() {
-    this.$store.dispatch("loadOptions");
   },
   mounted() {
     window.$("#formNewModal").on("hidden.bs.modal", function() {
@@ -192,8 +193,12 @@ export default {
     });
   },
   computed: {
-    ...mapState(["values"]),
-    ...mapGetters(["formHd", "options", "values", "fAction"]),
+    ...mapState({
+      formHd: state => state.forms.formHd,
+      action: state => state.forms.action,
+      values: state => state.forms.values,
+      options: state => state.forms.options
+    }),
     isFormValid() {
       return !Object.keys(this.fields).some(key => this.fields[key].invalid);
     }
@@ -215,7 +220,6 @@ export default {
         .then(response => {
           if (response && response.data && response.data.success) {
             this.formHd.filePath = this.file.name;
-            this.updateStore();
             this.$swal(response.data.message, {
               icon: "success"
             });
@@ -233,26 +237,23 @@ export default {
         });
     },
     onSubmit() {
-      this.isloading = true
-      var formHd = this.$store.getters.formHd;
-      let hasDetail = formHd.formDetails.filter(x => x.isActive == true);
-
+      let hasDetail = this.formHd.formDetails.filter(x => x.isActive == true);
       if (hasDetail && hasDetail.length) {
-        formHd.formHdLandingPage = this.values.map(item => {
+        this.isloading = true;
+        this.formHd.formHdLandingPage = this.values.map(item => {
           return {
             landingPageId: item.id,
-            formHdId: formHd.id,
+            formHdId: this.formHd.id,
             isActive: true
           };
         });
 
-
-
-        axios({ method: "POST", url: "api-forms", data: formHd })
+        axios({ method: "POST", url: "api-forms", data: this.formHd })
           .then(response => {
             this.isloading = false;
             if (response && response.data && response.data.id) {
-              this.updateStore();
+              this.formHd.id = response.data.id;
+              this.updateStore(this.formHd);
               this.$swal(response.data.message, {
                 icon: "success"
               });
@@ -278,34 +279,32 @@ export default {
         });
       }
     },
-    updateStore() {
-      let action = this.$store.getters.fAction;
-      if (action == "create") {
-        this.$store.dispatch("loadFormHds");
-        this.$store.commit("SET_VALUES", []);
+    updateStore(item) {
+      if (this.action === "create") {
+        this.$store.commit("ADD_FORM_HD", item);
       }
+      this.$store.commit("SET_VALUES", []);
     },
     onEdit(item) {
-      console.log("onEdit", item);
       this.selectedItem = item;
-      this.action = "update";
-      this.$store.state.isOptSelected = false;
+      console.log("item", item);
+      this.iaction = "update";
+      this.$store.commit("SET_OPT_SELECTED", false);
       if (item && item.fieldTypeId == "select") {
-        this.$store.state.isOptSelected = true;
+        this.$store.commit("SET_OPT_SELECTED", true);
       }
       window.$("#formNewModal").modal("show");
     },
     onNew() {
-      console.log("onNew");
-      this.action = "create";
+      this.iaction = "create";
       this.selectedItem = {
-        fieldTypeId: "textInput",
+        fieldTypeId: "text",
         isActive: true,
         order: 1,
         isRequired: true,
         formHdId: this.formHd.id
       };
-      this.$store.state.isOptSelected = false;
+      this.$store.commit("SET_OPT_SELECTED", false);
       window.$("#formNewModal").modal("show");
     },
     onRemoveFile() {
@@ -335,10 +334,9 @@ export default {
         });
     },
     onCancel() {
-      this.title = "ALTA FORMULARIO";
-      this.$store.commit("setfAction", "read");
-      this.$store.state.isOptSelected = false;
-      this.$store.commit("setFormHd", {});
+      this.$store.commit("SET_ACTION", "read");
+      this.$store.commit("SET_FORM_HD", {});
+      this.$store.commit("SET_OPT_SELECTED", false);
     }
   }
 };

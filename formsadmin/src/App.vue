@@ -11,35 +11,17 @@
 <script>
 import Header from "@/components/header/header.vue";
 import Sidebar from "@/components/sidebar/sidebar.vue";
-import axios from "axios";
-//import mapGetters from "vuex";
 import { mapState } from "vuex";
 
 export default {
   name: "App",
-  data() {
-    return {
-      withSidebar: true
-    };
-  },
   components: {
     "app-header": Header,
     "app-sidebar": Sidebar
   },
-  mounted() {
-    this.load();
-  },
   computed: {
     ...mapState(["showFullLayout"])
-  },
-  methods: {
-    load() {
-      axios.get("api-forms/basedetail").then(response => {
-        this.$store.state.baseDetails = response.data;
-        console.log("baseDetails: ", response.data);
-      });
-    }
-  }   
+  }
 };
 </script>
 <style lang="scss">

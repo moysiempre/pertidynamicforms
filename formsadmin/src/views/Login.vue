@@ -54,7 +54,7 @@ export default {
     };
   },
   created() {
-    this.$store.commit("setShowFullLayout", false);
+    this.$store.commit("SET_FULL_LAYOUT", false);
   },
   mounted() {},
   computed: {},
@@ -67,8 +67,9 @@ export default {
         .dispatch("login", { userName, password })
         .then((response) => {
           this.isloading = false;
-          this.$store.commit("setShowFullLayout", true);
+          this.$store.commit("SET_FULL_LAYOUT", true);
           this.$router.push({ name: "formularios" });
+          console.log(response);
         })
         .catch(err => {
           this.isloading = false;

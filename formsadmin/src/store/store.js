@@ -9,39 +9,28 @@ Vue.use(Vuex)
 export default new Vuex.Store({
   state: {
     showFullLayout: true,
-    landingPage: {},     
     auth: null,
-    loading: false,
-    baseDetails: [],
-    flatLayaout: false, 
-    isOptSelected: false
   },
   mutations: {
 
-    setShowFullLayout(state, payload) {
+    SET_FULL_LAYOUT(state, payload) {
       state.showFullLayout = payload;
-    }, 
- 
-    logout(state) {
+    },
+
+    LOGOUT(state) {
       state.auth = null;
     },
-    loginRequest(state) {
-      state.loading = true;
-    },
-    loginSuccess(state, payload) {
+
+    LOGIN_SUCCESS(state, payload) {
       state.auth = payload;
-      state.loading = false;
     },
-    loginError(state) {
-      state.loading = false;
-    }
+
   },
   actions: {
     login({
       commit
     }, payload) {
       return new Promise((resolve, reject) => {
-        commit("loginRequest");
         axios
           .post("api-security/login", payload)
           .then(response => {
@@ -54,15 +43,13 @@ export default new Vuex.Store({
             }`;
             localStorage.setItem('access_token', auth.access_token);
             localStorage.setItem('refresh_token', auth.refresh_token)
-            commit("loginSuccess", auth);
+            commit("LOGIN_SUCCESS", auth);
             resolve(response);
           })
           .catch(error => {
-            commit("loginError");
             delete axios.defaults.headers.common["Authorization"];
             localStorage.removeItem('access_token')
             localStorage.removeItem('refresh_token')
-
             reject(error.response);
           });
       });
@@ -71,14 +58,14 @@ export default new Vuex.Store({
       commit
     }) {
       return new Promise((resolve) => {
-        commit('logout')
+        commit('LOGOUT')
         localStorage.removeItem('access_token')
         localStorage.removeItem('refresh_token')
         delete axios.defaults.headers.common['Authorization']
         resolve()
       })
     },
-   
+
   },
   getters: {
     isLoggedIn: state => !!state.token,

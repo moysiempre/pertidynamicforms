@@ -10,9 +10,9 @@
                   Tipo de entrada
                   <span class="i-required">*</span>
                 </label>
-                
+
                 <select
-                  v-if="action == 'update'"
+                  v-if="action === 'update'"
                   v-validate="'required'"
                   id="fieldTypeId"
                   name="fieldTypeId"
@@ -28,7 +28,7 @@
                   >{{item.fieldLabel}}</option>
                 </select>
                 <select
-                  v-if="action == 'create'"
+                  v-if="action === 'create'"
                   v-validate="'required'"
                   id="fieldTypeId"
                   name="fieldTypeId"
@@ -99,13 +99,13 @@
             <div class="col-md-6">
               <div class="form-group text-right">
                 <button hidden type="button" class="btn btn-outline-warning btn-sm mx-1">RESETEAR</button>
-                
+
                 <button
                   type="button"
                   class="btn btn-outline-warning btn-sm mx-1"
                   data-dismiss="modal"
                 >SALIR</button>
-                
+
                 <button
                   type="button"
                   class="btn btn-dark btn-sm px-3"
@@ -188,17 +188,7 @@ export default {
       ddlCatalogItem: {},
       ddlCatAction: "create",
       isloading: false,
-      isloadingCat: false,
-      options: [
-        {
-          id: "1",
-          name: "Director/ CEO / Fundador"
-        },
-        {
-          id: "1",
-          name: "Online Marketing Manager"
-        }
-      ]
+      isloadingCat: false
     };
   },
   beforeMount() {
@@ -206,7 +196,10 @@ export default {
   },
   mounted() {},
   computed: {
-    ...mapState(["baseDetails", "isOptSelected"]),
+    ...mapState({
+      baseDetails: state => state.forms.baseDetails,
+      isOptSelected: state => state.forms.isOptSelected       
+    }),
     isFormItemValid() {
       return !Object.keys(this.fields).some(key => this.fields[key].invalid);
     },
@@ -222,10 +215,9 @@ export default {
     },
     onChangeOption(event) {
       var value = event.target.value;
-      console.log("this.action", this.action);
-      this.$store.state.isOptSelected = false;
+      this.$store.commit("SET_OPT_SELECTED", false);
       if (value == "select" && this.action == "update") {
-        this.$store.state.isOptSelected = true;
+        this.$store.commit("SET_OPT_SELECTED", true);
       }
     },
     onSubmit() {
@@ -236,9 +228,9 @@ export default {
           if (response && response.data && response.data.id) {
             if (this.action == "create") {
               this.formItem.id = response.data.id;
-              this.$store.commit("ADD_Detalle_Item", this.formItem);
+              this.$store.commit("ADD_DETAIL_ITEM", this.formItem);
             }
-            this.$store.state.isOptSelected = false;
+            this.$store.commit("SET_OPT_SELECTED", false);
             this.$swal(response.data.message, {
               icon: "success"
             });
