@@ -24,21 +24,20 @@ namespace FormsAdminGP.RestfulAPI.Controllers
             _formHdService = formHdService;
         }
 
-        [HttpGet("download")]
-        public async Task<FileResult> Download()
-        {
-            //var fileName = "AngularJS.pdf";
-            ////var blockBlob = _blobUtility.DownloadBlob("cccc", "PX08-99-1806-Q7", fileName);
-            //var fileInfo = new FileInfo("");
-            //using (MemoryStream memoryStream = new MemoryStream())
-            //{
-            //    //await blockBlob.DownloadToStreamAsync(memoryStream);
-            //    return File(memoryStream.ToArray(), "application/octet-stream", fileName);
-            //}
-
-            byte[] fileBytes = await System.IO.File.ReadAllBytesAsync(@"C:\Users\GPertiDev\Documents\5345tttt.txt");
-            string fileName = "5345tttt.txt";
-            return File(fileBytes, System.Net.Mime.MediaTypeNames.Application.Octet, fileName);
+        [HttpGet("download/{fileName}")]
+        public async Task<IActionResult> Download(string fileName)
+        { 
+            var baseDir = _appSettings?.Value?.EbookPath ?? string.Empty;
+            var fullPath = Path.Combine(baseDir, fileName);
+            byte[] fileBytes = null;
+            if (System.IO.File.Exists(fullPath)){
+                fileBytes = await System.IO.File.ReadAllBytesAsync(fullPath);
+                return File(fileBytes, System.Net.Mime.MediaTypeNames.Application.Octet, fileName);
+            }
+            else
+            {
+                return NoContent();
+            }
         }
 
         [HttpPost("upload"), DisableRequestSizeLimit]

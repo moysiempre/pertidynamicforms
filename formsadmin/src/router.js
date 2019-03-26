@@ -4,7 +4,7 @@ import Login from './views/Login.vue'
 import LandingList from './views/LandingList.vue'
 import FormList from './views/FormList.vue'
 import Contact from './views/Contact.vue'
-import ContactDetail from './views/ContactDetail.vue'
+// import ContactDetail from './views/ContactDetail.vue'
 
 import store from './store/store'
 
@@ -42,11 +42,11 @@ let router = new Router({
       name: 'solicitudes',
       component: Contact
     },
-    {
-      path: '/solicitudes/:id',
-      name: 'solicitudesdet',
-      component: ContactDetail
-    },
+    // {
+    //   path: '/solicitudes/:id',
+    //   name: 'solicitudesdet',
+    //   component: ContactDetail
+    // },
     {
       path: '/about',
       name: 'about',

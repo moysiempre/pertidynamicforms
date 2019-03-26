@@ -51,16 +51,42 @@
         ></ag-grid-vue>
       </div>
     </div>
+
+    <!-- begin Modal -->
+    <div
+      class="modal fade"
+      id="contactDetailModal"
+      tabindex="-1"
+      role="dialog"
+      aria-labelledby="contactDetailModalLabel"
+      aria-hidden="true"
+    >
+      <div class="modal-dialog" role="document">
+        <div class="modal-content">
+          <div class="modal-header py-1">
+            <h5 class="modal-title" id="contactDetailModalLabel">Detalle del formulario</h5>
+            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+              <span aria-hidden="true">&times;</span>
+            </button>
+          </div>
+          <div class="modal-body">
+            <contact-detail :contact="contactItem"/>
+          </div>
+        </div>
+      </div>
+    </div>
+    <!-- end Modal -->
   </div>
 </template>
 <script>
 import axios from "axios";
 import DatePicker from "vue2-datepicker";
 import { AgGridVue } from "ag-grid-vue";
+import ContactDetail from "@/components/ContactDetail.vue";
 
 export default {
   name: "acontact",
-  components: { DatePicker, AgGridVue },
+  components: { DatePicker, AgGridVue, ContactDetail },
   data() {
     return {
       title: "SOLICITUDES",
@@ -68,6 +94,7 @@ export default {
       gridOptions: { rowHeight: 50 },
       landingPages: [],
       columnDefs: null,
+      contactItem: {},
       startDate: new Date(),
       endDate: new Date(),
       lang: {
@@ -129,6 +156,21 @@ export default {
         field: "landingPageName",
         resizable: true,
         sort: "asc"
+      },
+      {
+        headerName: "",
+        field: "pepe",
+        cellRenderer: params => {
+          const element = document.createElement("span");
+          const data = params.node.data;
+          element.innerHTML = `<button type="button" class="btn btn-link btn-sm">Ver Detalle</button>`;
+          element.addEventListener("click", () => {
+            this.contactItem = data;
+            window.$("#contactDetailModal").modal("show");
+          });
+          return element;
+        },
+        width: 180
       }
     ];
   },
@@ -137,6 +179,9 @@ export default {
     this.load({});
   },
   methods: {
+    avispa() {
+      alert("avispa");
+    },
     load(request) {
       axios
         .get("api-inforequest/getby", {
@@ -145,11 +190,22 @@ export default {
         .then(response => {
           this.rowData = response.data;
           this.rowData.forEach(element => {
-            var data = JSON.parse(element.infoRequestData);
-            element.name = data.name;
-            element.email = data.email;
-            element.phone = data.phone;
-            element.objData = data;
+            element.infoRequestData = JSON.parse(element.infoRequestData);
+            if (element.infoRequestData && element.infoRequestData.length) {
+              element.infoRequestData.forEach(el => {
+                switch (el.fieldTypeId) {
+                  case "email":
+                    element.email = el.data;
+                    break;
+                  case "phone":
+                    element.phone = el.data;
+                    break;
+                  case "name":
+                    element.name = el.data;
+                    break;
+                }
+              });
+            }
           });
           console.log("response.data ", response.data);
         });

@@ -21,7 +21,7 @@
         public const string REMOVE_FILE_SUCCESS_MESSAGE = "El archivo fue removido con éxito";
         public const string REMOVE_FILE_FAILED_MESSAGE = "No se pudo remover el archivo";
 
-
+        public const string LOGIN_FAILED_MESSAGE = "Usuario o contraseña incorrecto";
         #endregion
     }
 }

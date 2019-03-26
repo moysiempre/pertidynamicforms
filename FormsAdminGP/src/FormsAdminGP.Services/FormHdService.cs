@@ -78,7 +78,7 @@ namespace FormsAdminGP.Services
 
         public async Task<FormHdDto> GetByLandingPageIdAsync(string landingPageId)
         {
-            var landings = await _formHdLandingPageRepository.FindBy(x => x.LandingPageId == landingPageId);
+            var landings = await _formHdLandingPageRepository.FindBy(x => x.LandingPageId == landingPageId && x.IsActive);
             if(landings.Count() == 0)
             {
                 return new FormHdDto();
@@ -124,27 +124,56 @@ namespace FormsAdminGP.Services
                         landing.FormHdId = formHd.Id;
                         _formHdLandingPageRepository.Add(landing);
                     }
+
+                    foreach (var detail in formHd.FormDetails)
+                    {
+                        if(detail.DDLCatalogs != null && detail.DDLCatalogs.Count > 0)
+                        {
+                            foreach (var cat in detail.DDLCatalogs)
+                            {
+                                cat.IsActive = true;
+                                cat.FormDetailId = detail.Id;                               
+                                _dDLCatalogRepository.Add(cat);
+                            }
+                        }                       
+                    }
+
                 }
                 else
                 {
 
-                    foreach (var landingDto in formHdDto.FormHdLandingPage)
+                    //desabilitar las relaciones
+                    var formHdLandingPageList = await _formHdLandingPageRepository.FindBy(x => x.FormHdId == formHd.Id);
+                    foreach (var itemx in formHdLandingPageList)
                     {
-                        var landing = _mapper.Map<FormHdLandingPage>(landingDto);
+                        var formHdLandingPagew = formHd.FormHdLandingPage.FirstOrDefault(x => x.FormHdId == itemx.FormHdId && x.LandingPageId == itemx.LandingPageId);
+                        if(formHdLandingPagew == null)
+                        {
+                            itemx.IsActive = false;
+                            _formHdLandingPageRepository.Edit(itemx);
+                        }                        
+                    }
+
+
+                    foreach (var landingDto in formHd.FormHdLandingPage)
+                    {
+                        
                         var formHdLandingPage = await _formHdLandingPageRepository
                             .FindEntityBy(x => x.LandingPageId == landingDto.LandingPageId && x.FormHdId == landingDto.FormHdId);
+
                         if (formHdLandingPage == null)
                         {
-                            landing.FormHdId = formHd.Id;
-                            _formHdLandingPageRepository.Add(landing);
+                            formHdLandingPage.FormHdId = formHd.Id;
+                            _formHdLandingPageRepository.Add(formHdLandingPage);
                         }
                         else
                         {
-                            formHdLandingPage.IsActive = landing.IsActive;
+                            formHdLandingPage.IsActive = landingDto.IsActive;
                             _formHdLandingPageRepository.Edit(formHdLandingPage);
                         }
 
                     }
+
                     foreach (var detalleDto in formHd.FormDetails)
                     {
                         _formDetailRepository.Edit(detalleDto);
@@ -170,6 +199,8 @@ namespace FormsAdminGP.Services
 
             return response;
         }
+
+         
 
         public async Task<BaseResponse> UpdateFormHdFileAsync(string id, string fileName)
         {

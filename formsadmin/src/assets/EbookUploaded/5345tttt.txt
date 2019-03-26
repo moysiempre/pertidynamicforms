@@ -1,0 +1,16 @@
+ @for (int j = 0; j < Model.DetalleCotizacion[i].ListaImpuestosCotizacion.Count(); j++)
+                                {
+                                    var class_d_none = (Model.Cotizacion.Operacion == General.TipoOperacion.Nuevo && j > 0) ? "d-none" : "";
+                                    <p id="@cot_imp_index@j" class="@class_d_none">
+                                        <select id="@ddListForImp@j" onchange="calcularImpuestoCotizacionOnChange(this, @i, @j)" style="width: 100px;" class="valid">
+                                            <option value="">- Selecciona -</option>
+                                            @for (int k = 0; k < listaImpuesto.Count(); k++)
+                                            {
+                                                <option value="@listaImpuesto[k].Id">@listaImpuesto[k].Etiqueta</option>
+                                            }
+                                        </select>
+                                        @Html.TextBoxFor(m => m.DetalleCotizacion[i].ListaImpuestosCotizacion[j].Monto, new { style = "width: 50px;", @class = "impuestos-cot", @readonly = "true" })
+                                        @Html.HiddenFor(m => m.DetalleCotizacion[i].ListaImpuestosCotizacion[j].ImpuestosId)
+                                        <button type="button" class="link_to_button btn-thin" onclick="eliminarInpuesto(@i, @j)">-</button>
+                                    </p>
+                                }

@@ -66,6 +66,7 @@ const actions = {
     updateValueAction({
         commit
     }, payload) {
+        console.log("updateValueAction: ", payload)
         commit('SET_VALUES', payload)
     },
     loadOptions({

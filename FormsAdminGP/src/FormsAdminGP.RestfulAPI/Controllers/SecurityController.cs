@@ -1,4 +1,5 @@
-﻿using FormsAdminGP.Common.Utilities;
+﻿using FormsAdminGP.Common.Events;
+using FormsAdminGP.Common.Utilities;
 using FormsAdminGP.Domain;
 using FormsAdminGP.RestfulAPI.Models;
 using FormsAdminGP.Services;
@@ -46,13 +47,13 @@ namespace FormsAdminGP.RestfulAPI.Controllers
         {
             if (loginUser == null)
             {
-                return BadRequest("user is not set.");
+                return Ok(new { success = false, message = LoggingEvents.LOGIN_FAILED_MESSAGE });
             }
 
             var user = await _userService.FindUserAsync(loginUser.Username, loginUser.Password);
             if (user == null || !user.IsActive)
             {
-                return Unauthorized();
+                return Ok(new { success = false,  message = LoggingEvents.LOGIN_FAILED_MESSAGE });
             }
 
             var result = await _tokenFactoryService.CreateJwtTokensAsync(user);
@@ -60,7 +61,7 @@ namespace FormsAdminGP.RestfulAPI.Controllers
 
             _antiforgery.RegenerateAntiForgeryCookies(result.Claims);
 
-            return Ok(new { access_token = result.AccessToken, refresh_token = result.RefreshToken });
+            return Ok(new { access_token = result.AccessToken, refresh_token = result.RefreshToken, success = true });
         }
 
         [AllowAnonymous]

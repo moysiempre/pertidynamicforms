@@ -21,6 +21,6 @@ namespace FormsAdminGP.Services.DTO
 
     public class BaseDetailSettings : FormDetailDto
     {
-
+      
     }
 }

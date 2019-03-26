@@ -42,7 +42,7 @@
 
 <script>
 // @ is an alias to /src
-import  BtnLoader  from "@/components/BtnLoader.vue";
+import BtnLoader from "@/components/BtnLoader.vue";
 export default {
   name: "login",
   components: { BtnLoader },
@@ -65,18 +65,25 @@ export default {
       let password = this.password;
       this.$store
         .dispatch("login", { userName, password })
-        .then((response) => {
+        .then(response => {
           this.isloading = false;
-          this.$store.commit("SET_FULL_LAYOUT", true);
-          this.$router.push({ name: "formularios" });
-          console.log(response);
+          if (response.data.success === true) {
+            this.$store.commit("SET_FULL_LAYOUT", true);
+            this.$router.push({ name: "formularios" });
+          } else {            
+            this.$swal(response.data.message, {
+              icon: "warning"
+            });
+          }
         })
         .catch(err => {
           this.isloading = false;
-          console.log(err);
+          this.$swal("No se pudo logear, favor valide su conexión a internet, o comuniquese con el admistrador", {
+            icon: "error"
+          });
+          console.log("err-login", err);
         });
     }
   }
 };
 </script>
- 

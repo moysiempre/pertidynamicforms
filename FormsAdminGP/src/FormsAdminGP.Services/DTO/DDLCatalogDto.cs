@@ -7,7 +7,7 @@ namespace FormsAdminGP.Services.DTO
     {
         [Required]
         public string Name { get; set; }
-        [Required]
+        //[Required]
         public string FormDetailId { get; set; }
         
     }

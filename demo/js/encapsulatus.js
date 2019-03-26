@@ -3,7 +3,9 @@
      data() {
          return {
              baseUrl: "http://localhost:60829/landing/",
-             formData: {},
+             formData: {
+                 id: ""
+             },
              fields: [],
              isloading: false
          }
@@ -23,25 +25,53 @@
          onSubmit: function () {
              this.$validator.validateAll().then(isValid => {
                  if (isValid) {
-                     this.isloading = true;                     
-                     var infoRequestData = JSON.stringify(this.formData);
+                     this.isloading = true;
+                     let infoRequestData = []
                      let infoRequest = {
-                         infoRequestData: infoRequestData,
                          landingPageId: this.pageid,
-                         email: this.formData.email,
-                         name: this.formData.name,
                          fileName: this.fields.filePath,
                      }
+
+
+                     this.fields.formDetails.forEach(element => {
+                         var infodata = {
+                             fieldLabel: element.fieldLabel,
+                             data: element.data,
+                             order: element.order,
+                             fieldTypeId: element.fieldTypeId,
+                         };
+
+                         switch (element.fieldTypeId) {
+                             case 'email':
+                                 infodata.email = element.data
+                                 break;
+                             case 'phone':
+                                 infodata.phone = element.data
+                                 break;
+                             case 'name':
+                                 infodata.name = element.data
+                                 break;
+                         }
+
+                         infoRequestData.push(infodata);
+                     });
+
+                     infoRequest.infoRequestData = JSON.stringify(infoRequestData);
                      axios.post(this.baseUrl + 'api-inforequest', infoRequest)
                          .then((response) => {
                              this.isloading = false;
                              this.formData = {};
+                             this.downloadPdf(this.fields.filePath);
+
                          })
                          .catch(function (error) {
                              this.isloading = false;
                              console.log('Error: ' + error);
                          });
-                 } else {                      
+
+                     // console.log(infoRequest);
+
+                 } else {
                      console.log(isValid);
                  }
              });
@@ -66,6 +96,29 @@
              }
 
              return message
+         },
+         downloadPdf(fileName) {
+             axios({
+                 url: this.baseUrl + 'api-filemanager/download/' + fileName,
+                 method: 'GET',
+                 responseType: 'blob', // important
+             }).then((response) => {
+                 console.log(response.data.size)
+                 if(response.status ===  200 && response.data.size > 0 ){
+                    const url = window.URL.createObjectURL(new Blob([response.data]));
+                    const link = document.createElement('a');
+                    link.href = url;
+                    link.setAttribute('download', fileName); //or any other extension
+                    document.body.appendChild(link);
+                    link.click();
+                 } else{
+                     console.log("SORRY NO FILE", response.data.size);
+                 } 
+                
+             });
+         },
+         setLabel(name) {
+             return name;
          }
      },
      template: `<form id="contactForm">
@@ -74,40 +127,42 @@
              <div class="card">
                  <div class="card-header bg-white p-0">
                  <div class="text-center alert alert-success mb-0" hidden style="border-radius: 0">{{fields.title}}</div>
-                 <h5 class="text-center my-3">{{fields.title}}</h5>   
+                 <h5 class="text-center my-3">{{fields.title}}</h5>
                  </div>
                  <div class="card-body bg-light p-2">
                      <div class="container-fluid bg-white pt-3 pb-3" style="min-height: 200px;" >
                         <ball-beat :isloading="true"  v-if="!fields.title"/>
                         <form v-if="fields.title">
                              <div v-for="(field, index) in fields.formDetails" :key="index">
+
                                  <div class="form-group" v-if="field.fieldTypeId === 'name'">
                                      <label class="mb-0" :for="field.name">{{field.fieldLabel}}</label>
                                      <input v-validate="'required'" :name="field.name" :id="field.name"
                                          type="text" class="form-control" :placeholder="field.fieldLabel"
-                                         v-model="formData.name">
+                                         v-model="field.data">
                                      <span class="text-danger">{{ getErrMsg(errors, field.name) }}</span>
+
                                  </div>
                                  <div class="form-group" v-if="field.fieldTypeId === 'text'">
                                      <label class="mb-0" :for="field.name">{{field.fieldLabel}}</label>
                                      <input v-validate="'required'" :name="field.name" type="text"
                                          class="form-control" :placeholder="field.fieldLabel"
-                                         v-model="formData[field.name]">
+                                         v-model="field.data">
                                      <span class="text-danger">{{ getErrMsg(errors, field.name) }}</span>
                                  </div>
                                  <div class="form-group" v-if="field.fieldTypeId === 'email'">
                                      <label class="mb-0" :for="field.name">{{field.fieldLabel}}</label>
                                      <input v-validate="'required|email'" :name="field.name" type="text"
                                          class="form-control" :placeholder="field.fieldLabel"
-                                         v-model="formData.email">
+                                         v-model="field.data">
                                      <span class="text-danger">{{ getErrMsg(errors, field.name) }}</span>
 
                                  </div>
-                                 <div class="form-group" v-if="field.fieldTypeId === 'telefono'">
+                                 <div class="form-group" v-if="field.fieldTypeId === 'phone'">
                                      <label class="mb-0" :for="field.name">{{field.fieldLabel}}</label>
                                      <input v-validate="'required|numeric|min:10'" :name="field.name"
                                          maxlength="10" type="text" class="form-control"
-                                         :placeholder="field.fieldLabel" v-model="formData.phone">
+                                         :placeholder="field.fieldLabel" v-model="field.data">
                                      <span class="text-danger">{{ errors.first(field.name) }}</span>
                                  </div>
 
@@ -115,13 +170,13 @@
                                      <label class="mb-0" :for="field.name">{{field.fieldLabel}}</label>
                                      <textarea :name="field.name" class="form-control"
                                          :placeholder="field.fieldLabel" maxlength="450"
-                                         v-model="formData.comment"></textarea>
+                                         v-model="field.data"></textarea>
                                  </div>
 
                                  <div class="form-group" v-if="field.fieldTypeId === 'select'">
                                      <label class="mb-0" :for="field.name">{{field.fieldLabel}}</label>
                                      <select v-validate="'required'" :name="field.name" class="custom-select"
-                                         :placeholder="field.fieldLabel" v-model="formData[field.name]">
+                                         :placeholder="field.fieldLabel" v-model="field.data">
 
                                          <option v-for="(item, index) in field.ddlCatalogs" :key="index"
                                              :value="item.id">
@@ -157,16 +212,34 @@
      template: `<span class="spinners white" v-if="isloading"></span>`
  });
  Vue.component('ballBeat', {
-    name: "ballBeat",
-    template: `<div class="cu-loader-box"><div></div><div></div><div></div></div>`
-});
+     name: "ballBeat",
+     template: `<div class="cu-loader-box"><div></div><div></div><div></div></div>`
+ });
 
  Vue.use(VeeValidate);
  new Vue({
      el: '#app',
      data() {
          return {
-             title: "LANDING PAGE"
+             title: "LANDING PAGE",
+             baseUrl: "http://localhost:60829/landing/",
          }
      },
+     methods: {
+         downloadPdf(formId) {
+             //  alert(2)
+             axios({
+                 url: this.baseUrl + 'api-filemanager/download',
+                 method: 'GET',
+                 responseType: 'blob', // important
+             }).then((response) => {
+                 const url = window.URL.createObjectURL(new Blob([response.data]));
+                 const link = document.createElement('a');
+                 link.href = url;
+                 link.setAttribute('download', 'file.txt'); //or any other extension
+                 document.body.appendChild(link);
+                 link.click();
+             });
+         }
+     }
  });

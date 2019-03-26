@@ -143,7 +143,7 @@
       </form>
     </div>
 
-    <!-- Modal -->
+    <!-- begin Modal -->
     <div
       class="modal fade"
       id="formNewModal"
@@ -166,6 +166,7 @@
         </div>
       </div>
     </div>
+    <!-- end Modal -->
   </div>
 </template>
 
@@ -240,6 +241,8 @@ export default {
       let hasDetail = this.formHd.formDetails.filter(x => x.isActive == true);
       if (hasDetail && hasDetail.length) {
         this.isloading = true;
+        var _values = this.$store.state.forms.values;
+        console.log("COMPARE VALUES: ", _values, this.values);
         this.formHd.formHdLandingPage = this.values.map(item => {
           return {
             landingPageId: item.id,
@@ -247,6 +250,16 @@ export default {
             isActive: true
           };
         });
+
+        // hasDetail.forEach(element => {
+        //   if (element.ddlCatalogs && this.action === "create") {
+        //     for (let item in element.ddlCatalogs) {
+        //       var ert = element.ddlCatalogs[item];
+        //       ert.formDetailId = "";
+        //       console.log(ert);
+        //     }
+        //   }
+        // });
 
         axios({ method: "POST", url: "api-forms", data: this.formHd })
           .then(response => {
@@ -259,6 +272,7 @@ export default {
               });
               this.onCancel();
             } else {
+              console.log("RESPONSE: ", response);
               this.$swal(response.data.message, {
                 icon: "warning"
               });
@@ -271,6 +285,8 @@ export default {
               icon: "warning"
             });
           });
+
+
       } else {
         this.$swal({
           icon: "warning",
@@ -281,7 +297,8 @@ export default {
     },
     updateStore(item) {
       if (this.action === "create") {
-        this.$store.commit("ADD_FORM_HD", item);
+        //this.$store.commit("ADD_FORM_HD", item);
+        this.$store.dispatch("loadFormHds");
       }
       this.$store.commit("SET_VALUES", []);
     },

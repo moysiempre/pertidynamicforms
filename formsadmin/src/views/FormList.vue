@@ -55,7 +55,7 @@
       </div>
 
       <div class="col-12 col-sm-6 col-md-7 col-lg-3">
-        <h1>preview</h1>
+         
       </div>
     </div>
   </div>
@@ -114,7 +114,7 @@ export default {
         let _values = [];
         if (item && item.formHdLandingPage && item.formHdLandingPage.length) {
           item.formHdLandingPage.forEach(element => {
-            var landing = this.options.find(x => x.id == element.landingPageId);
+            var landing = this.options.find(x => x.id == element.landingPageId && element.isActive);
             if (landing) {
               _values.push(landing);
             }
