@@ -19,7 +19,7 @@
         <div class="dropdown-menu dropdown-menu-right">
           <div class="menu-box">
             <button class="btn btn-link" type="button">
-              <router-link to="/landing">
+              <router-link to="/landings">
                 <img src="../../assets/landings.png" alt style="width:35px">
                 <small class="text-muted">Landing Pages</small>
               </router-link>
@@ -34,6 +34,12 @@
               <router-link to="/solicitudes">
                 <img src="../../assets/requests.png" alt style="width:35px">
                 <small class="text-muted">Solicitudes</small>
+              </router-link>
+            </button>
+            <button class="btn btn-link" type="button">
+              <router-link to="/mailTemplate">
+                <img src="../../assets/email_setting.png" alt style="width:47px">
+                <small class="text-muted">E-Mail Plantillas</small>
               </router-link>
             </button>
           </div>
@@ -104,8 +110,8 @@ nav {
   .dropdown-menu {
     background-color: #fff;
     box-shadow: 0 0 15px 1px rgba(69, 65, 78, 0.2);
-    border: 1px solid rgba(25, 118, 210, 0.15) !important;  
-     -webkit-box-shadow: 0 1px 15px 1px rgba(76, 15, 218, 0.06) !important;
+    border: 1px solid rgba(25, 118, 210, 0.15) !important;
+    -webkit-box-shadow: 0 1px 15px 1px rgba(76, 15, 218, 0.06) !important;
     -moz-box-shadow: 0 1px 15px 1px rgba(76, 15, 218, 0.06) !important;
     box-shadow: 0 1px 15px 1px rgba(76, 15, 218, 0.06) !important;
 

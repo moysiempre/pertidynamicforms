@@ -24,9 +24,9 @@ namespace FormsAdminGP.RestfulAPI
             services.AddScoped<ILandingPageRepository, LandingPageRepository>()
                 .AddScoped<IFormHdRepository, FormHdRepository>()
                 .AddScoped<IFormDetailRepository, FormDetailRepository>()
-                .AddScoped<IFormHdLandingPageRepository, FormHdLandingPageRepository>()
                 .AddScoped<IInfoRequestRepository, InfoRequestRepository>()
-                .AddScoped<IDDLCatalogRepository, DDLCatalogRepository>();
+                .AddScoped<IDDLCatalogRepository, DDLCatalogRepository>()
+                .AddScoped<IMailTemplateRepository, MailTemplateRepository>();
             
 
             //SECURITY
@@ -44,7 +44,8 @@ namespace FormsAdminGP.RestfulAPI
 
             services.AddScoped<ILandindPageService, LandindPageService>()
                 .AddScoped<IFormHdService, FormHdService>()
-                .AddScoped<IInfoRequestService, InfoRequestService>();
+                .AddScoped<IInfoRequestService, InfoRequestService>()
+                .AddScoped<IMailTemplateService, MailTemplateService>();
 
             //SECURITY
             services.AddSingleton<IHttpContextAccessor, HttpContextAccessor>();

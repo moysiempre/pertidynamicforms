@@ -10,6 +10,7 @@ namespace FormsAdminGP.Services.Interfaces
         Task<IEnumerable<FormHdDto>> GetAllAsync();
         Task<FormHdDto> GetByIdAsync(string id);
         Task<FormHdDto> GetByLandingPageIdAsync(string landingPageId);
+        Task<IEnumerable<FormHdDto>> GetAllForOptionsAsync();
         Task<BaseResponse> AddOrUpdateAsync(FormHdDto formHdDto);
         Task<BaseResponse> UpdateFormHdFileAsync(string id, string fileName);
         Task<BaseResponse> DeleteAsync(string id);

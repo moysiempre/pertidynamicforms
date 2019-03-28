@@ -1,5 +1,6 @@
 ﻿using System;
 using System.IO;
+using System.Linq;
 using System.Security.Cryptography;
 using System.Text;
 namespace FormsAdminGP.Common.Utilities
@@ -41,6 +42,21 @@ namespace FormsAdminGP.Common.Utilities
                 cs.Write(cryptoBytes, 0, cryptoBytes.Length);
             }
             return Encoding.Unicode.GetString(ms.ToArray());
+        }
+
+
+        private const string AllowableCharacters = "abcdefghijklmnopqrstuvwxyz0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZ";
+
+        public static string GenerateString(int length)
+        {
+            var bytes = new byte[length];
+
+            using (var random = RandomNumberGenerator.Create())
+            {
+                random.GetBytes(bytes);
+            }
+
+            return new string(bytes.Select(x => AllowableCharacters[x % AllowableCharacters.Length]).ToArray());
         }
     }
 }

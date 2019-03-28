@@ -35,6 +35,14 @@ namespace FormsAdminGP.RestfulAPI.Controllers
             return Ok(item);
         }
 
+        [HttpGet("options")]
+        [AllowAnonymous]
+        public async Task<IActionResult> GetAllOptionsAsync()
+        {
+            var list = await _landindPageService.GetAllOptionsAsync();
+            return Ok(list);
+        }
+
         [HttpPost]
         [IgnoreAntiforgeryToken]
         public async Task<IActionResult> Post([FromBody]LandingPageDto landingPageDto)

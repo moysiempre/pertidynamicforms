@@ -16,7 +16,42 @@ namespace FormsAdminGP.Services.DTO
         public byte Order { get; set; } = 1;
         public bool IsRequired { get; set; } = true;
         public string Name => (!string.IsNullOrEmpty(FieldLabel))? FieldLabel.Replace(" ", "").ToLower() : string.Empty;
-
+        public string FieldType
+        {
+            get
+            {
+                var fieldType = string.Empty;
+                if (!string.IsNullOrEmpty(FieldTypeId))
+                {
+                    switch (FieldTypeId)
+                    {
+                        case "name":
+                            fieldType = "Texto";
+                            break;
+                        case "email":
+                            fieldType = "Email";
+                            break;
+                        case "phone":
+                            fieldType = "Teléfono";
+                            break;
+                        case "text":
+                            fieldType = "Texto";
+                            break;
+                        case "select":
+                            fieldType = "Selección";
+                            break;
+                        case "textarea":
+                            fieldType = "Textarea";
+                            break;
+                        case "submit":
+                            fieldType = "Botón";
+                            break;
+                    }
+                }
+               
+                return fieldType;
+            }
+        }
         public virtual ICollection<DDLCatalogDto> DDLCatalogs { get; set; }       
 
     }

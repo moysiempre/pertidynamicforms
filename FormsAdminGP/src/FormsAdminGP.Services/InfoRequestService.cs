@@ -89,9 +89,12 @@ namespace FormsAdminGP.Services
                     _infoRequestRepository.Add(infoRequest);
 
                     var item = await _infoRequestRepository.SaveChanges();
-
-                    var baseDir = _appSettings?.Value?.EbookPath ?? string.Empty;
-                    var attach = Path.Combine(baseDir, infoRequestDto.FileName);
+                    var attach = string.Empty;
+                    if (!string.IsNullOrEmpty(infoRequestDto.FileName))
+                    {
+                        var baseDir = _appSettings?.Value?.EbookPath ?? string.Empty;
+                        attach = Path.Combine(baseDir, infoRequestDto.FileName);                       
+                    }
 
                     await SendMailToClient(infoRequestDto.Email, infoRequestDto.Name, attach);
 

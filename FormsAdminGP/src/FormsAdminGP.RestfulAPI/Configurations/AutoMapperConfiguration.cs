@@ -22,13 +22,10 @@ namespace FormsAdminGP.RestfulAPI
         {
             CreateMap<LandingPage, LandingPageDto>().ReverseMap();
             CreateMap<FormHd, FormHdDto>().ReverseMap();
-            CreateMap<FormHdLandingPage, FormHdLandingPageDto>().ReverseMap();
             CreateMap<FormDetail, FormDetailDto>().ReverseMap();
             CreateMap<InfoRequest, InfoRequestDto>().ReverseMap();
             CreateMap<DDLCatalog, DDLCatalogDto>().ReverseMap();
-            
-
-
+            CreateMap<MailTemplate, MailTemplateDto>().ReverseMap();
         }
     }
 }

@@ -115,6 +115,7 @@
                     </div>
                   </td>
                   <td>{{ item.fieldLabel}}</td>
+                  <td>{{ item.fieldType}}</td>
                   <td class="text-right">
                     <a role="button" class="btn btn-link btn-sm" @click="onEdit(item)">editar</a>
                   </td>
@@ -243,9 +244,10 @@ export default {
         this.isloading = true;
         var _values = this.$store.state.forms.values;
         console.log("COMPARE VALUES: ", _values, this.values);
-        this.formHd.formHdLandingPage = this.values.map(item => {
+        this.formHd.landingPages = this.values.map(item => {
           return {
-            landingPageId: item.id,
+            id: item.id,
+            name: "[name]",
             formHdId: this.formHd.id,
             isActive: true
           };
@@ -298,8 +300,10 @@ export default {
     updateStore(item) {
       if (this.action === "create") {
         //this.$store.commit("ADD_FORM_HD", item);
+        console.log(item);
         this.$store.dispatch("loadFormHds");
       }
+      this.$store.dispatch("loadBaseDetails");
       this.$store.commit("SET_VALUES", []);
     },
     onEdit(item) {
@@ -354,6 +358,7 @@ export default {
       this.$store.commit("SET_ACTION", "read");
       this.$store.commit("SET_FORM_HD", {});
       this.$store.commit("SET_OPT_SELECTED", false);
+      this.$store.dispatch("loadOptions");
     }
   }
 };

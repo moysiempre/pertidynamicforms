@@ -51,6 +51,7 @@ const actions = {
         commit
     }) {
         axios.get("api-forms").then(response => {
+            console.log(response.data)
             commit("SET_FORM_HDS", response.data)
         }).catch(console.error);
     },
@@ -73,6 +74,13 @@ const actions = {
         commit
     }) {
         axios.get("api-landingpage").then(response => {
+            commit("SET_OPTIONS", response.data)
+        }).catch(console.error);
+    },
+    loadUniqOptions({
+        commit
+    }) {
+        axios.get("api-landingpage/options").then(response => {
             commit("SET_OPTIONS", response.data)
         }).catch(console.error);
     }

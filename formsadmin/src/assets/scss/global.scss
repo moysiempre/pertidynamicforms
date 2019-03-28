@@ -2,6 +2,7 @@
 @import "~vue-snotify/styles/simple";
 @import "~ag-grid-community/dist/styles/ag-grid.css";
 @import "~ag-grid-community/dist/styles/ag-theme-balham.css";
+
 html {
     box-sizing: border-box;
     position: relative;
@@ -24,10 +25,10 @@ body {
     background-color: #F5F5F5;
 }
 
- @import './variables';
- @import './utilities';
- @import './cards';
- @import './forms';
+@import './variables';
+@import './utilities';
+@import './cards';
+@import './forms';
 
 
 
@@ -78,11 +79,19 @@ body {
 .form-group.invalid input {
     border-color: #dc3545;
 }
+
 .form-group.invalid select {
     border-color: #dc3545;
 }
- 
 
-.toolbox{
+
+.toolbox {
     color: red;
+}
+
+.exlsx {
+
+    img {
+        width: 50px;
+    }
 }

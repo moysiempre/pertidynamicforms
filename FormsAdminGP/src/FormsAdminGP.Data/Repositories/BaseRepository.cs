@@ -57,6 +57,11 @@ namespace FormsAdminGP.Core.Repositories
             return await set.FirstOrDefaultAsync();
         }
 
+        public async Task<IEnumerable<T>> SQLQuery(string sql, params object[] parameters)
+        {
+            var list = await _idbset.FromSql(sql, parameters).ToListAsync();
+            return list;
+        }
 
         public virtual T Add(T entity)
         {

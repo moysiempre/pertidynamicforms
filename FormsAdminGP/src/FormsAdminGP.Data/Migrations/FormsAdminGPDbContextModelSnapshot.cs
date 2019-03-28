@@ -84,6 +84,8 @@ namespace FormsAdminGP.Data.Migrations
 
                     b.Property<bool>("IsActive");
 
+                    b.Property<string>("MailTemplateId");
+
                     b.Property<string>("Name")
                         .IsRequired()
                         .HasMaxLength(225);
@@ -98,22 +100,9 @@ namespace FormsAdminGP.Data.Migrations
 
                     b.HasKey("Id");
 
+                    b.HasIndex("MailTemplateId");
+
                     b.ToTable("FormHds","landing");
-                });
-
-            modelBuilder.Entity("FormsAdminGP.Domain.FormHdLandingPage", b =>
-                {
-                    b.Property<string>("FormHdId");
-
-                    b.Property<string>("LandingPageId");
-
-                    b.Property<bool>("IsActive");
-
-                    b.HasKey("FormHdId", "LandingPageId");
-
-                    b.HasIndex("LandingPageId");
-
-                    b.ToTable("FormHdLandingPage");
                 });
 
             modelBuilder.Entity("FormsAdminGP.Domain.InfoRequest", b =>
@@ -150,6 +139,8 @@ namespace FormsAdminGP.Data.Migrations
                     b.Property<string>("Description")
                         .HasMaxLength(450);
 
+                    b.Property<string>("FormHdId");
+
                     b.Property<bool>("IsActive");
 
                     b.Property<string>("Name")
@@ -162,7 +153,39 @@ namespace FormsAdminGP.Data.Migrations
 
                     b.HasKey("Id");
 
+                    b.HasIndex("FormHdId");
+
                     b.ToTable("LandingPages","landing");
+                });
+
+            modelBuilder.Entity("FormsAdminGP.Domain.MailTemplate", b =>
+                {
+                    b.Property<string>("Id")
+                        .ValueGeneratedOnAdd();
+
+                    b.Property<string>("Body")
+                        .IsRequired()
+                        .HasMaxLength(450);
+
+                    b.Property<string>("CreatedBy");
+
+                    b.Property<DateTime>("CreatedDate");
+
+                    b.Property<bool>("IsActive");
+
+                    b.Property<string>("Salut");
+
+                    b.Property<string>("Subject")
+                        .IsRequired()
+                        .HasMaxLength(225);
+
+                    b.Property<string>("UpdatedBy");
+
+                    b.Property<DateTime?>("UpdatedDate");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("MailTemplates","landing");
                 });
 
             modelBuilder.Entity("FormsAdminGP.Domain.Role", b =>
@@ -269,17 +292,11 @@ namespace FormsAdminGP.Data.Migrations
                         .OnDelete(DeleteBehavior.Restrict);
                 });
 
-            modelBuilder.Entity("FormsAdminGP.Domain.FormHdLandingPage", b =>
+            modelBuilder.Entity("FormsAdminGP.Domain.FormHd", b =>
                 {
-                    b.HasOne("FormsAdminGP.Domain.FormHd", "FormHd")
+                    b.HasOne("FormsAdminGP.Domain.MailTemplate", "MailTemplate")
                         .WithMany()
-                        .HasForeignKey("FormHdId")
-                        .OnDelete(DeleteBehavior.Restrict);
-
-                    b.HasOne("FormsAdminGP.Domain.LandingPage", "LandingPage")
-                        .WithMany()
-                        .HasForeignKey("LandingPageId")
-                        .OnDelete(DeleteBehavior.Restrict);
+                        .HasForeignKey("MailTemplateId");
                 });
 
             modelBuilder.Entity("FormsAdminGP.Domain.InfoRequest", b =>
@@ -288,6 +305,13 @@ namespace FormsAdminGP.Data.Migrations
                         .WithMany()
                         .HasForeignKey("LandingPageId")
                         .OnDelete(DeleteBehavior.Cascade);
+                });
+
+            modelBuilder.Entity("FormsAdminGP.Domain.LandingPage", b =>
+                {
+                    b.HasOne("FormsAdminGP.Domain.FormHd", "FormHd")
+                        .WithMany()
+                        .HasForeignKey("FormHdId");
                 });
 
             modelBuilder.Entity("FormsAdminGP.Domain.UserRole", b =>

@@ -10,6 +10,7 @@ namespace FormsAdminGP.Services.Interfaces
     {
         Task<IEnumerable<LandingPageDto>> GetAllAsync();
         Task<LandingPageDto> GetByIdAsync(string id);
+        Task<IEnumerable<LandingPageDto>> GetAllOptionsAsync();
         Task<BaseResponse> AddOrUpdateAsync(LandingPageDto landingPageDto, string userId);
         Task<BaseResponse> DeleteAsync(string id, string userId);
     }

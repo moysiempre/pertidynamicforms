@@ -1,10 +1,13 @@
-﻿using FormsAdminGP.Common.Events;
+﻿using FormsAdminGP.Common.Enums;
+using FormsAdminGP.Common.Events;
 using FormsAdminGP.Common.Utilities;
 using FormsAdminGP.Data.Repositories.Security;
 using FormsAdminGP.Domain;
+using FormsAdminGP.Services.EmailSender;
 using FormsAdminGP.Services.Responses;
 using Microsoft.AspNetCore.Http;
 using System;
+using System.Collections.Generic;
 using System.Security.Claims;
 using System.Threading.Tasks;
 
@@ -19,6 +22,7 @@ namespace FormsAdminGP.Services
         Task<User> GetCurrentUserAsync();
         string GetCurrentUserId();
         Task<(bool Succeeded, string Error)> ChangePasswordAsync(string username, string currentPassword, string newPassword);
+        Task<BaseResponse> ResetePasswordAsync(string email);
         Task<BaseResponse> CreateAsync(User user, string roleName);
     }
 
@@ -27,12 +31,15 @@ namespace FormsAdminGP.Services
     {
 
         private readonly IUserRepository _userRepository;
+        private readonly IEmailSenderService _emailSenderService;
         private readonly IHttpContextAccessor _contextAccessor;
         public UserService(
             IUserRepository userRepository,
+            IEmailSenderService emailSenderService,
             IHttpContextAccessor contextAccessor)
         {
             _userRepository = userRepository;
+            _emailSenderService = emailSenderService;
             _contextAccessor = contextAccessor;
         }
 
@@ -133,10 +140,55 @@ namespace FormsAdminGP.Services
         }
 
 
+        public async Task<BaseResponse> ResetePasswordAsync(string email)
+        {
+            var response = new BaseResponse();
+            try
+            {
+                var user = await _userRepository.FindEntityBy(x => x.Username == email);
+                if(user == null)
+                {
+                    response.Message = LoggingEvents.USER_FAILED_MESSAGE;
+                    return response;
+                }
+
+                var password = Protector.GenerateString(6);
+                user.Password = Utils.GetSha256Hash(password);
+                _userRepository.Edit(user);
+                await _userRepository.SaveChanges();
 
 
+                //enviar mail
+                await SendMailToClient(email, password);
+
+                response.Success = true;
+                response.Id = user.Id;
+                response.Message = LoggingEvents.INSERT_SUCCESS_MESSAGE;
+            }
+            catch (Exception)
+            {
+                response.Message = LoggingEvents.RESETE_FAILED_MESSAGE;
+            }
+
+            return response;
+        }
 
 
+        private async Task SendMailToClient(string email, string password)
+        {
+            var emails = new List<KeyValuePair<string, WithEMail>>();                  
+            emails.Add(new KeyValuePair<string, WithEMail>(email, WithEMail.To));
+            var subject = "Mensaje de notificación";
+            var message = $"<div><p>Hola</p><p>Su contraseña es: <strong>{password}</strong></p><div>";
+            try
+            {
+                await _emailSenderService.SendEmailAsync(emails, subject, message, new List<string>());
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+        }
 
 
 

@@ -32,6 +32,13 @@
           ></textarea>
         </div>
 
+        <div class="form-group">
+          <label class="mb-0" for="description">Formulario Asignado</label>
+          <select class="custom-select"  v-model="landingPage.formHdId">
+            <option v-for="(item, index) in formOpts" :key="index" :value="item.id">{{item.name}}</option>
+          </select>
+        </div>
+
         <div class="row">
           <div class="col-md-4">
             <div class="custom-control custom-checkbox mb-3">
@@ -82,6 +89,7 @@ export default {
   computed: {
     ...mapState({
       landingPage: state => state.landings.landingPage,
+      formOpts: state => state.landings.formOpts,
       action: state => state.landings.action
     }),
     isFormValid() {
@@ -98,7 +106,7 @@ export default {
           if (response && response.data && response.data.id) {
             this.landingPage.id = response.data.id;
             if (this.action === "create") {
-              this.$store.commit("ADD_LANDING", this.landingPage);
+              this.$store.dispatch("loadLandings");
             }
             this.$swal(response.data.message, {
               icon: "success"

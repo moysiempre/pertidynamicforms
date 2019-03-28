@@ -3,7 +3,8 @@
  const state = {
    landingPages: [],
    landingPage: {},
-   action: 'read'
+   action: 'read',
+   formOpts: {},
  };
 
  const getters = {
@@ -23,6 +24,11 @@
    SET_ACTION: (state, payload) => {
      state.action = payload;
    },
+
+   SET_FORMOPTS: (state, payload) => {
+    state.formOpts = payload;
+  },
+
  };
 
  const actions = {
@@ -34,7 +40,14 @@
          commit("SET_LANDINGS", response.data)
        })
        .catch(console.error);
-   }
+   },
+   loadFormsForOptions({
+     commit
+   }) {
+     axios.get("api-forms/getall").then(response => {
+       commit("SET_FORMOPTS", response.data)
+     }).catch(console.error);
+   },
  };
 
 

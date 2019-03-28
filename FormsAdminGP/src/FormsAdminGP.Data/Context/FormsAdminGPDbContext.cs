@@ -13,9 +13,9 @@ namespace FormsAdminGP.Data.Context
         public virtual DbSet<LandingPage> LandingPages { get; set; }
         public virtual DbSet<FormHd> FormHds { get; set; }
         public virtual DbSet<FormDetail> FormDetails { get; set; }
-        public virtual DbSet<FormHdLandingPage> FormHdLandingPage { get; set; }
         public virtual DbSet<InfoRequest> InfoRequests { get; set; }
         public virtual DbSet<DDLCatalog> DDLCatalogs { get; set; }
+        public virtual DbSet<MailTemplate> MailTemplates { get; set; }
 
         // SECURITY
         public virtual DbSet<Role> Roles { get; set; }
@@ -64,12 +64,12 @@ namespace FormsAdminGP.Data.Context
                 entity.Property(e => e.LandingPageId).IsRequired();
             });
 
-            builder.Entity<FormHdLandingPage>(entity =>
-            {
-                entity.HasKey(pc => new { pc.FormHdId, pc.LandingPageId });
-                entity.HasOne(pc => pc.FormHd).WithMany().HasForeignKey(pc => pc.FormHdId).IsRequired().OnDelete(DeleteBehavior.Restrict);
-                entity.HasOne(pc => pc.LandingPage).WithMany().HasForeignKey(pc => pc.LandingPageId).IsRequired().OnDelete(DeleteBehavior.Restrict);
-            });
+            //builder.Entity<FormHdLandingPage>(entity =>
+            //{
+            //    entity.HasKey(pc => new { pc.FormHdId, pc.LandingPageId });
+            //    entity.HasOne(pc => pc.FormHd).WithMany().HasForeignKey(pc => pc.FormHdId).IsRequired().OnDelete(DeleteBehavior.Restrict);
+            //    entity.HasOne(pc => pc.LandingPage).WithMany().HasForeignKey(pc => pc.LandingPageId).IsRequired().OnDelete(DeleteBehavior.Restrict);
+            //});
 
             builder.Entity<DDLCatalog>(entity =>
             {
@@ -77,7 +77,13 @@ namespace FormsAdminGP.Data.Context
                 entity.Property(e => e.Name).HasMaxLength(225).IsRequired();
                 entity.Property(e => e.FormDetailId).HasMaxLength(450).IsRequired();
             });
- 
+
+            builder.Entity<MailTemplate>(entity =>
+            {
+                entity.ToTable("MailTemplates", "landing");
+                entity.Property(e => e.Subject).HasMaxLength(225).IsRequired();
+                entity.Property(e => e.Body).HasMaxLength(450).IsRequired();
+            });
 
             // SECURITY Custom application mappings
             builder.Entity<User>(entity =>

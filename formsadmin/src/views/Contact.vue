@@ -2,17 +2,17 @@
   <div id="acontact" class="container-fluid">
     <h5>{{title}}</h5>
     <div class="row mb-1">
-      <div class="col-12 col-sm-4 col-md-6"></div>
-      <div class="col-12 col-sm-8 col-md-6">
+      <div class="col-12 col-sm-12 col-md-6 text-right"></div>
+      <div class="col-12 col-sm-12 col-md-6 text-right">
         <div class="row no-gutters">
-          <div class="col-sm-6">
-            <select class="custom-select mr-sm-2" id="ddllandings" @change="onChange($event)">
+          <div class="col-sm-4 d-flex align-items-center">
+            <select class="custom-select mr-sm-1" id="ddllandings" @change="onChange($event)">
               <option value>Seleccione...</option>
               <option v-for="item in landingPages" :key="item.id" :value="item.id">{{item.name}}</option>
             </select>
           </div>
-          <div class="col-sm-3">
-            <date-picker
+          <div class="col-sm-3 d-flex align-items-center">
+            <date-picker class="mr-sm-1"
               v-model="startDate"
               :first-day-of-week="1"
               format="DD/MM/YYYY"
@@ -21,7 +21,7 @@
               @change="onChangeStartDate"
             ></date-picker>
           </div>
-          <div class="col-sm-3">
+          <div class="col-sm-3 d-flex align-items-center">
             <date-picker
               v-model="endDate"
               :first-day-of-week="1"
@@ -31,6 +31,14 @@
               :lang="lang"
               @change="onChangeEndDate"
             ></date-picker>
+          </div>
+          <div class="col-sm-2 d-flex justify-content-end">
+            <button type="button" class="btn btn-default btn-sm py-0" @click="exportarXlsx">
+              <p class="exlsx m-0">
+                <img src="../assets/exportarXlsx.png" alt srcset>
+              </p>
+              <span>EXPORTAR</span>
+            </button>
           </div>
         </div>
       </div>
@@ -179,7 +187,7 @@ export default {
     this.load({});
   },
   methods: {
-    avispa() {
+    exportarXlsx() {
       alert("avispa");
     },
     load(request) {

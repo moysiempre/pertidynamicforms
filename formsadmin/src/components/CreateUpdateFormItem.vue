@@ -10,7 +10,7 @@
                   Tipo de entrada
                   <span class="i-required">*</span>
                 </label>
-
+                
                 <select
                   v-if="action === 'update'"
                   v-validate="'required'"
@@ -64,12 +64,8 @@
             </div>
             <div class="col-md-2">
               <div class="form-group">
-                <label for="order" class="mb-0">
-                  Posición
-                  <span class="i-required" hidden>*</span>
-                </label>
+                <label for="order" class="mb-0">Posición</label>
                 <input
-                  v-validate="'required'"
                   type="number"
                   id="order"
                   name="order"
@@ -99,13 +95,13 @@
             <div class="col-md-6">
               <div class="form-group text-right">
                 <button hidden type="button" class="btn btn-outline-warning btn-sm mx-1">RESETEAR</button>
-
+                
                 <button
                   type="button"
                   class="btn btn-outline-warning btn-sm mx-1"
                   data-dismiss="modal"
                 >SALIR</button>
-
+                
                 <button
                   type="button"
                   class="btn btn-dark btn-sm px-3"
@@ -198,7 +194,7 @@ export default {
   computed: {
     ...mapState({
       baseDetails: state => state.forms.baseDetails,
-      isOptSelected: state => state.forms.isOptSelected       
+      isOptSelected: state => state.forms.isOptSelected
     }),
     isFormItemValid() {
       return !Object.keys(this.fields).some(key => this.fields[key].invalid);
@@ -326,6 +322,25 @@ export default {
             this.$swal(response.data.message, {
               icon: "success"
             });
+
+            // swal({
+            //   title: "Are you sure?",
+            //   text: "Once deleted, you will not be able to recover this imaginary file!",
+            //   icon: "warning",
+            //   buttons: true,
+            //   dangerMode: true,
+            // })
+            // .then((willDelete) => {
+            //   if (willDelete) {
+            //     swal("Poof! Your imaginary file has been deleted!", {
+            //       icon: "success",
+            //     });
+            //   } else {
+            //     swal("Your imaginary file is safe!");
+            //   }
+            // });
+            
+
             //this.onCancel();
           } else {
             this.$swal(response.data.message, {

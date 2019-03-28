@@ -13,6 +13,7 @@ namespace FormsAdminGP.Services.DTO
         public string Title { get; set; }
         public string FilePath { get; set; }
         public virtual IEnumerable<FormDetailDto> FormDetails { get; set; }
-        public virtual IEnumerable<FormHdLandingPageDto> FormHdLandingPage { get; set; }
+        public string MailTemplateId { get; set; }
+        public virtual IEnumerable<LandingPageDto> LandingPages { get; set; }
     }
 }

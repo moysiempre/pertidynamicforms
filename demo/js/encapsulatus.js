@@ -32,7 +32,7 @@
                          fileName: this.fields.filePath,
                      }
 
-
+                     console.log("formDetails: ", this.fields.formDetails)
                      this.fields.formDetails.forEach(element => {
                          var infodata = {
                              fieldLabel: element.fieldLabel,
@@ -43,13 +43,17 @@
 
                          switch (element.fieldTypeId) {
                              case 'email':
-                                 infodata.email = element.data
+                                 infodata.email = element.data;
+                                 infoRequest.email = element.data;
+                                 console.log("element.data: ", element.data)
                                  break;
                              case 'phone':
-                                 infodata.phone = element.data
+                                 infodata.phone = element.data;
+                                 infoRequest.phone = element.data;
                                  break;
                              case 'name':
-                                 infodata.name = element.data
+                                 infodata.name = element.data;
+                                 infoRequest.name = element.data;
                                  break;
                          }
 
@@ -57,10 +61,11 @@
                      });
 
                      infoRequest.infoRequestData = JSON.stringify(infoRequestData);
+                     console.log('api-inforequest', infoRequest);
                      axios.post(this.baseUrl + 'api-inforequest', infoRequest)
                          .then((response) => {
                              this.isloading = false;
-                             this.formData = {};
+                             this.clearFormData();
                              this.downloadPdf(this.fields.filePath);
 
                          })
@@ -76,6 +81,11 @@
                  }
              });
 
+         },
+         clearFormData() {
+             this.fields.formDetails.forEach(element => {
+                 element.data = ""
+             });
          },
          getErrMsg(errors, field) {
              var message = "";
@@ -104,17 +114,17 @@
                  responseType: 'blob', // important
              }).then((response) => {
                  console.log(response.data.size)
-                 if(response.status ===  200 && response.data.size > 0 ){
-                    const url = window.URL.createObjectURL(new Blob([response.data]));
-                    const link = document.createElement('a');
-                    link.href = url;
-                    link.setAttribute('download', fileName); //or any other extension
-                    document.body.appendChild(link);
-                    link.click();
-                 } else{
+                 if (response.status === 200 && response.data.size > 0) {
+                     const url = window.URL.createObjectURL(new Blob([response.data]));
+                     const link = document.createElement('a');
+                     link.href = url;
+                     link.setAttribute('download', fileName); //or any other extension
+                     document.body.appendChild(link);
+                     link.click();
+                 } else {
                      console.log("SORRY NO FILE", response.data.size);
-                 } 
-                
+                 }
+
              });
          },
          setLabel(name) {

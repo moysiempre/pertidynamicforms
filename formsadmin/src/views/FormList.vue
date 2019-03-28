@@ -30,17 +30,33 @@
             </div>
             <ul class="list-group" v-if="formHds">
               <li class="list-group-item" v-for="item in filterSearch" :key="item.id">
-                <div @click="onEmitAct(item, 'update')">
-                  <h6 class="mb-0">{{item.name}}</h6>
-                  <p class="mb-0" style="color:#75818b">
-                    <small>{{item.title}}</small>
-                  </p>
+                <div  @click="onEmitAct(item, 'update')">
+                  <div>
+                    <h6 class="mb-0">{{item.name}}</h6>
+                    <p class="mb-0" style="color:#75818b">
+                      <small>{{item.title}}</small>
+                    </p>
+                  </div>
+                  <div class="c-wait" hidden>
+                    <h6 class="mb-0">{{item.name}}</h6>
+                    <p class="mb-0" style="color:#75818b">
+                      <small>{{item.title}}</small>
+                    </p>
+                  </div>
                 </div>
-                <div class="c-wait" hidden>
-                  <h6 class="mb-0">{{item.name}}</h6>
-                  <p class="mb-0" style="color:#75818b">
-                    <small>{{item.title}}</small>
-                  </p>
+                <div :class="{'c-wait': action !== 'read'}" v-if="action !== 'read'" hidden>
+                  <div>
+                    <h6 class="mb-0">{{item.name}}</h6>
+                    <p class="mb-0" style="color:#75818b">
+                      <small>{{item.title}}</small>
+                    </p>
+                  </div>
+                  <div class="c-wait" hidden>
+                    <h6 class="mb-0">{{item.name}}</h6>
+                    <p class="mb-0" style="color:#75818b">
+                      <small>{{item.title}}</small>
+                    </p>
+                  </div>
                 </div>
               </li>
             </ul>
@@ -54,9 +70,7 @@
         <create-update-form :title="title"/>
       </div>
 
-      <div class="col-12 col-sm-6 col-md-7 col-lg-3">
-         
-      </div>
+      <div class="col-12 col-sm-6 col-md-7 col-lg-3"></div>
     </div>
   </div>
 </template>
@@ -77,6 +91,7 @@ export default {
     this.$store.dispatch("loadFormHds");
     this.$store.dispatch("loadBaseDetails");
     this.$store.dispatch("loadOptions");
+    this.$store.commit("SET_ACTION", "read");
   },
   computed: {
     ...mapState({
@@ -97,7 +112,6 @@ export default {
   mounted() {},
   methods: {
     onEmitAct(item, action) {
-      console.log(action, item);
       this.title =
         action === "create" ? "ALTA FORMULARIO" : "MODIFICAR FORMULARIO";
 
@@ -108,19 +122,24 @@ export default {
           formDetails: this.baseDetails
         };
         this.$store.commit("SET_VALUES", []);
+        this.$store.dispatch("loadUniqOptions");
       }
 
       if (action == "update") {
         let _values = [];
-        if (item && item.formHdLandingPage && item.formHdLandingPage.length) {
-          item.formHdLandingPage.forEach(element => {
-            var landing = this.options.find(x => x.id == element.landingPageId && element.isActive);
+        if (item && item.landingPages && item.landingPages.length) {
+          item.landingPages.forEach(element => {
+            var landing = this.options.find(
+              x => x.id == element.id && element.isActive
+            );
             if (landing) {
               _values.push(landing);
             }
           });
         }
-        this.$store.commit("SET_VALUES", _values);
+        this.$store.commit("SET_VALUES", _values);        
+        this.$store.dispatch("loadOptions");
+        console.log("onEmitAct", this.$store.state.options);
       }
 
       this.$store.commit("SET_ACTION", action);

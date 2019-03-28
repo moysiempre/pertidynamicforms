@@ -45,6 +45,14 @@ namespace FormsAdminGP.RestfulAPI.Controllers
             return Ok(item);
         }
 
+        [HttpGet("getAll")]
+        [AllowAnonymous]
+        public async Task<IActionResult> GetAllForOptionsAsync(string id)
+        {
+            var item = await _formHdService.GetAllForOptionsAsync();
+            return Ok(item);
+        }
+
         [HttpGet("fieldTypes")]
         [AllowAnonymous]
         public async Task<IActionResult> GetFieldTypes()

@@ -32,6 +32,13 @@ namespace FormsAdminGP.Services
             return _mapper.Map<List<LandingPageDto>>(list);
         }
 
+        public async Task<IEnumerable<LandingPageDto>> GetAllOptionsAsync()
+        {
+            var query = "SELECT * FROM [landing].[LandingPages] WHERE Id NOT IN(SELECT LandingPageId FROM [dbo].[FormHdLandingPage])";
+            var list = await _landingPageRepository.SQLQuery(query);
+            return _mapper.Map<List<LandingPageDto>>(list);
+        }
+
         public async Task<LandingPageDto> GetByIdAsync(string id)
         {
             var item = await _landingPageRepository.FindEntityBy(x=>x.Id == id);

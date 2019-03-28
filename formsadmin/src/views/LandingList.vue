@@ -5,7 +5,7 @@
         <div class="card border-light helix">
           <div class="card-header">
             <h6 class="mt-2">LANDING PAGES</h6>
-            <a class="btn btn-link" @click="onEmitAct({}, 'create')">
+            <a class="btn btn-link" @click="onEmitAct({ isActive: true}, 'create')">
               <i class="pe-7s-close pe-rotate-45" style="font-size:1.5rem"></i>
               <br>
             </a>
@@ -48,7 +48,7 @@
         </div>
       </div>
       <div class="col-12 col-sm-6 col-md-7 col-lg-5 mt-3 mt-sm-0" v-if="action !== 'read'">
-          <create-update-landing :title="title" />
+        <create-update-landing :title="title"/>
       </div>
     </div>
   </div>
@@ -67,6 +67,8 @@ export default {
   },
   created() {
     this.$store.dispatch("loadLandings");
+    this.$store.dispatch("loadFormsForOptions");
+    this.$store.commit("SET_ACTION", "read");
   },
   computed: {
     ...mapState({
@@ -87,7 +89,7 @@ export default {
       this.title =
         action === "create" ? "ALTA LANDING PAGE" : "MODIFICAR LANDING PAGE";
       this.$store.commit("SET_ACTION", action);
-      this.$store.commit("SET_LANDING", item);
+      this.$store.commit("SET_LANDING", item);      
     }
   }
 };

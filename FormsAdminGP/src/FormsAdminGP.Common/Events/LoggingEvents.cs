@@ -22,6 +22,10 @@
         public const string REMOVE_FILE_FAILED_MESSAGE = "No se pudo remover el archivo";
 
         public const string LOGIN_FAILED_MESSAGE = "Usuario o contraseña incorrecto";
+        public const string USER_FAILED_MESSAGE = "Usuario no encontrado en el sistema";
+        public const string RESETE_FAILED_MESSAGE = "No se pudo resetear tu contraseña";
+ 
+
         #endregion
     }
 }

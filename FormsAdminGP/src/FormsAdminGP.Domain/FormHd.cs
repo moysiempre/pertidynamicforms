@@ -12,8 +12,11 @@ namespace FormsAdminGP.Domain
         public string FilePath { get; set; }
         public virtual ICollection<FormDetail> FormDetails { get; set; }
 
+        public string MailTemplateId { get; set; }
+        public virtual MailTemplate MailTemplate { get; set; }
+
         [NotMapped]
-        public virtual ICollection<FormHdLandingPage> FormHdLandingPage { get; set; }
+        public virtual ICollection<LandingPage> LandingPages { get; set; }
 
     }
 }

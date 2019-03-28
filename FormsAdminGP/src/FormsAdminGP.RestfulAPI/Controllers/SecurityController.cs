@@ -77,6 +77,14 @@ namespace FormsAdminGP.RestfulAPI.Controllers
             return Ok(response);
         }
 
+        [AllowAnonymous]
+        [HttpGet("resetepassword/{email}")]
+        public async Task<IActionResult> ResetePasswordAsync(string email)
+        { 
+            var response = await _userService.ResetePasswordAsync(email);
+            return Ok(response);
+        }
+
 
         [AllowAnonymous]
         [HttpPost("refreshToken")]

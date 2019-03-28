@@ -1,26 +1,32 @@
 <template>
   <div class="container-fluid">
     <div class="card login">
-      <h5 class="text-center font-weight-normal mb-3">LOGIN</h5>
+      <h5 class="text-center font-weight-normal mb-3">INICIA SESIÓN</h5>
       <div class="card-body">
         <form @submit.prevent="onSubmit">
-          <div class="form-group">
+          <div class="form-group text-left">
             <input
-              type="email"
+              v-validate="'required|email'"
+              type="text"
               id="userName"
+              name="userName"
               class="form-control"
               placeholder="Digite su correo electrónico"
               v-model="userName"
             >
+            <small class="text-danger">{{ getErrMsg(errors, 'userName') }}</small>
           </div>
-          <div class="form-group">
+          <div class="form-group text-left">
             <input
+              v-validate="'required'"
               type="password"
               id="password"
+              name="password"
               class="form-control"
               placeholder="digite su contraseña"
               v-model="password"
             >
+            <small class="text-danger">{{ getErrMsg(errors, 'password') }}</small>
           </div>
 
           <div class="form-group">
@@ -31,7 +37,10 @@
           </div>
           <div class="form-group">
             <p class="mb-0">
-              <a href="#">¿Has olvidado tu contraseña?</a>
+              <small class="text-muted pr-2">¿Has olvidado tu contraseña?</small>
+              <router-link to="/resetepassword">
+                <small>RESETÉALO</small>
+              </router-link>
             </p>
           </div>
         </form>
@@ -60,29 +69,56 @@ export default {
   computed: {},
   methods: {
     onSubmit: function() {
-      this.isloading = true;
-      let userName = this.userName;
-      let password = this.password;
-      this.$store
-        .dispatch("login", { userName, password })
-        .then(response => {
-          this.isloading = false;
-          if (response.data.success === true) {
-            this.$store.commit("SET_FULL_LAYOUT", true);
-            this.$router.push({ name: "formularios" });
-          } else {            
-            this.$swal(response.data.message, {
-              icon: "warning"
+      this.$validator.validateAll().then(isValid => {
+        if (isValid) {
+          this.isloading = true;
+          let userName = this.userName;
+          let password = this.password;
+          this.$store
+            .dispatch("login", { userName, password })
+            .then(response => {
+              this.isloading = false;
+              if (response.data.success === true) {
+                this.$store.commit("SET_FULL_LAYOUT", true);
+                this.$router.push({ name: "formularios" });
+              } else {
+                this.$swal(response.data.message, {
+                  icon: "warning"
+                });
+              }
+            })
+            .catch(err => {
+              this.isloading = false;
+              this.$swal(
+                "No se pudo logear, favor valide su conexión a internet, o comuniquese con el admistrador",
+                {
+                  icon: "error"
+                }
+              );
+              console.log("err-login", err);
             });
-          }
-        })
-        .catch(err => {
-          this.isloading = false;
-          this.$swal("No se pudo logear, favor valide su conexión a internet, o comuniquese con el admistrador", {
-            icon: "error"
-          });
-          console.log("err-login", err);
-        });
+        }
+      });
+    },
+    getErrMsg(errors, field) {
+      var message = "";
+      var error = errors.items.find(x => x.field == field);
+      if (error) {
+        switch (error.rule) {
+          case "required":
+            message = `El campo es obligatorio.`;
+            break;
+          case "email":
+            message = `El campo debe ser un correo electrónico válido.`;
+            break;
+          default:
+            break;
+        }
+      } else {
+        message = "";
+      }
+
+      return message;
     }
   }
 };

@@ -20,21 +20,21 @@ namespace FormsAdminGP.Services
         private static Logger logger = LogManager.GetCurrentClassLogger();
         private readonly IFormHdRepository _formHdRepository;
         private readonly IFormDetailRepository _formDetailRepository;
-        private readonly IFormHdLandingPageRepository _formHdLandingPageRepository;
+        private readonly ILandingPageRepository _landingPageRepository;
         private readonly IDDLCatalogRepository _dDLCatalogRepository;
         private readonly IOptions<List<BaseDetailSettings>> _baseDetailSettings;
         private readonly IMapper _mapper;
         public FormHdService(
             IFormHdRepository formHdRepository,
             IFormDetailRepository formDetailRepository,
-            IFormHdLandingPageRepository formHdLandingPageRepository,
+            ILandingPageRepository landingPageRepository,
             IDDLCatalogRepository dDLCatalogRepository,
             IOptions<List<BaseDetailSettings>> baseDetailSettings,
             IMapper mapper)
         {
             _formHdRepository = formHdRepository;
             _formDetailRepository = formDetailRepository;
-            _formHdLandingPageRepository = formHdLandingPageRepository;
+            _landingPageRepository = landingPageRepository;
             _dDLCatalogRepository = dDLCatalogRepository;
             _baseDetailSettings = baseDetailSettings;
             _mapper = mapper;
@@ -47,8 +47,8 @@ namespace FormsAdminGP.Services
             foreach (var item in list)
             {
                 item.FormDetails = item.FormDetails.OrderBy(x => x.Order).ToList();
-                var formHdLandingPage = await _formHdLandingPageRepository.FindBy(x => x.FormHdId == item.Id);
-                item.FormHdLandingPage = formHdLandingPage.ToList();
+                var formHdLandingPage = await _landingPageRepository.FindBy(x => x.FormHdId == item.Id);
+                item.LandingPages = formHdLandingPage.ToList();
                 foreach (var detail in item.FormDetails.Where(x=>x.FieldTypeId == FieldType.select.ToString()))
                 {
                     var ddlCatalogs = await _dDLCatalogRepository.FindBy(x => x.FormDetailId == detail.Id);
@@ -78,27 +78,33 @@ namespace FormsAdminGP.Services
 
         public async Task<FormHdDto> GetByLandingPageIdAsync(string landingPageId)
         {
-            var landings = await _formHdLandingPageRepository.FindBy(x => x.LandingPageId == landingPageId && x.IsActive);
-            if(landings.Count() == 0)
-            {
-                return new FormHdDto();
-            }
+            //var landings = await _formHdLandingPageRepository.FindBy(x => x.LandingPageId == landingPageId && x.IsActive);
+            //if(landings.Count() == 0)
+            //{
+            //    return new FormHdDto();
+            //}
 
-            var formHdId = landings.FirstOrDefault().FormHdId;
-            var item = await _formHdRepository.FindEntityBy(x => x.Id == formHdId, t => t.FormDetails);
-            if (item != null)
-            {
-                item.FormDetails = item.FormDetails.Where(x => x.IsActive).OrderBy(x => x.Order).ToList();
-                foreach (var detail in item.FormDetails.Where(x => x.FieldTypeId == FieldType.select.ToString()))
-                {
-                    var ddlCatalogs = await _dDLCatalogRepository.FindBy(x => x.FormDetailId == detail.Id);
-                    detail.DDLCatalogs = ddlCatalogs.ToList();
-                }
-            }
+            //var formHdId = landings.FirstOrDefault().FormHdId;
+            //var item = await _formHdRepository.FindEntityBy(x => x.Id == formHdId, t => t.FormDetails);
+            //if (item != null)
+            //{
+            //    item.FormDetails = item.FormDetails.Where(x => x.IsActive).OrderBy(x => x.Order).ToList();
+            //    foreach (var detail in item.FormDetails.Where(x => x.FieldTypeId == FieldType.select.ToString()))
+            //    {
+            //        var ddlCatalogs = await _dDLCatalogRepository.FindBy(x => x.FormDetailId == detail.Id);
+            //        detail.DDLCatalogs = ddlCatalogs.ToList();
+            //    }
+            //}
 
-            return _mapper.Map<FormHdDto>(item);
+            // return _mapper.Map<FormHdDto>(item);
+            return new FormHdDto();
         }
 
+        public async Task<IEnumerable<FormHdDto>>  GetAllForOptionsAsync()
+        {
+            var list = await _formHdRepository.GetAll();
+            return _mapper.Map<List<FormHdDto>>(list);            
+        }
         public async Task<BaseResponse> AddOrUpdateAsync(FormHdDto formHdDto)
         {
             var response = new BaseResponse();
@@ -118,12 +124,24 @@ namespace FormsAdminGP.Services
                     formHd.Id = Common.Utilities.Utils.NewGuid;
                     _formHdRepository.Add(formHd);
 
-                    foreach (var landingDto in formHdDto.FormHdLandingPage)
+
+                    foreach (var page in formHdDto.LandingPages)
                     {
-                        var landing = _mapper.Map<FormHdLandingPage>(landingDto);
-                        landing.FormHdId = formHd.Id;
-                        _formHdLandingPageRepository.Add(landing);
-                    }
+                        var landing = await _landingPageRepository.FindEntityBy(x => x.Id == page.Id);
+                        if (landing != null)
+                        {
+                            if (landing.FormHdId != null)
+                            {
+                                response.Message = $"El landing page: { landing.Name } ya cuenta con un formulario asignado, es recomendable darle de baja antes";
+                            }
+                            else
+                            {
+                                landing.FormHdId = formHd.Id;
+                                _landingPageRepository.Edit(landing);
+                            }
+                        }
+                    } 
+
 
                     foreach (var detail in formHd.FormDetails)
                     {
@@ -142,37 +160,23 @@ namespace FormsAdminGP.Services
                 else
                 {
 
-                    //desabilitar las relaciones
-                    var formHdLandingPageList = await _formHdLandingPageRepository.FindBy(x => x.FormHdId == formHd.Id);
-                    foreach (var itemx in formHdLandingPageList)
+                    foreach (var page in formHdDto.LandingPages)
                     {
-                        var formHdLandingPagew = formHd.FormHdLandingPage.FirstOrDefault(x => x.FormHdId == itemx.FormHdId && x.LandingPageId == itemx.LandingPageId);
-                        if(formHdLandingPagew == null)
+                        var landing = await _landingPageRepository.FindEntityBy(x => x.Id == page.Id);
+                        if (landing != null)
                         {
-                            itemx.IsActive = false;
-                            _formHdLandingPageRepository.Edit(itemx);
-                        }                        
+                            if (landing.FormHdId != null)
+                            {
+                                response.Message = $"El landing page: { landing.Name } ya cuenta con un formulario asignado, es recomendable darle de baja antes";
+                            }
+                            else
+                            {
+                                landing.FormHdId = formHd.Id;
+                                _landingPageRepository.Edit(landing);
+                            }
+                        }
                     }
 
-
-                    foreach (var landingDto in formHd.FormHdLandingPage)
-                    {
-                        
-                        var formHdLandingPage = await _formHdLandingPageRepository
-                            .FindEntityBy(x => x.LandingPageId == landingDto.LandingPageId && x.FormHdId == landingDto.FormHdId);
-
-                        if (formHdLandingPage == null)
-                        {
-                            formHdLandingPage.FormHdId = formHd.Id;
-                            _formHdLandingPageRepository.Add(formHdLandingPage);
-                        }
-                        else
-                        {
-                            formHdLandingPage.IsActive = landingDto.IsActive;
-                            _formHdLandingPageRepository.Edit(formHdLandingPage);
-                        }
-
-                    }
 
                     foreach (var detalleDto in formHd.FormDetails)
                     {
@@ -305,7 +309,20 @@ namespace FormsAdminGP.Services
                 }
                 else
                 {
-                    _formDetailRepository.Edit(formDetail);
+                    formDetail = await _formDetailRepository.FindEntityBy(x => x.Id == formDetailDto.Id);
+                    if (formDetail != null)
+                    {
+                        formDetail.FieldLabel = formDetailDto.FieldLabel;
+                        formDetail.Order = formDetailDto.Order;
+                        _formDetailRepository.Edit(formDetail);
+                    }
+                    else {
+
+                        response.Message = LoggingEvents.UPDATE_FAILED_MESSAGE;
+                        return response;
+                    }
+
+                   
                 }
 
                 var item = await _formDetailRepository.SaveChanges();
