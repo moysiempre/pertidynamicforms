@@ -28,6 +28,11 @@ namespace FormsAdminGP.RestfulAPI
 
         public IConfiguration Configuration { get; }
         private string[] withOrigins => new[] {
+            "http://192.168.15.45:83" ,
+            "http://192.168.15.45:84" ,
+            "http://192.168.15.42:8080" ,
+            "http://192.168.15.42:82" ,
+            "http://192.168.15.42:84" ,
             "http://localhost:8080" ,
             "http://localhost:60829",
             "http://localhost:3381",

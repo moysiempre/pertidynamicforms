@@ -1,8 +1,15 @@
-﻿using FormsAdminGP.Services.DTO;
+﻿using FormsAdminGP.Domain;
+using FormsAdminGP.Services.DTO;
 using FormsAdminGP.Services.Interfaces;
 using FormsAdminGP.Services.Request;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
+using Newtonsoft.Json;
+using OfficeOpenXml;
+using System;
+using System.Collections.Generic;
+using System.IO;
+using System.Linq;
 using System.Threading.Tasks;
 
 namespace FormsAdminGP.RestfulAPI.Controllers
@@ -10,7 +17,7 @@ namespace FormsAdminGP.RestfulAPI.Controllers
     [Produces("application/json")]
     [Route("landing/api-inforequest")]
     [AllowAnonymous]
-    public class InfoRequestController: Controller
+    public class InfoRequestController : Controller
     {
         private readonly IInfoRequestService _infoRequestService;
         public InfoRequestController(IInfoRequestService infoRequestService)
@@ -58,5 +65,100 @@ namespace FormsAdminGP.RestfulAPI.Controllers
             var item = await _infoRequestService.DeleteAsync(id);
             return Ok(item);
         }
+
+
+        [HttpGet("download")]
+        public async Task<IActionResult> CrearPagoXlsx(BaseRequest request)
+        {
+            try
+            {
+                var excelStream = new MemoryStream();
+                var listaInfo = await _infoRequestService.GetByAsync(request);
+                //distinct by
+                var uniqueFormList = listaInfo.Select(x => new { x.FormHdId }).Distinct();
+
+                FormatDataJson(ref listaInfo);
+
+                using (var package = new ExcelPackage())
+                {
+                    var i = 0;
+                    foreach (var item in uniqueFormList)
+                    {
+                        ++i;
+                        var infoRequest = listaInfo.Where(x => x.FormHdId == item.FormHdId);
+                        var worksheet = package.Workbook.Worksheets.Add($"Form {i}");
+                        var index = 0;
+                        foreach (var info in infoRequest)
+                        {
+                            worksheet.Cells[$"A{index + 1}"].Value = info.RequestDateStr;
+                            worksheet.Cells[$"B{index + 1}"].Value = info?.StatField?.Field1.Value ?? string.Empty;
+                            worksheet.Cells[$"C{index + 1}"].Value = info?.StatField?.Field2.Value ?? string.Empty;
+                            worksheet.Cells[$"D{index + 1}"].Value = info?.StatField?.Field3.Value ?? string.Empty;
+                            worksheet.Cells[$"E{index + 1}"].Value = info?.StatField?.Field4.Value ?? string.Empty;
+                            worksheet.Cells[$"F{index + 1}"].Value = info.LandingPageName;
+                            index++;
+                        }
+                        worksheet.Cells.AutoFitColumns(0);  //Autofit columns for all cells
+                    }
+
+                    // Send the file stream
+                    package.SaveAs(excelStream);
+                    excelStream.Position = 0;
+                    // descargar spreadsheet
+                    return File(excelStream, "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet", "solicitudes.xlsx");
+                }
+
+
+
+            }
+            catch (Exception ex)
+            {
+                //-------------
+                return NoContent();
+            }
+
+
+
+        }
+        private void FormatDataJson(ref IEnumerable<InfoRequestDto> listaInfo)
+        {
+            
+            foreach (var item in listaInfo)
+            {
+                var objList = JsonConvert.DeserializeObject<List<FormDetailDto>>(item.InfoRequestData);
+                int index = 0;
+                var statField = new StatField();
+                foreach (var _object in objList)
+                {
+                    index++;
+                    var data = new KeyValuePair<string, string>(_object.FieldLabel, _object.Data);
+                    switch (index)
+                    {
+                        case 1:
+                            statField.Field1 = data;
+                            break;
+                        case 2:
+                            statField.Field2 = data;
+                            break;
+                        case 3:
+                            statField.Field3 = data;
+                            break;
+                        case 4:
+                            statField.Field4 = data;
+                            break;
+                        default:
+                            break;
+                    }
+                }
+
+                item.StatField = statField;
+            }
+        }
     }
+
+
+
+
+
+
 }

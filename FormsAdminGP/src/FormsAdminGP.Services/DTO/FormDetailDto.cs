@@ -16,6 +16,7 @@ namespace FormsAdminGP.Services.DTO
         public byte Order { get; set; } = 1;
         public bool IsRequired { get; set; } = true;
         public string Name => (!string.IsNullOrEmpty(FieldLabel))? FieldLabel.Replace(" ", "").ToLower() : string.Empty;
+        public string Data { get; set; }
         public string FieldType
         {
             get

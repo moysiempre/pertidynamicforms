@@ -110,6 +110,9 @@ namespace FormsAdminGP.Data.Migrations
                     b.Property<string>("Id")
                         .ValueGeneratedOnAdd();
 
+                    b.Property<string>("FormHdId")
+                        .IsRequired();
+
                     b.Property<string>("InfoRequestData")
                         .IsRequired();
 
@@ -121,6 +124,8 @@ namespace FormsAdminGP.Data.Migrations
                     b.Property<DateTime>("RequestDate");
 
                     b.HasKey("Id");
+
+                    b.HasIndex("FormHdId");
 
                     b.HasIndex("LandingPageId");
 
@@ -301,6 +306,11 @@ namespace FormsAdminGP.Data.Migrations
 
             modelBuilder.Entity("FormsAdminGP.Domain.InfoRequest", b =>
                 {
+                    b.HasOne("FormsAdminGP.Domain.FormHd", "FormHd")
+                        .WithMany()
+                        .HasForeignKey("FormHdId")
+                        .OnDelete(DeleteBehavior.Cascade);
+
                     b.HasOne("FormsAdminGP.Domain.LandingPage", "LandingPage")
                         .WithMany()
                         .HasForeignKey("LandingPageId")

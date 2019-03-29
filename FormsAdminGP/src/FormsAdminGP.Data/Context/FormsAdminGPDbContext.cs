@@ -62,6 +62,7 @@ namespace FormsAdminGP.Data.Context
                 entity.ToTable("InfoRequests", "landing");
                 entity.Property(e => e.InfoRequestData).IsRequired();
                 entity.Property(e => e.LandingPageId).IsRequired();
+                entity.Property(e => e.FormHdId).IsRequired();
             });
 
             //builder.Entity<FormHdLandingPage>(entity =>

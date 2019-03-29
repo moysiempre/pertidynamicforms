@@ -1,6 +1,8 @@
 ﻿using FormsAdminGP.Domain;
+using System.Linq;
 using System;
 using System.ComponentModel.DataAnnotations;
+using System.Collections.Generic;
 
 namespace FormsAdminGP.Services.DTO
 {
@@ -12,6 +14,7 @@ namespace FormsAdminGP.Services.DTO
         public string Name { get; set; }
         [Required]
         public string LandingPageId { get; set; }
+        public string FormHdId { get; set; }
         public string FileName { get; set; }
         public DateTime RequestDate { get; set; }
         public string RequestDateStr
@@ -23,5 +26,16 @@ namespace FormsAdminGP.Services.DTO
         }
         public LandingPageDto LandingPage { get; set; }
         public string LandingPageName { get { return  (LandingPage != null) ? LandingPage.Name : string.Empty; } }
+        public StatField StatField { get; set; }
+
+    }
+
+
+    public class  StatField
+    {
+        public KeyValuePair<string, string> Field1 { get; set; }
+        public KeyValuePair<string, string> Field2 { get; set; }
+        public KeyValuePair<string, string> Field3 { get; set; }
+        public KeyValuePair<string, string> Field4 { get; set; }
     }
 }

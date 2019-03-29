@@ -12,7 +12,8 @@
             </select>
           </div>
           <div class="col-sm-3 d-flex align-items-center">
-            <date-picker class="mr-sm-1"
+            <date-picker
+              class="mr-sm-1"
               v-model="startDate"
               :first-day-of-week="1"
               format="DD/MM/YYYY"
@@ -188,7 +189,26 @@ export default {
   },
   methods: {
     exportarXlsx() {
-      alert("avispa");
+      axios({
+        url: "api-inforequest/download",
+        method: "GET",
+        responseType: "blob",
+        params: {}
+      })
+        .then(response => {
+          console.log(response.data.size);
+          if (response.status === 200 && response.data.size > 0) {
+            const url = window.URL.createObjectURL(new Blob([response.data]));
+            const link = document.createElement("a");
+            link.href = url;
+            link.setAttribute("download", "fileName.xlsx"); //or any other extension
+            document.body.appendChild(link);
+            link.click();
+          } else {
+            console.log("SORRY NO FILE", response.data.size);
+          }
+        })
+        .catch(console.error);
     },
     load(request) {
       axios

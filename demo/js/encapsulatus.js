@@ -30,6 +30,7 @@
                      let infoRequest = {
                          landingPageId: this.pageid,
                          fileName: this.fields.filePath,
+                         formHdId: this.fields.id
                      }
 
                      console.log("formDetails: ", this.fields.formDetails)
@@ -40,7 +41,7 @@
                              order: element.order,
                              fieldTypeId: element.fieldTypeId,
                          };
-
+                        
                          switch (element.fieldTypeId) {
                              case 'email':
                                  infodata.email = element.data;

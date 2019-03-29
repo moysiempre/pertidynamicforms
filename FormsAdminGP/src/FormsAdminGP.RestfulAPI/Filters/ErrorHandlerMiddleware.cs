@@ -33,6 +33,8 @@ namespace FormsAdminGP.RestfulAPI.Filters
                 var message = "Oops! Sorry! Something went wrong." +
                               "Please contact support@grupoperti.com.mx so we can try to fix it.";
 
+               // message = ex.Message;
+
                 if (error != null)
                 {
                     
