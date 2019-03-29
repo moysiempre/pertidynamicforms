@@ -15,6 +15,7 @@ namespace FormsAdminGP.Services.DTO
         [Required]
         public string LandingPageId { get; set; }
         public string FormHdId { get; set; }
+        public string MailTemplateId { get; set; }
         public string FileName { get; set; }
         public DateTime RequestDate { get; set; }
         public string RequestDateStr
@@ -37,5 +38,10 @@ namespace FormsAdminGP.Services.DTO
         public KeyValuePair<string, string> Field2 { get; set; }
         public KeyValuePair<string, string> Field3 { get; set; }
         public KeyValuePair<string, string> Field4 { get; set; }
+        public KeyValuePair<string, string> Field5 { get; set; }
+        public KeyValuePair<string, string> Field6 { get; set; }
+        public KeyValuePair<string, string> Field7 { get; set; }
+        public KeyValuePair<string, string> Field8 { get; set; }
+        public KeyValuePair<string, string> Field9 { get; set; }
     }
 }

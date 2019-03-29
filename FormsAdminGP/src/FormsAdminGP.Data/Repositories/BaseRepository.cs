@@ -85,6 +85,7 @@ namespace FormsAdminGP.Core.Repositories
                 _entities.Attach(entity);
             }
             entry.State = EntityState.Modified;
+            SetPropertiesLog();
         }
 
         public async virtual Task<int> SaveChanges()

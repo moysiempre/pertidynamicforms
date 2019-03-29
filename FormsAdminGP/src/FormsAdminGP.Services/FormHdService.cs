@@ -17,13 +17,14 @@ namespace FormsAdminGP.Services
 {
     public class FormHdService : IFormHdService
     {
-        private static Logger logger = LogManager.GetCurrentClassLogger();
+        
         private readonly IFormHdRepository _formHdRepository;
         private readonly IFormDetailRepository _formDetailRepository;
         private readonly ILandingPageRepository _landingPageRepository;
         private readonly IDDLCatalogRepository _dDLCatalogRepository;
         private readonly IOptions<List<BaseDetailSettings>> _baseDetailSettings;
         private readonly IMapper _mapper;
+
         public FormHdService(
             IFormHdRepository formHdRepository,
             IFormDetailRepository formDetailRepository,
@@ -43,67 +44,107 @@ namespace FormsAdminGP.Services
         #region HEADER  
         public async Task<IEnumerable<FormHdDto>> GetAllAsync()
         {
-            var list = await _formHdRepository.FindBy(x=>x.IsActive, t=> t.FormDetails);
-            foreach (var item in list)
+            var listDto = new List<FormHdDto>();
+            try
             {
-                item.FormDetails = item.FormDetails.OrderBy(x => x.Order).ToList();
-                var formHdLandingPage = await _landingPageRepository.FindBy(x => x.FormHdId == item.Id);
-                item.LandingPages = formHdLandingPage.ToList();
-                foreach (var detail in item.FormDetails.Where(x=>x.FieldTypeId == FieldType.select.ToString()))
+                var list = await _formHdRepository.FindBy(x => x.IsActive, t => t.FormDetails);
+                foreach (var item in list)
                 {
-                    var ddlCatalogs = await _dDLCatalogRepository.FindBy(x => x.FormDetailId == detail.Id);
-                    detail.DDLCatalogs = ddlCatalogs.ToList();
+                    item.FormDetails = item.FormDetails.OrderBy(x => x.Order).ToList();
+                    var landingPage = await _landingPageRepository.FindBy(x => x.FormHdId == item.Id);
+                    item.LandingPages = landingPage.ToList();
+                    foreach (var detail in item.FormDetails.Where(x => x.FieldTypeId == FieldType.select.ToString()))
+                    {
+                        var ddlCatalogs = await _dDLCatalogRepository.FindBy(x => x.FormDetailId == detail.Id);
+                        detail.DDLCatalogs = ddlCatalogs.ToList();
+                    }
                 }
-            }
 
-            var listDto = _mapper.Map<List<FormHdDto>>(list);          
+                listDto = _mapper.Map<List<FormHdDto>>(list);
+            }
+            catch (System.Exception ex)
+            {
+                LoggerService.LogToFile(ex);
+            }          
+
             return listDto;
         }
 
         public async Task<FormHdDto> GetByIdAsync(string id)
         {
-            var item = await _formHdRepository.FindEntityBy(x => x.Id == id, t => t.FormDetails);
-            if(item != null)
+            FormHdDto itemDto = null;
+            try
             {
-                item.FormDetails = item.FormDetails.Where(x=>x.IsActive).OrderBy(x => x.Order).ToList();
-                foreach (var detail in item.FormDetails.Where(x => x.FieldTypeId == FieldType.select.ToString()))
+                var item = await _formHdRepository.FindEntityBy(x => x.Id == id, t => t.FormDetails);
+                if (item != null)
                 {
-                    var ddlCatalogs = await _dDLCatalogRepository.FindBy(x => x.FormDetailId == detail.Id);
-                    detail.DDLCatalogs = ddlCatalogs.ToList();
+                    item.FormDetails = item.FormDetails.Where(x => x.IsActive).OrderBy(x => x.Order).ToList();
+                    foreach (var detail in item.FormDetails.Where(x => x.FieldTypeId == FieldType.select.ToString()))
+                    {
+                        var ddlCatalogs = await _dDLCatalogRepository.FindBy(x => x.FormDetailId == detail.Id);
+                        detail.DDLCatalogs = ddlCatalogs.ToList();
+                    }
                 }
+
+                _mapper.Map<FormHdDto>(item);
             }
-           
-            return _mapper.Map<FormHdDto>(item);
+            catch (System.Exception ex)
+            {
+                LoggerService.LogToFile(ex);
+            }
+
+            return itemDto;
         }
 
         public async Task<FormHdDto> GetByLandingPageIdAsync(string landingPageId)
         {
-            var landings = await _landingPageRepository.FindBy(x => x.Id == landingPageId && x.IsActive);
-            if (landings.Count() == 0)
+            FormHdDto itemDto = null;
+            try
             {
-                return new FormHdDto();
-            }
-
-            var formHdId = landings.FirstOrDefault().FormHdId;
-            var item = await _formHdRepository.FindEntityBy(x => x.Id == formHdId, t => t.FormDetails);
-            if (item != null)
-            {
-                item.FormDetails = item.FormDetails.Where(x => x.IsActive).OrderBy(x => x.Order).ToList();
-                foreach (var detail in item.FormDetails.Where(x => x.FieldTypeId == FieldType.select.ToString()))
+                var landings = await _landingPageRepository.FindBy(x => x.Id == landingPageId && x.IsActive);
+                if (landings.Count() == 0)
                 {
-                    var ddlCatalogs = await _dDLCatalogRepository.FindBy(x => x.FormDetailId == detail.Id);
-                    detail.DDLCatalogs = ddlCatalogs.ToList();
+                    return itemDto;
                 }
+
+                var formHdId = landings.FirstOrDefault().FormHdId;
+                var item = await _formHdRepository.FindEntityBy(x => x.Id == formHdId, t => t.FormDetails);
+                if (item != null)
+                {
+                    item.FormDetails = item.FormDetails.Where(x => x.IsActive).OrderBy(x => x.Order).ToList();
+                    foreach (var detail in item.FormDetails.Where(x => x.FieldTypeId == FieldType.select.ToString()))
+                    {
+                        var ddlCatalogs = await _dDLCatalogRepository.FindBy(x => x.FormDetailId == detail.Id);
+                        detail.DDLCatalogs = ddlCatalogs.ToList();
+                    }
+                }
+
+                itemDto = _mapper.Map<FormHdDto>(item);
+            }
+            catch (System.Exception ex)
+            {
+                LoggerService.LogToFile(ex);
             }
 
-            return _mapper.Map<FormHdDto>(item);             
+            return itemDto;
         }
 
         public async Task<IEnumerable<FormHdDto>>  GetAllForOptionsAsync()
         {
-            var list = await _formHdRepository.GetAll();
-            return _mapper.Map<List<FormHdDto>>(list);            
+            var listDto = new List<FormHdDto>();
+            try
+            {
+                var list = await _formHdRepository.GetAll();
+                listDto = _mapper.Map<List<FormHdDto>>(list);
+            }
+            catch (System.Exception ex)
+            {
+                LoggerService.LogToFile(ex);                
+            }
+
+            return listDto;
         }
+
         public async Task<BaseResponse> AddOrUpdateAsync(FormHdDto formHdDto)
         {
             var response = new BaseResponse();
@@ -196,8 +237,7 @@ namespace FormsAdminGP.Services
             catch (System.Exception ex)
             {
                 response.Message = LoggingEvents.INSERT_FAILED_MESSAGE;
-                //logger 
-                logger.Error("Error on {0} \n {1} \n {2} \n {3}", ex.Message, ex.StackTrace, ex.InnerException != null ? ex.InnerException.Message : string.Empty, ex.InnerException != null ? ex.InnerException.StackTrace : string.Empty);
+                LoggerService.LogToFile(ex);
             }
 
             return response;
@@ -227,10 +267,10 @@ namespace FormsAdminGP.Services
                 response.Message = LoggingEvents.DELETE_SUCCESS_MESSAGE;
 
             }
-            catch (System.Exception)
+            catch (System.Exception ex)
             {
                 response.Message = LoggingEvents.DELETE_FAILED_MESSAGE;
-                //logger 
+                LoggerService.LogToFile(ex);
             }
 
             return response;
@@ -241,8 +281,7 @@ namespace FormsAdminGP.Services
         {
             var response = new BaseResponse();
             try
-            {
-               
+            {               
                 var item = await _formHdRepository.FindEntityBy(x => x.Id == id);
                 if (item == null)
                 {
@@ -258,10 +297,10 @@ namespace FormsAdminGP.Services
                 response.Message = LoggingEvents.DELETE_SUCCESS_MESSAGE;
                
             }
-            catch (System.Exception)
+            catch (System.Exception ex)
             {
                 response.Message = LoggingEvents.DELETE_FAILED_MESSAGE;
-                //logger 
+                LoggerService.LogToFile(ex);
             }
 
             return response;
@@ -271,26 +310,51 @@ namespace FormsAdminGP.Services
         #region DETAIL 
         public async Task<IEnumerable<FormDetailDto>> GetDetailAllAsync(string formHdId)
         {
-            var list = await _formDetailRepository.FindBy(x=>x.FormHdId == formHdId);
-            return _mapper.Map<List<FormDetailDto>>(list);
+            var listDto = new List<FormDetailDto>();
+            try
+            {
+                var list = await _formDetailRepository.FindBy(x => x.FormHdId == formHdId);
+                listDto = _mapper.Map<List<FormDetailDto>>(list);
+            }
+            catch (System.Exception ex)
+            {
+                LoggerService.LogToFile(ex);
+            }
+
+            return listDto;
         }
 
         public async Task<FormDetailDto> GetDetailByIdAsync(string id)
         {
-            var item = await _formDetailRepository.FindEntityBy(x => x.Id == id);
-            return _mapper.Map<FormDetailDto>(item);
+            FormDetailDto itemDto = null;
+            try
+            {
+                var item = await _formDetailRepository.FindEntityBy(x => x.Id == id);
+                itemDto = _mapper.Map<FormDetailDto>(item);
+            }
+            catch (System.Exception ex)
+            {
+                LoggerService.LogToFile(ex);
+            }
+
+            return itemDto;
         }
 
         public async Task<IEnumerable<BaseDetailSettings>> GetBaseDetail()
         {
             var list = new List<BaseDetailSettings>();
-            await Task.Run(() =>
+            try
             {
-                //list = Enum.GetValues(typeof(FieldType)).Cast<object>()
-                //.Select(p => new FormDetailDto { FormHdId = Convert.ToInt32(p).ToString(),  FieldLabel = ((Enum)p).GetEnumDescription(), FieldTypeId = ((Enum)p).ToString() })
-                //.OrderBy(p => p.FormHdId).ToList();
-                list = _baseDetailSettings.Value.ToList();
-            });
+                await Task.Run(() =>
+                {
+                    list = _baseDetailSettings.Value.ToList();
+                });
+            }
+            catch (System.Exception ex)
+            {
+                LoggerService.LogToFile(ex);
+            }
+
             return list;
         }
 
@@ -320,7 +384,6 @@ namespace FormsAdminGP.Services
                         response.Message = LoggingEvents.UPDATE_FAILED_MESSAGE;
                         return response;
                     }
-
                    
                 }
 
@@ -331,10 +394,10 @@ namespace FormsAdminGP.Services
                 response.Message = LoggingEvents.INSERT_SUCCESS_MESSAGE;
 
             }
-            catch (System.Exception)
+            catch (System.Exception ex)
             {
                 response.Message = LoggingEvents.INSERT_FAILED_MESSAGE;
-                //logger 
+                LoggerService.LogToFile(ex);
             }
 
             return response;
@@ -362,17 +425,17 @@ namespace FormsAdminGP.Services
                 response.Message = LoggingEvents.UPDATE_SUCCESS_MESSAGE;
 
             }
-            catch (System.Exception)
+            catch (System.Exception ex)
             {
                 response.Message = LoggingEvents.UPDATE_FAILED_MESSAGE;
-                //logger 
+                LoggerService.LogToFile(ex);
             }
 
             return response;
         }
         #endregion
 
-
+       
 
     }
 }

@@ -9,6 +9,7 @@ using FormsAdminGP.Services.Interfaces;
 using FormsAdminGP.Services.Request;
 using FormsAdminGP.Services.Responses;
 using Microsoft.Extensions.Options;
+using NLog;
 using System;
 using System.Collections.Generic;
 using System.IO;
@@ -21,58 +22,92 @@ namespace FormsAdminGP.Services
     {
         private readonly IInfoRequestRepository _infoRequestRepository;
         private readonly IEmailSenderService _emailSenderService;
+        private readonly IMailTemplateService _mailTemplateService;
         private readonly IOptions<AppSettings> _appSettings;
         private readonly IMapper _mapper;
+ 
         public InfoRequestService(
             IInfoRequestRepository infoRequestRepository,
             IEmailSenderService emailSenderService,
+            IMailTemplateService mailTemplateService,
             IOptions<AppSettings> appSettings,
             IMapper mapper)
         {
             _infoRequestRepository = infoRequestRepository;
             _emailSenderService = emailSenderService;
+            _mailTemplateService = mailTemplateService;
             _appSettings = appSettings;
             _mapper = mapper;
         }
 
         public async Task<IEnumerable<InfoRequestDto>> GetAllAsync()
         {
-            var list = await _infoRequestRepository.GetAll();
-            return _mapper.Map<List<InfoRequestDto>>(list);  
+            var listDto = new List<InfoRequestDto>();
+            try
+            {
+                var list = await _infoRequestRepository.GetAll();
+                listDto = _mapper.Map<List<InfoRequestDto>>(list);
+            }
+            catch (Exception ex)
+            {
+                LoggerService.LogToFile(ex);
+            }
+
+            return listDto;
         }
 
         public async Task<IEnumerable<InfoRequestDto>> GetByAsync(BaseRequest request)
         {
-            var list = await _infoRequestRepository.FindBy(x=>x.IsActive, x=>x.LandingPage);
-            if (!string.IsNullOrEmpty(request.LandingPageId))
+            var listDto = new List<InfoRequestDto>();
+            try
             {
-                list = list.Where(x => x.LandingPageId == request.LandingPageId);
-            }            
-
-            if (request.StartDate.HasValue && request.EndDate.HasValue)
-            {
-                list = list.Where(x => x.RequestDate >= request.StartDate && x.RequestDate <= request.EndDate);
-            }
-            else
-            {
-                if (request.StartDate.HasValue)
+                var list = await _infoRequestRepository.FindBy(x => x.IsActive, x => x.LandingPage);
+                if (!string.IsNullOrEmpty(request.LandingPageId))
                 {
-                    list = list.Where(x => x.RequestDate >= request.StartDate);
+                    list = list.Where(x => x.LandingPageId == request.LandingPageId);
                 }
 
-                if (request.EndDate.HasValue)
+                if (request.StartDate.HasValue && request.EndDate.HasValue)
                 {
-                    list = list.Where(x => x.RequestDate <= request.EndDate);
+                    list = list.Where(x => x.RequestDate >= request.StartDate && x.RequestDate <= request.EndDate);
                 }
+                else
+                {
+                    if (request.StartDate.HasValue)
+                    {
+                        list = list.Where(x => x.RequestDate >= request.StartDate);
+                    }
+
+                    if (request.EndDate.HasValue)
+                    {
+                        list = list.Where(x => x.RequestDate <= request.EndDate);
+                    }
+                }
+
+                listDto = _mapper.Map<List<InfoRequestDto>>(list);
+            }
+            catch (Exception ex)
+            {
+                LoggerService.LogToFile(ex);
             }
 
-            return _mapper.Map<List<InfoRequestDto>>(list);
+            return listDto;
         }
 
         public async Task<InfoRequestDto> GetByIdAsync(string id)
         {
-            var item = await _infoRequestRepository.FindEntityBy(x => x.Id == id);
-            return _mapper.Map<InfoRequestDto>(item);
+            InfoRequestDto itemDto = null;
+            try
+            {
+                var item = await _infoRequestRepository.FindEntityBy(x => x.Id == id);
+                itemDto = _mapper.Map<InfoRequestDto>(item);
+            }
+            catch (Exception ex)
+            {
+                LoggerService.LogToFile(ex);
+            }
+
+            return itemDto;
         }
 
         public async Task<BaseResponse> AddAsync(InfoRequestDto infoRequestDto)
@@ -96,7 +131,7 @@ namespace FormsAdminGP.Services
                         attach = Path.Combine(baseDir, infoRequestDto.FileName);                       
                     }
 
-                    await SendMailToClient(infoRequestDto.Email, infoRequestDto.Name, attach);
+                    await SendMailToClient(infoRequestDto.Email, infoRequestDto.Name, attach, infoRequestDto.MailTemplateId);
 
                     response.Success = true;
                     response.Id = infoRequest.Id;
@@ -113,9 +148,8 @@ namespace FormsAdminGP.Services
             }
             catch (System.Exception ex)
             {
-                Console.WriteLine(ex.Message);
                 response.Message = LoggingEvents.INSERT_FAILED_MESSAGE;
-                //logger
+                LoggerService.LogToFile(ex);
             }
 
             return response;
@@ -139,17 +173,16 @@ namespace FormsAdminGP.Services
                 response.Message = LoggingEvents.DELETE_SUCCESS_MESSAGE;
                 
             }
-            catch (System.Exception)
+            catch (System.Exception ex)
             {
                 response.Message = LoggingEvents.INSERT_FAILED_MESSAGE;
-                //logger
+                LoggerService.LogToFile(ex);
             }
 
             return response;
         }
 
-
-        private async Task SendMailToClient(string email, string name, string attach)
+        private async Task SendMailToClient(string email, string name, string attach, string mailTemplateId)
         {
             var emails = new List<KeyValuePair<string, WithEMail>>();
             var attachs = new List<string>();
@@ -159,17 +192,25 @@ namespace FormsAdminGP.Services
             };
             name = name ?? email;
             emails.Add(new KeyValuePair<string, WithEMail>(email, WithEMail.To));
+
+            var mailTemplate = await _mailTemplateService.GetByIdAsync(mailTemplateId);
             var subject = "Mensaje de notificación";
             var message = $"<div><p>Hola {name}</p><p>¡Gracias por tu interés en Grupo PerTI!</p><p></p>Nos pondremos en contacto contigo lo más pronto posible.<div>";
+            if(mailTemplate != null)
+            {
+                subject = mailTemplate.Subject;
+                message = mailTemplate.Body;
+            }
+
             try
             {
                 await _emailSenderService.SendEmailAsync(emails, subject, message, attachs);
             }
             catch (Exception ex)
             {
-                Console.WriteLine(ex.Message);
+                LoggerService.LogToFile(ex);
             }
         }
-        
+         
     }
 }

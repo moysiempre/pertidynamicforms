@@ -1,10 +1,10 @@
 <template>
-  <div class="container-fluid h-100 landing">
+  <div class="container-fluid h-100">
     <div class="row h-100">
       <div class="col-12 col-sm-6 col-md-5 col-lg-4">
         <div class="card border-light helix">
           <div class="card-header">
-            <h6 class="mt-2">LANDING PAGES</h6>
+            <h6 class="mt-2">TEMPLATES</h6>
             <a class="btn btn-link" @click="onEmitAct({ isActive: true}, 'create')">
               <i class="pe-7s-close pe-rotate-45" style="font-size:1.5rem"></i>
               <br>
@@ -24,59 +24,51 @@
                 </span>
               </div>
             </div>
-            <ul
-              class="list-group"
-              v-if="landingPages"
-              style="height: 100%;overflow: hidden;overflow-y: auto;"
-            >
-              <li
-                class="list-group-item d-flex justify-content-between"
-                v-for="item in filterSearch"
-                :key="item.id"
-                @click="onEmitAct(item, 'update')"
-              >
-                <div>
-                  <h6 class="mb-0">{{item.name}}</h6>
-                  <p class="mb-0" style="color:#75818b">
-                    <small>{{item.description}}</small>
-                  </p>
+
+            <ul class="list-group" v-if="mailtemplates">
+              <li class="list-group-item" v-for="item in filterSearch" :key="item.id">
+                <div @click="onEmitAct(item, 'update')">
+                  <div>
+                    <h6 class="mb-0">{{item.name}}</h6>
+                    <p class="mb-0" style="color:#75818b">
+                      <small>{{item.title}}</small>
+                    </p>
+                  </div>
                 </div>
               </li>
             </ul>
-            <div class="alert alert-warning" v-if="!landingPages">no hay registro</div>
           </div>
         </div>
       </div>
-      <div class="col-12 col-sm-6 col-md-7 col-lg-5 mt-3 mt-sm-0" v-if="action !== 'read'">
-        <create-update-landing :title="title"/>
+      <div class="col-12 col-sm-6 col-md-7 col-lg-5" v-if="action !== 'read'">
+        <create-update-mail-template :title="title"/>
       </div>
     </div>
   </div>
 </template>
 
 <script>
-import CreateUpdateLanding from "@/components/CreateUpdateLanding.vue";
+import CreateUpdateMailTemplate from "@/components/CreateUpdateMailTemplate.vue";
 import { mapState } from "vuex";
 export default {
-  components: { CreateUpdateLanding },
+  components: { CreateUpdateMailTemplate },
   data() {
     return {
-      searchby: "",
-      title: ""
+      title: "",
+      searchby: ""
     };
   },
   created() {
-    this.$store.dispatch("loadLandings");
-    this.$store.dispatch("loadFormsForOptions");
+    this.$store.dispatch("loadTemplates");
     this.$store.commit("SET_ACTION", "read");
   },
   computed: {
     ...mapState({
-      landingPages: state => state.landings.landingPages,
-      action: state => state.landings.action
+      mailtemplates: state => state.templates.mailtemplates,
+      action: state => state.templates.action
     }),
     filterSearch() {
-      return this.landingPages.filter(item => {
+      return this.mailtemplates.filter(item => {
         return (
           !this.searchby ||
           item.name.toLowerCase().indexOf(this.searchby.toLowerCase()) > -1
@@ -87,13 +79,15 @@ export default {
   methods: {
     onEmitAct(item, action) {
       this.title =
-        action === "create" ? "ALTA LANDING PAGE" : "MODIFICAR LANDING PAGE";
+        action === "create"
+          ? "ALTA MAIL TEMPLATE PAGE"
+          : "MODIFICAR MAIL TEMPLATE PAGE";
       this.$store.commit("SET_ACTION", action);
-      this.$store.commit("SET_LANDING", item);
+      this.$store.commit("SET_TEMPLATE", item);
     }
   }
 };
 </script>
-<style lang="scss">
-</style>
 
+<style scoped>
+</style>

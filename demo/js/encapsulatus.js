@@ -7,7 +7,10 @@
                  id: ""
              },
              fields: [],
-             isloading: false
+             isloading: false,
+             isSended: true,
+             message_gp: "",
+             alert_class: "alert-success"
          }
      },
      created() {
@@ -26,11 +29,13 @@
              this.$validator.validateAll().then(isValid => {
                  if (isValid) {
                      this.isloading = true;
+
                      let infoRequestData = []
                      let infoRequest = {
                          landingPageId: this.pageid,
                          fileName: this.fields.filePath,
-                         formHdId: this.fields.id
+                         formHdId: this.fields.id,
+                         mailTemplateId: this.fields.mailTemplateId
                      }
 
                      console.log("formDetails: ", this.fields.formDetails)
@@ -41,7 +46,7 @@
                              order: element.order,
                              fieldTypeId: element.fieldTypeId,
                          };
-                        
+
                          switch (element.fieldTypeId) {
                              case 'email':
                                  infodata.email = element.data;
@@ -68,20 +73,25 @@
                              this.isloading = false;
                              this.clearFormData();
                              this.downloadPdf(this.fields.filePath);
-
+                             this.showMsg("SUCCESS", "alert-success");
                          })
                          .catch(function (error) {
                              this.isloading = false;
+                             this.isSending = false;
                              console.log('Error: ' + error);
+                             this.showMsg("ERROR", "alert-danger");
                          });
-
-                     // console.log(infoRequest);
 
                  } else {
                      console.log(isValid);
                  }
              });
 
+         },
+         showMsg(msg, alert) {
+             this.isSended = true;
+             this.message_gp = msg;
+             this.alert_class = alert;
          },
          clearFormData() {
              this.fields.formDetails.forEach(element => {
@@ -138,7 +148,15 @@
              <div class="card">
                  <div class="card-header bg-white p-0">
                  <div class="text-center alert alert-success mb-0" hidden style="border-radius: 0">{{fields.title}}</div>
-                 <h5 class="text-center my-3">{{fields.title}}</h5>
+                 <h5 class="text-center my-3">{{fields.title}}</h5>                 
+
+                 <div class="alert alert-dismissible fade show iz-alert" :class="alert_class" role="alert" v-if="isSended" >
+                   {{message_gp}}
+                    <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+
                  </div>
                  <div class="card-body bg-light p-2">
                      <div class="container-fluid bg-white pt-3 pb-3" style="min-height: 200px;" >

@@ -3,6 +3,7 @@ import Vuex from 'vuex'
 import axios from 'axios'
 import landingsModule from "./modules/landings"
 import formHdsModule from "./modules/forms"
+import templatesModule from "./modules/templates"
 
 Vue.use(Vuex)
 
@@ -77,6 +78,7 @@ export default new Vuex.Store({
   },
   modules: {
     landings: landingsModule,
-    forms: formHdsModule
+    forms: formHdsModule,
+    templates: templatesModule
   },
 })

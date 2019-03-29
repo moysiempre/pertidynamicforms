@@ -7,7 +7,7 @@
       <form @submit.prevent="onSubmit">
         <div class="form-group">
           <label class="mb-0" for="name">
-            Nombre del landing page
+            Nombre del template
             <span class="i-required">*</span>
           </label>
           <input
@@ -16,28 +16,39 @@
             class="form-control"
             name="name"
             maxlength="150"
-            placeholder="Digite el nombre del landing page"
-            v-model="landingPage.name"
+            placeholder="Digite el nombre del template"
+            v-model="mailtemplate.name"
           >
         </div>
 
         <div class="form-group">
-          <label class="mb-0" for="description">Descripción del landing page</label>
+          <label class="mb-0" for="name">
+            Subject
+            <span class="i-required">*</span>
+          </label>
+          <input
+            v-validate="'required'"
+            type="text"
+            class="form-control"
+            name="name"
+            maxlength="150"
+            placeholder="Digite el subject"
+            v-model="mailtemplate.subject"
+          >
+        </div>
+
+        <div class="form-group">
+          <label class="mb-0" for="description">
+            Body
+            <span class="i-required">*</span>
+          </label>
           <textarea
             class="form-control"
             name="description"
             maxlength="400"
-            placeholder="Digite una descripción del landing page"
-            v-model="landingPage.description"
+            placeholder="Digite el body"
+            v-model="mailtemplate.body"
           ></textarea>
-        </div>
-
-        <div class="form-group">
-          <label class="mb-0" for="description">Formulario Asignado</label>
-          <select class="custom-select"  v-model="landingPage.formHdId">
-            <option value>seleccione</option>
-            <option v-for="(item, index) in formOpts" :key="index" :value="item.id">{{item.name}}</option>
-          </select>
         </div>
 
         <div class="row">
@@ -47,7 +58,7 @@
                 type="checkbox"
                 class="custom-control-input"
                 id="customControlValidation1"
-                v-model="landingPage.isActive"
+                v-model="mailtemplate.isActive"
               >
               <label class="custom-control-label" for="customControlValidation1">Es Activo</label>
             </div>
@@ -74,6 +85,7 @@
     </div>
   </div>
 </template>
+
 <script>
 import axios from "axios";
 import { mapState } from "vuex";
@@ -89,9 +101,8 @@ export default {
   },
   computed: {
     ...mapState({
-      landingPage: state => state.landings.landingPage,
-      formOpts: state => state.landings.formOpts,
-      action: state => state.landings.action
+      mailtemplate: state => state.templates.mailtemplate,
+      action: state => state.templates.action
     }),
     isFormValid() {
       return !Object.keys(this.fields).some(key => this.fields[key].invalid);
@@ -101,13 +112,13 @@ export default {
     onSubmit() {
       this.isloading = true;
       axios
-        .post("api-landingpage", this.landingPage)
+        .post("api-mailtemplate", this.mailtemplate)
         .then(response => {
           this.isloading = false;
           if (response && response.data && response.data.id) {
-            this.landingPage.id = response.data.id;
+            this.mailtemplate.id = response.data.id;
             if (this.action === "create") {
-              this.$store.dispatch("loadLandings");
+              this.$store.dispatch("loadTemplates");
             }
             this.$swal(response.data.message, {
               icon: "success"
@@ -122,14 +133,14 @@ export default {
         .catch(error => {
           this.isloading = false;
           console.log(error);
-          this.$swal("No se pudo dar de alta al landing page", {
+          this.$swal("No se pudo dar de alta al template", {
             icon: "warning"
           });
         });
     },
     onCancel() {
       this.$store.commit("SET_ACTION", "read");
-      this.$store.commit("SET_LANDING", {});
+      this.$store.commit("SET_TEMPLATE", {});
     }
   }
 };

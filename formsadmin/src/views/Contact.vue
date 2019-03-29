@@ -35,8 +35,11 @@
           </div>
           <div class="col-sm-2 d-flex justify-content-end">
             <button type="button" class="btn btn-default btn-sm py-0" @click="exportarXlsx">
-              <p class="exlsx m-0">
+              <p class="exlsx m-0 mt-1" v-if="!isloading">
                 <img src="../assets/exportarXlsx.png" alt srcset>
+              </p>
+              <p class="m-0 mt-1 mr-2" style="height:37px" v-if="isloading">
+                <btn-loader :isloading="isloading"/>
               </p>
               <span>EXPORTAR</span>
             </button>
@@ -92,10 +95,11 @@ import axios from "axios";
 import DatePicker from "vue2-datepicker";
 import { AgGridVue } from "ag-grid-vue";
 import ContactDetail from "@/components/ContactDetail.vue";
+import BtnLoader from "@/components/BtnLoader.vue";
 
 export default {
   name: "acontact",
-  components: { DatePicker, AgGridVue, ContactDetail },
+  components: { DatePicker, AgGridVue, ContactDetail, BtnLoader },
   data() {
     return {
       title: "SOLICITUDES",
@@ -104,6 +108,7 @@ export default {
       landingPages: [],
       columnDefs: null,
       contactItem: {},
+      isloading: false,
       startDate: new Date(),
       endDate: new Date(),
       lang: {
@@ -138,7 +143,10 @@ export default {
   beforeMount() {
     this.loadLandingPages();
     this.columnDefs = [
-      { headerName: "FECHA", field: "requestDateStr" },
+      {
+        headerName: "FECHA",
+        field: "requestDateStr"
+      },
       {
         headerName: "NOMBRE",
         field: "name",
@@ -189,6 +197,8 @@ export default {
   },
   methods: {
     exportarXlsx() {
+      this.isloading = true;
+      
       axios({
         url: "api-inforequest/download",
         method: "GET",
@@ -196,6 +206,7 @@ export default {
         params: {}
       })
         .then(response => {
+          this.isloading = false;
           console.log(response.data.size);
           if (response.status === 200 && response.data.size > 0) {
             const url = window.URL.createObjectURL(new Blob([response.data]));
@@ -204,11 +215,12 @@ export default {
             link.setAttribute("download", "fileName.xlsx"); //or any other extension
             document.body.appendChild(link);
             link.click();
-          } else {
-            console.log("SORRY NO FILE", response.data.size);
           }
         })
-        .catch(console.error);
+        .catch(() => {
+          this.isloading = false;
+          console.error;
+        });
     },
     load(request) {
       axios

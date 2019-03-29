@@ -37,11 +37,9 @@
             </div>
             <div class="form-group">
               <label class="mb-0" for="landings">
-                Landing pages asociados
-                <span class="i-required">*</span>
+                Landing pages asociados               
               </label>
-              <multiselect
-                v-validate="'required'"
+              <multiselect              
                 name="landings"
                 placeholder="Agregar landing pages"
                 :value="values"
@@ -52,6 +50,17 @@
                 :searchable="false"
                 @input="updateValueAction"
               ></multiselect>
+            </div>
+
+            <div class="form-group">
+              <label class="mb-0" for="description">E-mail template asociados</label>
+              <select class="custom-select" v-model="formHd.mailTemplateId">
+                <option
+                  v-for="(item, index) in mailtemplates"
+                  :key="index"
+                  :value="item.id"
+                >{{item.name}}</option>
+              </select>
             </div>
 
             <div class="form-group" v-if="formHd.id">
@@ -199,7 +208,8 @@ export default {
       formHd: state => state.forms.formHd,
       action: state => state.forms.action,
       values: state => state.forms.values,
-      options: state => state.forms.options
+      options: state => state.forms.options,
+      mailtemplates: state => state.templates.mailtemplates
     }),
     isFormValid() {
       return !Object.keys(this.fields).some(key => this.fields[key].invalid);
@@ -287,8 +297,6 @@ export default {
               icon: "warning"
             });
           });
-
-
       } else {
         this.$swal({
           icon: "warning",

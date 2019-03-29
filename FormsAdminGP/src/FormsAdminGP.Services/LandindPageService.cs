@@ -14,7 +14,6 @@ namespace FormsAdminGP.Services
     public class LandindPageService : ILandindPageService
     {
         private readonly ILandingPageRepository _landingPageRepository ;
-        private readonly ILogger _logger;
         private readonly IMapper _mapper;
         public LandindPageService(
             ILandingPageRepository landingPageRepository,
@@ -22,27 +21,55 @@ namespace FormsAdminGP.Services
             IMapper mapper)
         {
             _landingPageRepository = landingPageRepository;
-            _logger = logger;
             _mapper = mapper;
         }
 
-        public async Task<IEnumerable<LandingPageDto>> GetAllAsync() {
-            _logger.LogInformation($"REQUEST For [GetAllAsync]");
-            var list = await _landingPageRepository.GetAll();
-            return _mapper.Map<List<LandingPageDto>>(list);
+        public async Task<IEnumerable<LandingPageDto>> GetAllAsync()
+        {
+            var listDto = new List<LandingPageDto>();
+            try
+            {
+                var list = await _landingPageRepository.GetAll();
+                listDto = _mapper.Map<List<LandingPageDto>>(list);
+            }
+            catch (System.Exception ex)
+            {
+                LoggerService.LogToFile(ex);
+            }
+
+            return listDto;
         }
 
         public async Task<IEnumerable<LandingPageDto>> GetAllOptionsAsync()
         {
-            var query = "SELECT * FROM [landing].[LandingPages] WHERE FormHdId is null";
-            var list = await _landingPageRepository.SQLQuery(query);
-            return _mapper.Map<List<LandingPageDto>>(list);
+            var listDto = new List<LandingPageDto>();
+            try
+            {
+                var list = await _landingPageRepository.GetAll(x=>x.FormHdId == null);
+                listDto = _mapper.Map<List<LandingPageDto>>(list);
+            }
+            catch (System.Exception ex)
+            {
+                LoggerService.LogToFile(ex);
+            }
+
+            return listDto;
         }
 
         public async Task<LandingPageDto> GetByIdAsync(string id)
         {
-            var item = await _landingPageRepository.FindEntityBy(x=>x.Id == id);
-            return _mapper.Map<LandingPageDto>(item);
+            LandingPageDto itemDto = null;
+            try
+            {
+                var item = await _landingPageRepository.FindEntityBy(x => x.Id == id);
+                itemDto = _mapper.Map<LandingPageDto>(item);
+            }
+            catch (System.Exception ex)
+            {
+                LoggerService.LogToFile(ex);
+            }
+
+            return itemDto;
         }
 
         public async Task<BaseResponse> AddOrUpdateAsync(LandingPageDto landingPageDto, string userId)
@@ -71,6 +98,7 @@ namespace FormsAdminGP.Services
                 }
                 else
                 {
+                    landingPage.FormHdId = (string.IsNullOrEmpty(landingPage.FormHdId)) ? null : landingPage.FormHdId;
                     _landingPageRepository.Edit(landingPage);
                 }
 
@@ -80,12 +108,12 @@ namespace FormsAdminGP.Services
                 response.Id = landingPage.Id;
                 response.Message = LoggingEvents.INSERT_SUCCESS_MESSAGE;
             }
-            catch (System.Exception)
+            catch (System.Exception ex)
             {
                 response.Message = LoggingEvents.INSERT_FAILED_MESSAGE;
-                //logger 
+                LoggerService.LogToFile(ex);
             }
- 
+
             return response;
         }
 
@@ -106,10 +134,10 @@ namespace FormsAdminGP.Services
                 response.Success = true;
                 response.Message = LoggingEvents.DELETE_SUCCESS_MESSAGE;               
             }
-            catch (System.Exception)
+            catch (System.Exception ex)
             {
                 response.Message = LoggingEvents.INSERT_FAILED_MESSAGE;
-                //logger 
+                LoggerService.LogToFile(ex);
             }
 
             return response;

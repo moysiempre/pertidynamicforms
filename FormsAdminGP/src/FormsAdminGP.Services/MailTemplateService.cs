@@ -1,41 +1,57 @@
-﻿using System.Collections.Generic;
-using System.Threading.Tasks;
-using AutoMapper;
+﻿using AutoMapper;
 using FormsAdminGP.Common.Events;
 using FormsAdminGP.Data.Repositories.Interfaces;
 using FormsAdminGP.Domain;
 using FormsAdminGP.Services.DTO;
 using FormsAdminGP.Services.Interfaces;
 using FormsAdminGP.Services.Responses;
-using Microsoft.Extensions.Logging;
+using System.Collections.Generic;
+using System.Threading.Tasks;
 
 namespace FormsAdminGP.Services
 {
     public class MailTemplateService : IMailTemplateService
     {
         private readonly IMailTemplateRepository _mailTemplateRepository;
-        private readonly ILogger _logger;
         private readonly IMapper _mapper;
         public MailTemplateService(
             IMailTemplateRepository mailTemplateRepository,
-            ILogger<MailTemplateService> logger,
             IMapper mapper)
         {
             _mailTemplateRepository = mailTemplateRepository;
-            _logger = logger;
             _mapper = mapper;
         }
 
         public async Task<IEnumerable<MailTemplateDto>> GetAllAsync()
         {
-            var list = await _mailTemplateRepository.GetAll();
-            return _mapper.Map<List<MailTemplateDto>>(list);
+            var listDto = new List<MailTemplateDto>();
+            try
+            {
+                var list = await _mailTemplateRepository.GetAll();
+                listDto = _mapper.Map<List<MailTemplateDto>>(list);
+            }
+            catch (System.Exception ex)
+            {
+                LoggerService.LogToFile(ex);
+            }
+
+            return listDto;
         }
 
         public async Task<MailTemplateDto> GetByIdAsync(string id)
         {
-            var item = await _mailTemplateRepository.FindBy(x=>x.Id == id);
-            return _mapper.Map<MailTemplateDto>(item);
+            MailTemplateDto itemDto = null;
+            try
+            {
+                var item = await _mailTemplateRepository.FindEntityAsNoTrackingBy(x => x.Id == id);
+                itemDto = _mapper.Map<MailTemplateDto>(item);
+            }
+            catch (System.Exception ex)
+            {
+                LoggerService.LogToFile(ex);
+            }
+            
+            return itemDto;
         }
 
         public async Task<BaseResponse> AddOrUpdateAsync(MailTemplateDto mailTemplateDto)
@@ -52,19 +68,7 @@ namespace FormsAdminGP.Services
                 }
                 else
                 {
-                    mailTemplate = await _mailTemplateRepository.FindEntityBy(x => x.Id == mailTemplateDto.Id);
-                    if (mailTemplate != null)
-                    {
-                        _mailTemplateRepository.Edit(mailTemplate);
-                    }
-                    else
-                    {
-
-                        response.Message = LoggingEvents.UPDATE_FAILED_MESSAGE;
-                        return response;
-                    }
-
-
+                    _mailTemplateRepository.Edit(mailTemplate);
                 }
 
                 var item = await _mailTemplateRepository.SaveChanges();
@@ -74,10 +78,10 @@ namespace FormsAdminGP.Services
                 response.Message = LoggingEvents.INSERT_SUCCESS_MESSAGE;
 
             }
-            catch (System.Exception)
+            catch (System.Exception ex)
             {
                 response.Message = LoggingEvents.INSERT_FAILED_MESSAGE;
-                //logger 
+                LoggerService.LogToFile(ex);
             }
 
             return response;
@@ -101,10 +105,10 @@ namespace FormsAdminGP.Services
                 response.Message = LoggingEvents.DELETE_SUCCESS_MESSAGE;
 
             }
-            catch (System.Exception)
+            catch (System.Exception ex)
             {
                 response.Message = LoggingEvents.INSERT_FAILED_MESSAGE;
-                //logger
+                LoggerService.LogToFile(ex);
             }
 
             return response;

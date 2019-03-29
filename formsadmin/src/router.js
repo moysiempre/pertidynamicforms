@@ -4,7 +4,7 @@ import Login from './views/Login.vue'
 import LandingList from './views/LandingList.vue'
 import FormList from './views/FormList.vue'
 import Contact from './views/Contact.vue'
-import MailTemplate from './views/MailTemplate.vue'
+import MailTemplateList from './views/MailTemplateList.vue'
 
 import store from './store/store'
 
@@ -44,7 +44,7 @@ let router = new Router({
     {
       path: '/mailTemplate',
       name: 'mailTemplate',
-      component: MailTemplate
+      component: MailTemplateList
     },
     {
       path: '/about',

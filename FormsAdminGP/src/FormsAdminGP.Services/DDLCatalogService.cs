@@ -7,7 +7,6 @@ using FormsAdminGP.Services.Interfaces;
 using FormsAdminGP.Services.Responses;
 using System;
 using System.Collections.Generic;
-using System.Text;
 using System.Threading.Tasks;
 
 namespace FormsAdminGP.Services
@@ -24,15 +23,34 @@ namespace FormsAdminGP.Services
 
         public async Task<IEnumerable<DDLCatalogDto>> GetAllAsync()
         {
-            var list = await _dDLCatalogRepository.GetAll();
-            var listDto = _mapper.Map<List<DDLCatalogDto>>(list);
+            var listDto = new List<DDLCatalogDto>();
+            try
+            {
+                var list = await _dDLCatalogRepository.GetAll();
+                listDto = _mapper.Map<List<DDLCatalogDto>>(list);
+            }
+            catch (Exception ex)
+            {
+                LoggerService.LogToFile(ex);
+            }
+
             return listDto;
         }
 
         public async Task<DDLCatalogDto> GetByIdAsync(string id)
         {
-            var item = await _dDLCatalogRepository.FindEntityBy(x => x.Id == id);           
-            return _mapper.Map<DDLCatalogDto>(item);
+            DDLCatalogDto itemDto = null;
+            try
+            {
+                var item = await _dDLCatalogRepository.FindEntityBy(x => x.Id == id);
+                itemDto = _mapper.Map<DDLCatalogDto>(item);
+            }
+            catch (Exception ex)
+            {
+                LoggerService.LogToFile(ex);
+            }
+
+            return itemDto;
         }
 
         public async Task<BaseResponse> AddOrUpdateAsync(DDLCatalogDto catalogDto)
@@ -71,7 +89,7 @@ namespace FormsAdminGP.Services
             {
                 Console.WriteLine(ex.Message);
                 response.Message = LoggingEvents.INSERT_FAILED_MESSAGE;
-                //logger 
+                LoggerService.LogToFile(ex);
             }
 
             return response;
@@ -98,10 +116,10 @@ namespace FormsAdminGP.Services
                 response.Message = LoggingEvents.DELETE_SUCCESS_MESSAGE;
 
             }
-            catch (System.Exception)
+            catch (System.Exception ex)
             {
                 response.Message = LoggingEvents.DELETE_FAILED_MESSAGE;
-                //logger 
+                LoggerService.LogToFile(ex);
             }
 
             return response;

@@ -101,12 +101,20 @@
                   class="btn btn-outline-warning btn-sm mx-1"
                   data-dismiss="modal"
                 >SALIR</button>
-                
+
+                <button
+                  type="button"
+                  data-dismiss="modal"
+                  class="btn btn-dark btn-sm px-3"
+                  :disabled="!isFormItemValid || isloading" v-if="action=='update'"
+                >
+                  <span>GUARDAR</span>
+                </button>
                 <button
                   type="button"
                   class="btn btn-dark btn-sm px-3"
                   @click="onSubmit"
-                  :disabled="!isFormItemValid || isloading"
+                  :disabled="!isFormItemValid || isloading"  v-if="action=='create'"
                 >
                   <span>GUARDAR</span>
                   <btn-loader :isloading="isloading"/>
@@ -339,7 +347,6 @@ export default {
             //     swal("Your imaginary file is safe!");
             //   }
             // });
-            
 
             //this.onCancel();
           } else {

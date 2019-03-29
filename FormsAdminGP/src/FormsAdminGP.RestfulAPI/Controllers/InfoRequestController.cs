@@ -85,20 +85,86 @@ namespace FormsAdminGP.RestfulAPI.Controllers
                     foreach (var item in uniqueFormList)
                     {
                         ++i;
-                        var infoRequest = listaInfo.Where(x => x.FormHdId == item.FormHdId);
+                        var infoRequestList = listaInfo.Where(x => x.FormHdId == item.FormHdId);
                         var worksheet = package.Workbook.Worksheets.Add($"Form {i}");
                         var index = 0;
-                        foreach (var info in infoRequest)
+
+                        var infoRequest = infoRequestList.FirstOrDefault();
+                        worksheet.Cells[$"A{index + 1}"].Value = "FECHA DE LA SOLICITUD";
+                        worksheet.Cells[$"B{index + 1}"].Value = "LANDING PAGE";
+
+                        worksheet.Cells[$"C{index + 1}"].Value = infoRequest.StatField?.Field1.Key?? string.Empty;
+                        worksheet.Cells[$"D{index + 1}"].Value = infoRequest.StatField?.Field2.Key?? string.Empty;
+                        worksheet.Cells[$"E{index + 1}"].Value = infoRequest.StatField?.Field3.Key?? string.Empty;
+                        worksheet.Cells[$"F{index + 1}"].Value = infoRequest.StatField?.Field4.Key?? string.Empty;
+                        worksheet.Cells[$"G{index + 1}"].Value = infoRequest.StatField?.Field5.Key?? string.Empty;
+                        worksheet.Cells[$"H{index + 1}"].Value = infoRequest.StatField?.Field6.Key?? string.Empty;
+                        worksheet.Cells[$"I{index + 1}"].Value = infoRequest.StatField?.Field7.Key?? string.Empty;
+                        worksheet.Cells[$"J{index + 1}"].Value = infoRequest.StatField?.Field8.Key?? string.Empty;
+                        worksheet.Cells[$"K{index + 1}"].Value = infoRequest.StatField?.Field9.Key?? string.Empty; 
+
+                        foreach (var info in infoRequestList)
                         {
-                            worksheet.Cells[$"A{index + 1}"].Value = info.RequestDateStr;
-                            worksheet.Cells[$"B{index + 1}"].Value = info?.StatField?.Field1.Value ?? string.Empty;
-                            worksheet.Cells[$"C{index + 1}"].Value = info?.StatField?.Field2.Value ?? string.Empty;
-                            worksheet.Cells[$"D{index + 1}"].Value = info?.StatField?.Field3.Value ?? string.Empty;
-                            worksheet.Cells[$"E{index + 1}"].Value = info?.StatField?.Field4.Value ?? string.Empty;
-                            worksheet.Cells[$"F{index + 1}"].Value = info.LandingPageName;
+                            worksheet.Cells[$"A{index + 2}"].Value = info.RequestDateStr;
+                            worksheet.Cells[$"B{index + 2}"].Value = info.LandingPageName;                            
+
+                            if (!string.IsNullOrEmpty(info.StatField.Field1.Value))
+                            {
+                                worksheet.Cells[$"C{index + 2}"].Value = info?.StatField?.Field1.Value ?? string.Empty;
+                                worksheet.Cells[$"C{index + 2}"].AutoFitColumns(0);
+                            }
+
+                            if (!string.IsNullOrEmpty(info.StatField.Field2.Value))
+                            {
+                                worksheet.Cells[$"D{index + 2}"].Value = info?.StatField?.Field2.Value ?? string.Empty;
+                                worksheet.Cells[$"D{index + 2}"].AutoFitColumns(0);
+                            }
+
+                            if (!string.IsNullOrEmpty(info.StatField.Field3.Value))
+                            {
+                                worksheet.Cells[$"E{index + 2}"].Value = info?.StatField?.Field3.Value ?? string.Empty;
+                                worksheet.Cells[$"E{index + 2}"].AutoFitColumns(0);
+                            }
+
+                            if (!string.IsNullOrEmpty(info.StatField.Field4.Value))
+                            {
+                                worksheet.Cells[$"F{index + 2}"].Value = info?.StatField?.Field4.Value ?? string.Empty;
+                                worksheet.Cells[$"F{index + 2}"].AutoFitColumns(0);
+                            }
+
+                            if (!string.IsNullOrEmpty(info.StatField.Field5.Value))
+                            {
+                                worksheet.Cells[$"G{index + 2}"].Value = info?.StatField?.Field5.Value ?? string.Empty;
+                                worksheet.Cells[$"G{index + 2}"].AutoFitColumns(0);
+                            }
+
+                            if (!string.IsNullOrEmpty(info.StatField.Field6.Value))
+                            {
+                                worksheet.Cells[$"H{index + 2}"].Value = info?.StatField?.Field6.Value ?? string.Empty;
+                                worksheet.Cells[$"H{index + 2}"].AutoFitColumns(0);
+                            }
+
+                            if (!string.IsNullOrEmpty(info.StatField.Field7.Value))
+                            {
+                                worksheet.Cells[$"I{index + 2}"].Value = info?.StatField?.Field7.Value ?? string.Empty;
+                                worksheet.Cells[$"I{index + 2}"].AutoFitColumns(0);
+                            }
+
+                            if (!string.IsNullOrEmpty(info.StatField.Field8.Value))
+                            {
+                                worksheet.Cells[$"J{index + 2}"].Value = info?.StatField?.Field8.Value ?? string.Empty;
+                                worksheet.Cells[$"J{index + 2}"].AutoFitColumns(0);
+                            }
+
+                            if (!string.IsNullOrEmpty(info.StatField.Field9.Value))
+                            {
+                                worksheet.Cells[$"K{index + 2}"].Value = info?.StatField?.Field9.Value ?? string.Empty;
+                                worksheet.Cells[$"K{index + 2}"].AutoFitColumns(0);
+                            }
+                            
                             index++;
                         }
-                        worksheet.Cells.AutoFitColumns(0);  //Autofit columns for all cells
+                        
                     }
 
                     // Send the file stream
@@ -145,6 +211,21 @@ namespace FormsAdminGP.RestfulAPI.Controllers
                             break;
                         case 4:
                             statField.Field4 = data;
+                            break;
+                        case 5:
+                            statField.Field5 = data;
+                            break;
+                        case 6:
+                            statField.Field6 = data;
+                            break;
+                        case 7:
+                            statField.Field7 = data;
+                            break;
+                        case 8:
+                            statField.Field8 = data;
+                            break;
+                        case 9:
+                            statField.Field9 = data;
                             break;
                         default:
                             break;

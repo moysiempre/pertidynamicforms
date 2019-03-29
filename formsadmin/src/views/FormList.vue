@@ -30,7 +30,7 @@
             </div>
             <ul class="list-group" v-if="formHds">
               <li class="list-group-item" v-for="item in filterSearch" :key="item.id">
-                <div  @click="onEmitAct(item, 'update')">
+                <div @click="onEmitAct(item, 'update')">
                   <div>
                     <h6 class="mb-0">{{item.name}}</h6>
                     <p class="mb-0" style="color:#75818b">
@@ -91,6 +91,7 @@ export default {
     this.$store.dispatch("loadFormHds");
     this.$store.dispatch("loadBaseDetails");
     this.$store.dispatch("loadOptions");
+    this.$store.dispatch("loadTemplates");
     this.$store.commit("SET_ACTION", "read");
   },
   computed: {
@@ -137,7 +138,7 @@ export default {
             }
           });
         }
-        this.$store.commit("SET_VALUES", _values);        
+        this.$store.commit("SET_VALUES", _values);
         this.$store.dispatch("loadOptions");
         console.log("onEmitAct", this.$store.state.options);
       }

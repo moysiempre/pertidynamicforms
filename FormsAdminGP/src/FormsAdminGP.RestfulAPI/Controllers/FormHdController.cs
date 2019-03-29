@@ -95,6 +95,7 @@ namespace FormsAdminGP.RestfulAPI.Controllers
         }
 
         [HttpDelete("{id}")]
+        [IgnoreAntiforgeryToken]
         public async Task<IActionResult> Delete(string id)
         {
             var item = await _formHdService.DeleteAsync(id);
