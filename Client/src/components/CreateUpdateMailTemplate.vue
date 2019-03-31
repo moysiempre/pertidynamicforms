@@ -1,29 +1,51 @@
 <template>
   <div class="card border-light">
     <div class="card-header">
-      <h6 class="my-0">{{title}}</h6>
+      <h6 class="my-0">{{ title }}</h6>
     </div>
     <div class="card-body">
       <form @submit.prevent="onSubmit">
-        <div class="form-group">
-          <label class="mb-0" for="name">
-            Nombre del template
-            <span class="i-required">*</span>
-          </label>
-          <input
-            v-validate="'required'"
-            type="text"
-            class="form-control"
-            name="name"
-            maxlength="150"
-            placeholder="Digite el nombre del template"
-            v-model="mailtemplate.name"
-          >
+        <div class="row">
+          <div class="col-12 col-md-4">
+            <div class="form-group">
+              <label class="mb-0" for="name">
+                Nombre del template
+                <span class="i-required">*</span>
+              </label>
+              <input
+                v-validate="'required'"
+                type="text"
+                class="form-control"
+                name="name"
+                maxlength="150"
+                placeholder="Digite el nombre"
+                v-model="mailtemplate.name"
+              >
+            </div>
+          </div>
+          <div class="col-12 col-md-8">
+            <div class="form-group">
+              <label class="mb-0" for="name">
+                Saludo
+                <small class="text-muted">ej. Buenas tardes..</small>
+                <span class="i-required">*</span>
+              </label>
+              <input
+                v-validate="'required'"
+                type="text"
+                class="form-control"
+                name="name"
+                maxlength="150"
+                placeholder="Digite el subject"
+                v-model="mailtemplate.salut"
+              >
+            </div>
+          </div>
         </div>
 
         <div class="form-group">
           <label class="mb-0" for="name">
-            Subject
+            Asunto del E-mail
             <span class="i-required">*</span>
           </label>
           <input
@@ -36,19 +58,12 @@
             v-model="mailtemplate.subject"
           >
         </div>
-
         <div class="form-group">
           <label class="mb-0" for="description">
             Body
             <span class="i-required">*</span>
           </label>
-          <textarea
-            class="form-control"
-            name="description"
-            maxlength="400"
-            placeholder="Digite el body"
-            v-model="mailtemplate.body"
-          ></textarea>
+          <ckeditor :editor="editor" v-model="mailtemplate.body" :config="editorConfig"></ckeditor>
         </div>
 
         <div class="row">
@@ -76,7 +91,7 @@
                 :disabled="!isFormValid || isloading"
               >
                 <span>GUARDAR</span>
-                <btn-loader :isloading="isloading"/>
+                <btn-loader :isloading="isloading"></btn-loader>
               </button>
             </div>
           </div>
@@ -90,13 +105,19 @@
 import axios from "axios";
 import { mapState } from "vuex";
 import BtnLoader from "@/components/BtnLoader.vue";
+import ClassicEditor from "@ckeditor/ckeditor5-build-classic";
 
 export default {
   props: ["title"],
   components: { BtnLoader },
   data() {
     return {
-      isloading: false
+      isloading: false,
+      editor: ClassicEditor,     
+      editorConfig: {
+        height: 500
+        // The configuration of the editor.
+      }
     };
   },
   computed: {
@@ -107,6 +128,9 @@ export default {
     isFormValid() {
       return !Object.keys(this.fields).some(key => this.fields[key].invalid);
     }
+  },
+  created() {
+    this. mailtemplate.body = "<p>Content of the editor.</p>"
   },
   methods: {
     onSubmit() {
@@ -144,5 +168,9 @@ export default {
     }
   }
 };
-</script>
- 
+</script> 
+<style>
+.ck-editor__editable {
+  min-height: 150px !important;
+}
+</style>

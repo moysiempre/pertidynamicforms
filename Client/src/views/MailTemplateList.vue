@@ -40,7 +40,7 @@
           </div>
         </div>
       </div>
-      <div class="col-12 col-sm-6 col-md-7 col-lg-5" v-if="action !== 'read'">
+      <div class="col-12 col-sm-6 col-md-7 col-lg-6" v-if="action !== 'read'">
         <create-update-mail-template :title="title"/>
       </div>
     </div>

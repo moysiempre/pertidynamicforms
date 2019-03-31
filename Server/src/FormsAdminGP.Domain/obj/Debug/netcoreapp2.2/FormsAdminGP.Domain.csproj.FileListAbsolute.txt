@@ -22,3 +22,15 @@ C:\Workspaces\github\pertidynamicforms\FormsAdminGP\src\FormsAdminGP.Domain\obj\
 C:\Workspaces\github\pertidynamicforms\FormsAdminGP\src\FormsAdminGP.Domain\obj\Debug\netcoreapp2.2\FormsAdminGP.Domain.csproj.CopyComplete
 C:\Workspaces\github\pertidynamicforms\FormsAdminGP\src\FormsAdminGP.Domain\obj\Debug\netcoreapp2.2\FormsAdminGP.Domain.dll
 C:\Workspaces\github\pertidynamicforms\FormsAdminGP\src\FormsAdminGP.Domain\obj\Debug\netcoreapp2.2\FormsAdminGP.Domain.pdb
+C:\Workspace\github\moysiempre\pertidynamicforms\Server\src\FormsAdminGP.Domain\bin\Debug\netcoreapp2.2\FormsAdminGP.Domain.deps.json
+C:\Workspace\github\moysiempre\pertidynamicforms\Server\src\FormsAdminGP.Domain\bin\Debug\netcoreapp2.2\FormsAdminGP.Domain.dll
+C:\Workspace\github\moysiempre\pertidynamicforms\Server\src\FormsAdminGP.Domain\bin\Debug\netcoreapp2.2\FormsAdminGP.Domain.pdb
+C:\Workspace\github\moysiempre\pertidynamicforms\Server\src\FormsAdminGP.Domain\bin\Debug\netcoreapp2.2\FormsAdminGP.Common.dll
+C:\Workspace\github\moysiempre\pertidynamicforms\Server\src\FormsAdminGP.Domain\bin\Debug\netcoreapp2.2\FormsAdminGP.Common.pdb
+C:\Workspace\github\moysiempre\pertidynamicforms\Server\src\FormsAdminGP.Domain\obj\Debug\netcoreapp2.2\FormsAdminGP.Domain.csprojAssemblyReference.cache
+C:\Workspace\github\moysiempre\pertidynamicforms\Server\src\FormsAdminGP.Domain\obj\Debug\netcoreapp2.2\FormsAdminGP.Domain.csproj.CoreCompileInputs.cache
+C:\Workspace\github\moysiempre\pertidynamicforms\Server\src\FormsAdminGP.Domain\obj\Debug\netcoreapp2.2\FormsAdminGP.Domain.AssemblyInfoInputs.cache
+C:\Workspace\github\moysiempre\pertidynamicforms\Server\src\FormsAdminGP.Domain\obj\Debug\netcoreapp2.2\FormsAdminGP.Domain.AssemblyInfo.cs
+C:\Workspace\github\moysiempre\pertidynamicforms\Server\src\FormsAdminGP.Domain\obj\Debug\netcoreapp2.2\FormsAdminGP.Domain.csproj.CopyComplete
+C:\Workspace\github\moysiempre\pertidynamicforms\Server\src\FormsAdminGP.Domain\obj\Debug\netcoreapp2.2\FormsAdminGP.Domain.dll
+C:\Workspace\github\moysiempre\pertidynamicforms\Server\src\FormsAdminGP.Domain\obj\Debug\netcoreapp2.2\FormsAdminGP.Domain.pdb

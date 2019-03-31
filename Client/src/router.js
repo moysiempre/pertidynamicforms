@@ -1,17 +1,51 @@
 import Vue from "vue";
 import Router from "vue-router";
-import Home from "./views/Home.vue";
+import Login from "./views/Login.vue";
+import LandingList from "./views/LandingList.vue";
+import FormList from "./views/FormList.vue";
+import ContactList from "./views/ContactList.vue";
+import MailTemplateList from "./views/MailTemplateList.vue";
 
 Vue.use(Router);
 
-export default new Router({
+let router = new Router({
   mode: "history",
   base: process.env.BASE_URL,
   routes: [
     {
       path: "/",
       name: "home",
-      component: Home
+      component: Login
+    },
+    {
+      path: "/login",
+      name: "login",
+      component: Login
+    },
+    {
+      path: "/resetepassword",
+      name: "resetepassword",
+      component: () => import("./views/ResetePassword.vue")
+    },
+    {
+      path: "/landings",
+      name: "landing-list",
+      component: LandingList
+    },
+    {
+      path: "/formularios",
+      name: "formularios",
+      component: FormList
+    },
+    {
+      path: "/solicitudes",
+      name: "solicitudes",
+      component: ContactList
+    },
+    {
+      path: "/mailTemplate",
+      name: "mailTemplate",
+      component: MailTemplateList
     },
     {
       path: "/about",
@@ -19,8 +53,9 @@ export default new Router({
       // route level code-splitting
       // this generates a separate chunk (about.[hash].js) for this route
       // which is lazy-loaded when the route is visited.
-      component: () =>
-        import(/* webpackChunkName: "about" */ "./views/About.vue")
+      component: () => import("./views/About.vue")
     }
   ]
 });
+
+export default router;

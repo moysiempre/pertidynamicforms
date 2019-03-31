@@ -1,8 +1,8 @@
 {
   "runtimeOptions": {
     "additionalProbingPaths": [
-      "C:\\Users\\GPertiDev\\.dotnet\\store\\|arch|\\|tfm|",
-      "C:\\Users\\GPertiDev\\.nuget\\packages",
+      "C:\\Users\\moy\\.dotnet\\store\\|arch|\\|tfm|",
+      "C:\\Users\\moy\\.nuget\\packages",
       "C:\\Program Files\\dotnet\\sdk\\NuGetFallbackFolder"
     ]
   }
