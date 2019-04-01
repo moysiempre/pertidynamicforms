@@ -130,7 +130,7 @@ export default {
     }
   },
   created() {
-    this. mailtemplate.body = "<p>Content of the editor.</p>"
+    // this. mailtemplate.body = "<p>Content of the editor.</p>"
   },
   methods: {
     onSubmit() {
