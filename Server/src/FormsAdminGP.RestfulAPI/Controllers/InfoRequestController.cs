@@ -101,7 +101,19 @@ namespace FormsAdminGP.RestfulAPI.Controllers
                         worksheet.Cells[$"H{index + 1}"].Value = infoRequest.StatField?.Field6.Key?? string.Empty;
                         worksheet.Cells[$"I{index + 1}"].Value = infoRequest.StatField?.Field7.Key?? string.Empty;
                         worksheet.Cells[$"J{index + 1}"].Value = infoRequest.StatField?.Field8.Key?? string.Empty;
-                        worksheet.Cells[$"K{index + 1}"].Value = infoRequest.StatField?.Field9.Key?? string.Empty; 
+                        worksheet.Cells[$"K{index + 1}"].Value = infoRequest.StatField?.Field9.Key?? string.Empty;
+                        worksheet.Cells[$"L{index + 1}"].Value = infoRequest.StatField?.Field10.Key ?? string.Empty;
+                        worksheet.Cells[$"M{index + 1}"].Value = infoRequest.StatField?.Field11.Key ?? string.Empty;
+                        worksheet.Cells[$"N{index + 1}"].Value = infoRequest.StatField?.Field12.Key ?? string.Empty;
+                        worksheet.Cells[$"O{index + 1}"].Value = infoRequest.StatField?.Field13.Key ?? string.Empty;
+                        worksheet.Cells[$"P{index + 1}"].Value = infoRequest.StatField?.Field14.Key ?? string.Empty;
+                        worksheet.Cells[$"Q{index + 1}"].Value = infoRequest.StatField?.Field15.Key ?? string.Empty;
+                        worksheet.Cells[$"R{index + 1}"].Value = infoRequest.StatField?.Field16.Key ?? string.Empty;
+                        worksheet.Cells[$"S{index + 1}"].Value = infoRequest.StatField?.Field17.Key ?? string.Empty;
+                        worksheet.Cells[$"T{index + 1}"].Value = infoRequest.StatField?.Field18.Key ?? string.Empty;
+                        worksheet.Cells[$"U{index + 1}"].Value = infoRequest.StatField?.Field19.Key ?? string.Empty;
+                        worksheet.Cells[$"V{index + 1}"].Value = infoRequest.StatField?.Field20.Key ?? string.Empty;
+
 
                         foreach (var info in infoRequestList)
                         {
@@ -111,57 +123,102 @@ namespace FormsAdminGP.RestfulAPI.Controllers
                             if (!string.IsNullOrEmpty(info.StatField.Field1.Value))
                             {
                                 worksheet.Cells[$"C{index + 2}"].Value = info?.StatField?.Field1.Value ?? string.Empty;
-                                worksheet.Cells[$"C{index + 2}"].AutoFitColumns(0);
                             }
 
                             if (!string.IsNullOrEmpty(info.StatField.Field2.Value))
                             {
                                 worksheet.Cells[$"D{index + 2}"].Value = info?.StatField?.Field2.Value ?? string.Empty;
-                                worksheet.Cells[$"D{index + 2}"].AutoFitColumns(0);
                             }
 
                             if (!string.IsNullOrEmpty(info.StatField.Field3.Value))
                             {
                                 worksheet.Cells[$"E{index + 2}"].Value = info?.StatField?.Field3.Value ?? string.Empty;
-                                worksheet.Cells[$"E{index + 2}"].AutoFitColumns(0);
                             }
 
                             if (!string.IsNullOrEmpty(info.StatField.Field4.Value))
                             {
                                 worksheet.Cells[$"F{index + 2}"].Value = info?.StatField?.Field4.Value ?? string.Empty;
-                                worksheet.Cells[$"F{index + 2}"].AutoFitColumns(0);
                             }
 
                             if (!string.IsNullOrEmpty(info.StatField.Field5.Value))
                             {
                                 worksheet.Cells[$"G{index + 2}"].Value = info?.StatField?.Field5.Value ?? string.Empty;
-                                worksheet.Cells[$"G{index + 2}"].AutoFitColumns(0);
                             }
 
                             if (!string.IsNullOrEmpty(info.StatField.Field6.Value))
                             {
                                 worksheet.Cells[$"H{index + 2}"].Value = info?.StatField?.Field6.Value ?? string.Empty;
-                                worksheet.Cells[$"H{index + 2}"].AutoFitColumns(0);
                             }
 
                             if (!string.IsNullOrEmpty(info.StatField.Field7.Value))
                             {
                                 worksheet.Cells[$"I{index + 2}"].Value = info?.StatField?.Field7.Value ?? string.Empty;
-                                worksheet.Cells[$"I{index + 2}"].AutoFitColumns(0);
                             }
 
                             if (!string.IsNullOrEmpty(info.StatField.Field8.Value))
                             {
                                 worksheet.Cells[$"J{index + 2}"].Value = info?.StatField?.Field8.Value ?? string.Empty;
-                                worksheet.Cells[$"J{index + 2}"].AutoFitColumns(0);
                             }
 
                             if (!string.IsNullOrEmpty(info.StatField.Field9.Value))
                             {
                                 worksheet.Cells[$"K{index + 2}"].Value = info?.StatField?.Field9.Value ?? string.Empty;
-                                worksheet.Cells[$"K{index + 2}"].AutoFitColumns(0);
                             }
-                            
+
+                            if (!string.IsNullOrEmpty(info.StatField.Field10.Value))
+                            {
+                                worksheet.Cells[$"L{index + 2}"].Value = info?.StatField?.Field10.Value ?? string.Empty;
+                            }
+
+                            if (!string.IsNullOrEmpty(info.StatField.Field11.Value))
+                            {
+                                worksheet.Cells[$"M{index + 2}"].Value = info?.StatField?.Field11.Value ?? string.Empty;
+                            }
+
+                            if (!string.IsNullOrEmpty(info.StatField.Field12.Value))
+                            {
+                                worksheet.Cells[$"N{index + 2}"].Value = info?.StatField?.Field12.Value ?? string.Empty;
+                            }
+
+                            if (!string.IsNullOrEmpty(info.StatField.Field13.Value))
+                            {
+                                worksheet.Cells[$"O{index + 2}"].Value = info?.StatField?.Field13.Value ?? string.Empty;
+                             }
+
+                            if (!string.IsNullOrEmpty(info.StatField.Field14.Value))
+                            {
+                                worksheet.Cells[$"P{index + 2}"].Value = info?.StatField?.Field14.Value ?? string.Empty;
+                            }
+
+                            if (!string.IsNullOrEmpty(info.StatField.Field15.Value))
+                            {
+                                worksheet.Cells[$"Q{index + 2}"].Value = info?.StatField?.Field15.Value ?? string.Empty;
+                            }
+
+                            if (!string.IsNullOrEmpty(info.StatField.Field16.Value))
+                            {
+                                worksheet.Cells[$"R{index + 2}"].Value = info?.StatField?.Field16.Value ?? string.Empty;
+                            }
+
+                            if (!string.IsNullOrEmpty(info.StatField.Field17.Value))
+                            {
+                                worksheet.Cells[$"S{index + 2}"].Value = info?.StatField?.Field17.Value ?? string.Empty;
+                            }
+
+                            if (!string.IsNullOrEmpty(info.StatField.Field18.Value))
+                            {
+                                worksheet.Cells[$"T{index + 2}"].Value = info?.StatField?.Field18.Value ?? string.Empty;
+                            }
+
+                            if (!string.IsNullOrEmpty(info.StatField.Field19.Value))
+                            {
+                                worksheet.Cells[$"U{index + 2}"].Value = info?.StatField?.Field19.Value ?? string.Empty;
+                            }
+
+                            if (!string.IsNullOrEmpty(info.StatField.Field20.Value))
+                            {
+                                worksheet.Cells[$"V{index + 2}"].Value = info?.StatField?.Field20.Value ?? string.Empty;
+                            }
                             index++;
                         }
                         
@@ -227,7 +284,38 @@ namespace FormsAdminGP.RestfulAPI.Controllers
                         case 9:
                             statField.Field9 = data;
                             break;
-                        default:
+                        case 10:
+                            statField.Field10 = data;
+                            break;
+                        case 11:
+                            statField.Field11 = data;
+                            break;
+                        case 12:
+                            statField.Field12 = data;
+                            break;
+                        case 13:
+                            statField.Field13 = data;
+                            break;
+                        case 14:
+                            statField.Field14 = data;
+                            break;
+                        case 15:
+                            statField.Field15 = data;
+                            break;
+                        case 16:
+                            statField.Field16 = data;
+                            break;
+                        case 17:
+                            statField.Field17 = data;
+                            break;
+                        case 18:
+                            statField.Field18 = data;
+                            break;
+                        case 19:
+                            statField.Field19 = data;
+                            break;
+                        case 20:
+                            statField.Field20 = data;
                             break;
                     }
                 }

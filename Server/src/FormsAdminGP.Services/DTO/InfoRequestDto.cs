@@ -43,5 +43,16 @@ namespace FormsAdminGP.Services.DTO
         public KeyValuePair<string, string> Field7 { get; set; }
         public KeyValuePair<string, string> Field8 { get; set; }
         public KeyValuePair<string, string> Field9 { get; set; }
+        public KeyValuePair<string, string> Field10 { get; set; }
+        public KeyValuePair<string, string> Field11 { get; set; }
+        public KeyValuePair<string, string> Field12 { get; set; }
+        public KeyValuePair<string, string> Field13 { get; set; }
+        public KeyValuePair<string, string> Field14 { get; set; }
+        public KeyValuePair<string, string> Field15 { get; set; }
+        public KeyValuePair<string, string> Field16 { get; set; }
+        public KeyValuePair<string, string> Field17 { get; set; }
+        public KeyValuePair<string, string> Field18 { get; set; }
+        public KeyValuePair<string, string> Field19 { get; set; }
+        public KeyValuePair<string, string> Field20 { get; set; }
     }
 }

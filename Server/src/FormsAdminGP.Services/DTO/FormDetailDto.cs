@@ -15,6 +15,7 @@ namespace FormsAdminGP.Services.DTO
         [Required]
         public byte Order { get; set; } = 1;
         public bool IsRequired { get; set; } = true;
+        public bool IsMandatory { get; set; }
         public string Name => (!string.IsNullOrEmpty(FieldLabel))? FieldLabel.Replace(" ", "").ToLower() : string.Empty;
         public string Data { get; set; }
         public string FieldType
@@ -44,9 +45,14 @@ namespace FormsAdminGP.Services.DTO
                         case "textarea":
                             fieldType = "Textarea";
                             break;
+                        case "numeric":
+                            fieldType = "Numérico";
+                            break;
                         case "submit":
                             fieldType = "Botón";
                             break;
+                        
+                            
                     }
                 }
                

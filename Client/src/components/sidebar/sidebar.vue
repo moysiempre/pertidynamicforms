@@ -24,18 +24,17 @@ export default {
   methods: {
     logout: function() {
       this.$store
-        .dispatch("logout")
+        .dispatch('logout')
         .then(() => {
-          console.log("to login");
-          this.$router.push({ name: "login" });
+          console.log('to login')
+          this.$router.push({ name: 'login' })
         })
-        .catch(err => console.log(err));
+        .catch(err => console.log(err))
     }
   }
-};
+}
 </script>
 
- 
 <style lang="scss" scoped>
 aside {
   position: fixed;
@@ -60,4 +59,3 @@ aside {
   }
 }
 </style>
-

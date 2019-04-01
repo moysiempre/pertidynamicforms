@@ -13,18 +13,26 @@
               class="form-control"
               placeholder="Digite su correo electrónico"
               v-model="userName"
-            >
-            <small class="text-danger">{{ getErrMsg(errors, 'userName') }}</small>
+            />
+            <small class="text-danger">{{
+              getErrMsg(errors, 'userName')
+            }}</small>
           </div>
           <div class="form-group">
-            <button type="submit" class="btn btn-primary w-100" :disabled="isloading">
+            <button
+              type="submit"
+              class="btn btn-primary w-100"
+              :disabled="isloading"
+            >
               <span>RESETEA CONTRASEÑA</span>
-              <btn-loader :isloading="isloading"/>
+              <btn-loader :isloading="isloading" />
             </button>
           </div>
           <div class="form-group">
             <p class="mb-0">
-              <small class="text-muted pr-2">¿Te acuerdas de tu contraseña?</small>
+              <small class="text-muted pr-2"
+                >¿Te acuerdas de tu contraseña?</small
+              >
               <router-link to="/login">
                 <small>INICIA SESIÓN</small>
               </router-link>
@@ -37,73 +45,72 @@
 </template>
 
 <script>
-import axios from "axios";
-import BtnLoader from "@/components/BtnLoader.vue";
+import axios from 'axios'
+import BtnLoader from '@/components/BtnLoader.vue'
 export default {
   components: { BtnLoader },
   data() {
     return {
       isloading: false,
-      userName: ""
-    };
+      userName: ''
+    }
   },
   methods: {
     onSubmit() {
       this.$validator.validateAll().then(isValid => {
         if (isValid) {
-          this.isloading = true;
+          this.isloading = true
 
           axios({
-            method: "GET",
+            method: 'GET',
             url: `api-security/resetepassword/${this.userName}`
           })
             .then(response => {
-              this.isloading = false;
+              this.isloading = false
               if (response && response.data && response.data.success) {
-                this.$swal("Tu contraseña fue enviado a " + this.userName).then(
+                this.$swal('Tu contraseña fue enviado a ' + this.userName).then(
                   () => {
-                    this.$router.push({ name: "login" });
+                    this.$router.push({ name: 'login' })
                   }
-                );
+                )
               } else {
                 this.$swal(response.data.message, {
-                  icon: "warning"
-                });
+                  icon: 'warning'
+                })
               }
             })
             .catch(err => {
-              console.log(err);
-              this.isloading = false;
-              this.$swal("No se pudo resetear su contraseña", {
-                icon: "warning"
-              });
-            });
+              console.log(err)
+              this.isloading = false
+              this.$swal('No se pudo resetear su contraseña', {
+                icon: 'warning'
+              })
+            })
         }
-      });
+      })
     },
     getErrMsg(errors, field) {
-      var message = "";
-      var error = errors.items.find(x => x.field == field);
+      var message = ''
+      var error = errors.items.find(x => x.field == field)
       if (error) {
         switch (error.rule) {
-          case "required":
-            message = `El campo es obligatorio.`;
-            break;
-          case "email":
-            message = `El campo debe ser un correo electrónico válido.`;
-            break;
+          case 'required':
+            message = `El campo es obligatorio.`
+            break
+          case 'email':
+            message = `El campo debe ser un correo electrónico válido.`
+            break
           default:
-            break;
+            break
         }
       } else {
-        message = "";
+        message = ''
       }
 
-      return message;
+      return message
     }
   }
-};
+}
 </script>
 
-<style scoped>
-</style>
+<style scoped></style>

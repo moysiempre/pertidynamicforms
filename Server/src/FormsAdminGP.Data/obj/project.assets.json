@@ -1410,7 +1410,7 @@
       ]
     },
     "Microsoft.NETCore.DotNetAppHost/2.2.0": {
-      "sha512": "OK/H8p9Ig6mLMITjXJ4VOewrJg/TU+dAPHE4BdMWMv+8COzBehf7XF1+DofKkmqdHpO2cJoS5Sc9PEZ6PKCbsg==",
+      "sha512": "qIrVLupwT2NYTrf7KM7Nh+mJr36V5MITVRjyGOByVVCwGmQgQmI/6bjZYQv+QdExi4Cm87eCKJX9FdT6nc00Xg==",
       "type": "package",
       "path": "microsoft.netcore.dotnetapphost/2.2.0",
       "files": [
@@ -3475,23 +3475,23 @@
     ]
   },
   "packageFolders": {
-    "C:\\Users\\moy\\.nuget\\packages\\": {},
+    "C:\\Users\\GPertiDev\\.nuget\\packages\\": {},
     "C:\\Program Files\\dotnet\\sdk\\NuGetFallbackFolder": {}
   },
   "project": {
     "version": "1.0.0",
     "restore": {
-      "projectUniqueName": "C:\\Workspace\\github\\moysiempre\\pertidynamicforms\\Server\\src\\FormsAdminGP.Data\\FormsAdminGP.Data.csproj",
+      "projectUniqueName": "C:\\Workspaces\\github\\pertidynamicforms\\Server\\src\\FormsAdminGP.Data\\FormsAdminGP.Data.csproj",
       "projectName": "FormsAdminGP.Data",
-      "projectPath": "C:\\Workspace\\github\\moysiempre\\pertidynamicforms\\Server\\src\\FormsAdminGP.Data\\FormsAdminGP.Data.csproj",
-      "packagesPath": "C:\\Users\\moy\\.nuget\\packages\\",
-      "outputPath": "C:\\Workspace\\github\\moysiempre\\pertidynamicforms\\Server\\src\\FormsAdminGP.Data\\obj\\",
+      "projectPath": "C:\\Workspaces\\github\\pertidynamicforms\\Server\\src\\FormsAdminGP.Data\\FormsAdminGP.Data.csproj",
+      "packagesPath": "C:\\Users\\GPertiDev\\.nuget\\packages\\",
+      "outputPath": "C:\\Workspaces\\github\\pertidynamicforms\\Server\\src\\FormsAdminGP.Data\\obj\\",
       "projectStyle": "PackageReference",
       "fallbackFolders": [
         "C:\\Program Files\\dotnet\\sdk\\NuGetFallbackFolder"
       ],
       "configFilePaths": [
-        "C:\\Users\\moy\\AppData\\Roaming\\NuGet\\NuGet.Config",
+        "C:\\Users\\GPertiDev\\AppData\\Roaming\\NuGet\\NuGet.Config",
         "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config"
       ],
       "originalTargetFrameworks": [
@@ -3504,8 +3504,8 @@
       "frameworks": {
         "netcoreapp2.2": {
           "projectReferences": {
-            "C:\\Workspace\\github\\moysiempre\\pertidynamicforms\\Server\\src\\FormsAdminGP.Domain\\FormsAdminGP.Domain.csproj": {
-              "projectPath": "C:\\Workspace\\github\\moysiempre\\pertidynamicforms\\Server\\src\\FormsAdminGP.Domain\\FormsAdminGP.Domain.csproj"
+            "C:\\Workspaces\\github\\pertidynamicforms\\Server\\src\\FormsAdminGP.Domain\\FormsAdminGP.Domain.csproj": {
+              "projectPath": "C:\\Workspaces\\github\\pertidynamicforms\\Server\\src\\FormsAdminGP.Domain\\FormsAdminGP.Domain.csproj"
             }
           }
         }

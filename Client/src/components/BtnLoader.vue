@@ -3,9 +3,9 @@
 </template>
 <script>
 export default {
-  name: "btnLoader",
-  props: ["isloading"]
-};
+  name: 'btnLoader',
+  props: ['isloading']
+}
 </script>
 
 <style>
@@ -22,7 +22,7 @@ export default {
   margin-top: 5px;
 }
 .spinners:before {
-  content: "";
+  content: '';
   box-sizing: border-box;
   position: absolute;
   top: -15px;

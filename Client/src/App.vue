@@ -8,25 +8,25 @@
   </div>
 </template>
 <script>
-import Header from "@/components/header/header.vue";
-import Sidebar from "@/components/sidebar/sidebar.vue";
-import { mapState } from "vuex";
+import Header from '@/components/header/header.vue'
+import Sidebar from '@/components/sidebar/sidebar.vue'
+import { mapState } from 'vuex'
 
 export default {
-  name: "App",
+  name: 'App',
   components: {
-    "app-header": Header,
-    "app-sidebar": Sidebar
+    'app-header': Header,
+    'app-sidebar': Sidebar
   },
   computed: {
-    ...mapState(["showFullLayout"])
+    ...mapState(['showFullLayout'])
   }
-};
+}
 </script>
 <style lang="scss">
-@import "./assets/scss/global.scss";
+@import './assets/scss/global.scss';
 #app {
-  font-family: "Avenir", Helvetica, Arial, sans-serif;
+  font-family: 'Avenir', Helvetica, Arial, sans-serif;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
   color: #2c3e50;

@@ -1,7 +1,7 @@
 <template>
   <div class="card border-light">
     <div class="card-header">
-      <h6 class="my-0">{{title}}</h6>
+      <h6 class="my-0">{{ title }}</h6>
     </div>
     <div class="card-body">
       <form @submit.prevent="onSubmit">
@@ -18,11 +18,13 @@
             maxlength="150"
             placeholder="Digite el nombre del landing page"
             v-model="landingPage.name"
-          >
+          />
         </div>
 
         <div class="form-group">
-          <label class="mb-0" for="description">Descripción del landing page</label>
+          <label class="mb-0" for="description"
+            >Descripción del landing page</label
+          >
           <textarea
             class="form-control"
             name="description"
@@ -34,9 +36,14 @@
 
         <div class="form-group">
           <label class="mb-0" for="description">Formulario Asignado</label>
-          <select class="custom-select"  v-model="landingPage.formHdId">
+          <select class="custom-select" v-model="landingPage.formHdId">
             <option value>seleccione</option>
-            <option v-for="(item, index) in formOpts" :key="index" :value="item.id">{{item.name}}</option>
+            <option
+              v-for="(item, index) in formOpts"
+              :key="index"
+              :value="item.id"
+              >{{ item.name }}</option
+            >
           </select>
         </div>
 
@@ -48,8 +55,10 @@
                 class="custom-control-input"
                 id="customControlValidation1"
                 v-model="landingPage.isActive"
+              />
+              <label class="custom-control-label" for="customControlValidation1"
+                >Es Activo</label
               >
-              <label class="custom-control-label" for="customControlValidation1">Es Activo</label>
             </div>
           </div>
           <div class="col-md-8 mt-3">
@@ -58,14 +67,16 @@
                 type="button"
                 @click="onCancel"
                 class="btn btn-outline-warning btn-sm mx-1"
-              >CANCELAR</button>
+              >
+                CANCELAR
+              </button>
               <button
                 type="submit"
                 class="btn btn-primary btn-sm"
                 :disabled="!isFormValid || isloading"
               >
                 <span>GUARDAR</span>
-                <btn-loader :isloading="isloading"/>
+                <btn-loader :isloading="isloading" />
               </button>
             </div>
           </div>
@@ -75,17 +86,17 @@
   </div>
 </template>
 <script>
-import axios from "axios";
-import { mapState } from "vuex";
-import BtnLoader from "@/components/BtnLoader.vue";
+import axios from 'axios'
+import { mapState } from 'vuex'
+import BtnLoader from '@/components/BtnLoader.vue'
 
 export default {
-  props: ["title"],
+  props: ['title'],
   components: { BtnLoader },
   data() {
     return {
       isloading: false
-    };
+    }
   },
   computed: {
     ...mapState({
@@ -94,44 +105,41 @@ export default {
       action: state => state.landings.action
     }),
     isFormValid() {
-      return !Object.keys(this.fields).some(key => this.fields[key].invalid);
+      return !Object.keys(this.fields).some(key => this.fields[key].invalid)
     }
   },
   methods: {
     onSubmit() {
-      this.isloading = true;
+      this.isloading = true
       axios
-        .post("api-landingpage", this.landingPage)
+        .post('api-landingpage', this.landingPage)
         .then(response => {
-          this.isloading = false;
+          this.isloading = false
           if (response && response.data && response.data.id) {
-            this.landingPage.id = response.data.id;
-            if (this.action === "create") {
-              this.$store.dispatch("loadLandings");
-            }
+            this.landingPage.id = response.data.id
+            this.$store.dispatch('loadLandings')
             this.$swal(response.data.message, {
-              icon: "success"
-            });
-            this.onCancel();
+              icon: 'success'
+            })
+            this.onCancel()
           } else {
             this.$swal(response.data.message, {
-              icon: "warning"
-            });
+              icon: 'warning'
+            })
           }
         })
         .catch(error => {
-          this.isloading = false;
-          console.log(error);
-          this.$swal("No se pudo dar de alta al landing page", {
-            icon: "warning"
-          });
-        });
+          this.isloading = false
+          console.log(error)
+          this.$swal('No se pudo dar de alta al landing page', {
+            icon: 'warning'
+          })
+        })
     },
     onCancel() {
-      this.$store.commit("SET_ACTION", "read");
-      this.$store.commit("SET_LANDING", {});
+      this.$store.commit('SET_ACTION', 'read')
+      this.$store.commit('SET_LANDING', {})
     }
   }
-};
+}
 </script>
- 

@@ -7,6 +7,7 @@ using FormsAdminGP.Services.Interfaces;
 using FormsAdminGP.Services.Responses;
 using Microsoft.Extensions.Logging;
 using System.Collections.Generic;
+using System.Linq;
 using System.Threading.Tasks;
 
 namespace FormsAdminGP.Services
@@ -45,7 +46,8 @@ namespace FormsAdminGP.Services
             var listDto = new List<LandingPageDto>();
             try
             {
-                var list = await _landingPageRepository.GetAll(x=>x.FormHdId == null);
+                var list = await _landingPageRepository.GetAll();
+                list = list.Where(x => string.IsNullOrEmpty(x.FormHdId)).ToList();
                 listDto = _mapper.Map<List<LandingPageDto>>(list);
             }
             catch (System.Exception ex)

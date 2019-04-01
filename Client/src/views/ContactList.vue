@@ -1,14 +1,23 @@
 <template>
   <div id="acontact" class="container-fluid">
-    <h5>{{title}}</h5>
+    <h5>{{ title }}</h5>
     <div class="row mb-1">
       <div class="col-12 col-sm-12 col-md-6 text-right"></div>
       <div class="col-12 col-sm-12 col-md-6 text-right">
         <div class="row no-gutters">
           <div class="col-sm-4 d-flex align-items-center">
-            <select class="custom-select mr-sm-1" id="ddllandings" @change="onChange($event)">
+            <select
+              class="custom-select mr-sm-1"
+              id="ddllandings"
+              @change="onChange($event)"
+            >
               <option value>Seleccione...</option>
-              <option v-for="item in landingPages" :key="item.id" :value="item.id">{{item.name}}</option>
+              <option
+                v-for="item in landingPages"
+                :key="item.id"
+                :value="item.id"
+                >{{ item.name }}</option
+              >
             </select>
           </div>
           <div class="col-sm-3 d-flex align-items-center">
@@ -34,12 +43,16 @@
             ></date-picker>
           </div>
           <div class="col-sm-2 d-flex justify-content-end">
-            <button type="button" class="btn btn-default btn-sm py-0" @click="exportarXlsx">
+            <button
+              type="button"
+              class="btn btn-default btn-sm py-0"
+              @click="exportarXlsx"
+            >
               <p class="exlsx m-0 mt-1" v-if="!isloading">
-                <img src="../assets/exportarXlsx.png" alt srcset>
+                <img src="../assets/exportarXlsx.png" alt srcset />
               </p>
               <p class="m-0 mt-1 mr-2" style="height:37px" v-if="isloading">
-                <btn-loader :isloading="isloading"/>
+                <btn-loader :isloading="isloading" />
               </p>
               <span>EXPORTAR</span>
             </button>
@@ -76,13 +89,20 @@
       <div class="modal-dialog" role="document">
         <div class="modal-content">
           <div class="modal-header py-1">
-            <h5 class="modal-title" id="contactDetailModalLabel">Detalle del formulario</h5>
-            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+            <h5 class="modal-title" id="contactDetailModalLabel">
+              Detalle del formulario
+            </h5>
+            <button
+              type="button"
+              class="close"
+              data-dismiss="modal"
+              aria-label="Close"
+            >
               <span aria-hidden="true">&times;</span>
             </button>
           </div>
           <div class="modal-body">
-            <contact-detail :contact="contactItem"/>
+            <contact-detail :contact="contactItem" />
           </div>
         </div>
       </div>
@@ -91,18 +111,18 @@
   </div>
 </template>
 <script>
-import axios from "axios";
-import DatePicker from "vue2-datepicker";
-import { AgGridVue } from "ag-grid-vue";
-import ContactDetail from "@/components/ContactDetail.vue";
-import BtnLoader from "@/components/BtnLoader.vue";
+import axios from 'axios'
+import DatePicker from 'vue2-datepicker'
+import { AgGridVue } from 'ag-grid-vue'
+import ContactDetail from '@/components/ContactDetail.vue'
+import BtnLoader from '@/components/BtnLoader.vue'
 
 export default {
-  name: "acontact",
+  name: 'acontact',
   components: { DatePicker, AgGridVue, ContactDetail, BtnLoader },
   data() {
     return {
-      title: "SOLICITUDES",
+      title: 'SOLICITUDES',
       rowData: [],
       gridOptions: { rowHeight: 50 },
       landingPages: [],
@@ -112,175 +132,175 @@ export default {
       startDate: new Date(),
       endDate: new Date(),
       lang: {
-        days: ["Sun", "Mon", "Tue", "Wed", "Thu", "Fri", "Sat"],
+        days: ['Sun', 'Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat'],
         months: [
-          "Jan",
-          "Feb",
-          "Mar",
-          "Apr",
-          "May",
-          "Jun",
-          "Jul",
-          "Aug",
-          "Sep",
-          "Oct",
-          "Nov",
-          "Dec"
+          'Jan',
+          'Feb',
+          'Mar',
+          'Apr',
+          'May',
+          'Jun',
+          'Jul',
+          'Aug',
+          'Sep',
+          'Oct',
+          'Nov',
+          'Dec'
         ],
         pickers: [
-          "next 7 days",
-          "next 30 days",
-          "previous 7 days",
-          "previous 30 days"
+          'next 7 days',
+          'next 30 days',
+          'previous 7 days',
+          'previous 30 days'
         ],
         placeholder: {
-          date: "Select Date",
-          dateRange: "Select Date Range"
+          date: 'Select Date',
+          dateRange: 'Select Date Range'
         }
       }
-    };
+    }
   },
   beforeMount() {
-    this.loadLandingPages();
+    this.loadLandingPages()
     this.columnDefs = [
       {
-        headerName: "FECHA",
-        field: "requestDateStr"
+        headerName: 'FECHA',
+        field: 'requestDateStr'
       },
       {
-        headerName: "NOMBRE",
-        field: "name",
+        headerName: 'NOMBRE',
+        field: 'name',
         sortable: true,
         filter: true,
         resizable: true
       },
       {
-        headerName: "EMAIL",
-        field: "email",
+        headerName: 'EMAIL',
+        field: 'email',
         sortable: true,
         filter: true,
         resizable: true
       },
       {
-        headerName: "TELÉFONO",
-        field: "phone",
+        headerName: 'TELÉFONO',
+        field: 'phone',
         sortable: true,
         filter: true,
         resizable: true
       },
       {
-        headerName: "LANDING PAGE",
-        field: "landingPageName",
+        headerName: 'LANDING PAGE',
+        field: 'landingPageName',
         resizable: true,
-        sort: "asc"
+        sort: 'asc'
       },
       {
-        headerName: "",
-        field: "pepe",
+        headerName: '',
+        field: 'pepe',
         cellRenderer: params => {
-          const element = document.createElement("span");
-          const data = params.node.data;
-          element.innerHTML = `<button type="button" class="btn btn-link btn-sm">Ver Detalle</button>`;
-          element.addEventListener("click", () => {
-            this.contactItem = data;
-            window.$("#contactDetailModal").modal("show");
-          });
-          return element;
+          const element = document.createElement('span')
+          const data = params.node.data
+          element.innerHTML = `<button type="button" class="btn btn-link btn-sm">Ver Detalle</button>`
+          element.addEventListener('click', () => {
+            this.contactItem = data
+            window.$('#contactDetailModal').modal('show')
+          })
+          return element
         },
         width: 180
       }
-    ];
+    ]
   },
 
   mounted() {
-    this.load({});
+    this.load({})
   },
   methods: {
     exportarXlsx() {
-      this.isloading = true;
-      
+      this.isloading = true
+
       axios({
-        url: "api-inforequest/download",
-        method: "GET",
-        responseType: "blob",
+        url: 'api-inforequest/download',
+        method: 'GET',
+        responseType: 'blob',
         params: {}
       })
         .then(response => {
-          this.isloading = false;
-          console.log(response.data.size);
+          this.isloading = false
+          console.log(response.data.size)
           if (response.status === 200 && response.data.size > 0) {
-            const url = window.URL.createObjectURL(new Blob([response.data]));
-            const link = document.createElement("a");
-            link.href = url;
-            link.setAttribute("download", "fileName.xlsx"); //or any other extension
-            document.body.appendChild(link);
-            link.click();
+            const url = window.URL.createObjectURL(new Blob([response.data]))
+            const link = document.createElement('a')
+            link.href = url
+            link.setAttribute('download', 'fileName.xlsx') //or any other extension
+            document.body.appendChild(link)
+            link.click()
           }
         })
         .catch(() => {
-          this.isloading = false;
-          console.error;
-        });
+          this.isloading = false
+          console.error
+        })
     },
     load(request) {
       axios
-        .get("api-inforequest/getby", {
+        .get('api-inforequest/getby', {
           params: request
         })
         .then(response => {
-          this.rowData = response.data;
+          this.rowData = response.data
           this.rowData.forEach(element => {
-            element.infoRequestData = JSON.parse(element.infoRequestData);
+            element.infoRequestData = JSON.parse(element.infoRequestData)
             if (element.infoRequestData && element.infoRequestData.length) {
               element.infoRequestData.forEach(el => {
                 switch (el.fieldTypeId) {
-                  case "email":
-                    element.email = el.data;
-                    break;
-                  case "phone":
-                    element.phone = el.data;
-                    break;
-                  case "name":
-                    element.name = el.data;
-                    break;
+                  case 'email':
+                    element.email = el.data
+                    break
+                  case 'phone':
+                    element.phone = el.data
+                    break
+                  case 'name':
+                    element.name = el.data
+                    break
                 }
-              });
+              })
             }
-          });
-          console.log("response.data ", response.data);
-        });
+          })
+          console.log('response.data ', response.data)
+        })
     },
     loadLandingPages() {
-      axios.get("api-landingpage").then(response => {
-        this.landingPages = response.data;
-      });
+      axios.get('api-landingpage').then(response => {
+        this.landingPages = response.data
+      })
     },
     onFirstDataRendered(params) {
-      params.api.sizeColumnsToFit();
+      params.api.sizeColumnsToFit()
     },
     onChange(event) {
       this.load({
         landingPageId: event.target.value
-      });
+      })
     },
     onChangeStartDate(date) {
       const eDate = `${date.getFullYear()}-${date.getMonth() +
-        1}-${date.getDate()}`;
+        1}-${date.getDate()}`
       this.load({
         startDate: eDate
-      });
+      })
     },
     onChangeEndDate(date) {
       const eDate = `${date.getFullYear()}-${date.getMonth() +
-        1}-${date.getDate()}`;
+        1}-${date.getDate()}`
       this.load({
         endDate: eDate
-      });
+      })
     }
   }
-};
+}
 </script>
- 
+
 <style lang="scss">
 .mx-datepicker {
   width: auto !important;
@@ -297,4 +317,3 @@ export default {
   background: #fff;
 }
 </style>
- 

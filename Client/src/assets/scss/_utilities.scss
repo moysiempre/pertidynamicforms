@@ -48,10 +48,15 @@
 .c-wait {
   cursor: wait !important
 }
+
 .c-not-allowed {
-   cursor: not-allowed
+  cursor: not-allowed
 }
 
 .visibility-hidden {
   visibility: hidden !important;
+}
+
+.custom-checkbox .custom-control-input:disabled:checked~.custom-control-label::before {
+  background-color: rgba(64, 86, 104, .5);
 }

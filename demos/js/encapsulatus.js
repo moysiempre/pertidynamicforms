@@ -8,7 +8,7 @@
              },
              fields: [],
              isloading: false,
-             isSended: true,
+             isSended: false,
              message_gp: "",
              alert_class: "alert-success"
          }
@@ -38,7 +38,7 @@
                          mailTemplateId: this.fields.mailTemplateId
                      }
 
-                     console.log("formDetails: ", this.fields.formDetails)
+                     //console.log("formDetails: ", this.fields.formDetails)
                      this.fields.formDetails.forEach(element => {
                          var infodata = {
                              fieldLabel: element.fieldLabel,
@@ -46,6 +46,8 @@
                              order: element.order,
                              fieldTypeId: element.fieldTypeId,
                          };
+
+                         //console.log("ES: ", infodata)
 
                          switch (element.fieldTypeId) {
                              case 'email':
@@ -61,13 +63,20 @@
                                  infodata.name = element.data;
                                  infoRequest.name = element.data;
                                  break;
+                             case 'select':
+                                 infodata.data = element.datatext;
+                                 break;
+
                          }
 
-                         infoRequestData.push(infodata);
+                         if (element.fieldTypeId !== "submit") {
+                             infoRequestData.push(infodata);
+                         }
+
                      });
 
                      infoRequest.infoRequestData = JSON.stringify(infoRequestData);
-                     console.log('api-inforequest', infoRequest);
+                     //console.log('api-inforequest', infoRequest);
                      axios.post(this.baseUrl + 'api-inforequest', infoRequest)
                          .then((response) => {
                              this.isloading = false;
@@ -97,6 +106,16 @@
              this.fields.formDetails.forEach(element => {
                  element.data = ""
              });
+         },
+         onChangeDDL(field) {
+
+             field.datatext = ""
+             if (field && field.ddlCatalogs && field.ddlCatalogs.length && field.data) {
+                 let data = field.ddlCatalogs.find(x => x.id === field.data);
+                 if (data && data.name) {
+                     field.datatext = data.name;
+                 }
+             }
          },
          getErrMsg(errors, field) {
              var message = "";
@@ -164,7 +183,7 @@
                         <form v-if="fields.title">
                              <div v-for="(field, index) in fields.formDetails" :key="index">
 
-                                 <div class="form-group" v-if="field.fieldTypeId === 'name'">
+                                 <div class="form-group" v-if="field.fieldTypeId === 'name' || field.fieldTypeId === 'text'">
                                      <label class="mb-0" :for="field.name">{{field.fieldLabel}}</label>
                                      <input v-validate="'required'" :name="field.name" :id="field.name"
                                          type="text" class="form-control" :placeholder="field.fieldLabel"
@@ -172,13 +191,7 @@
                                      <span class="text-danger">{{ getErrMsg(errors, field.name) }}</span>
 
                                  </div>
-                                 <div class="form-group" v-if="field.fieldTypeId === 'text'">
-                                     <label class="mb-0" :for="field.name">{{field.fieldLabel}}</label>
-                                     <input v-validate="'required'" :name="field.name" type="text"
-                                         class="form-control" :placeholder="field.fieldLabel"
-                                         v-model="field.data">
-                                     <span class="text-danger">{{ getErrMsg(errors, field.name) }}</span>
-                                 </div>
+                                 
                                  <div class="form-group" v-if="field.fieldTypeId === 'email'">
                                      <label class="mb-0" :for="field.name">{{field.fieldLabel}}</label>
                                      <input v-validate="'required|email'" :name="field.name" type="text"
@@ -187,6 +200,7 @@
                                      <span class="text-danger">{{ getErrMsg(errors, field.name) }}</span>
 
                                  </div>
+                                 
                                  <div class="form-group" v-if="field.fieldTypeId === 'phone'">
                                      <label class="mb-0" :for="field.name">{{field.fieldLabel}}</label>
                                      <input v-validate="'required|numeric|min:10'" :name="field.name"
@@ -194,6 +208,14 @@
                                          :placeholder="field.fieldLabel" v-model="field.data">
                                      <span class="text-danger">{{ errors.first(field.name) }}</span>
                                  </div>
+
+                                 <div class="form-group" v-if="field.fieldTypeId === 'numeric'">
+                                    <label class="mb-0" :for="field.name">{{field.fieldLabel}}</label>
+                                    <input v-validate="'required|numeric'" :name="field.name"
+                                        maxlength="5" type="text" class="form-control"
+                                        :placeholder="field.fieldLabel" v-model="field.data">
+                                    <span class="text-danger">{{ errors.first(field.name) }}</span>
+                                </div>
 
                                  <div class="form-group" v-if="field.fieldTypeId === 'textarea'">
                                      <label class="mb-0" :for="field.name">{{field.fieldLabel}}</label>
@@ -204,7 +226,7 @@
 
                                  <div class="form-group" v-if="field.fieldTypeId === 'select'">
                                      <label class="mb-0" :for="field.name">{{field.fieldLabel}}</label>
-                                     <select v-validate="'required'" :name="field.name" class="custom-select"
+                                     <select v-validate="'required'" :name="field.name" class="custom-select" @change="onChangeDDL(field)"
                                          :placeholder="field.fieldLabel" v-model="field.data">
 
                                          <option v-for="(item, index) in field.ddlCatalogs" :key="index"

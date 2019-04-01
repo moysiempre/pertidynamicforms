@@ -13,8 +13,10 @@
               class="form-control"
               placeholder="Digite su correo electrónico"
               v-model="userName"
-            >
-            <small class="text-danger">{{ getErrMsg(errors, 'userName') }}</small>
+            />
+            <small class="text-danger">
+              {{ getErrMsg(errors, 'userName') }}
+            </small>
           </div>
           <div class="form-group text-left">
             <input
@@ -25,19 +27,27 @@
               class="form-control"
               placeholder="digite su contraseña"
               v-model="password"
-            >
-            <small class="text-danger">{{ getErrMsg(errors, 'password') }}</small>
+            />
+            <small class="text-danger">
+              {{ getErrMsg(errors, 'password') }}
+            </small>
           </div>
 
           <div class="form-group">
-            <button type="submit" class="btn btn-primary w-100" :disabled="isloading">
+            <button
+              type="submit"
+              class="btn btn-primary w-100"
+              :disabled="isloading"
+            >
               <span>INICIA SESIÓN</span>
-              <btn-loader :isloading="isloading"/>
+              <btn-loader :isloading="isloading" />
             </button>
           </div>
           <div class="form-group">
             <p class="mb-0">
-              <small class="text-muted pr-2">¿Has olvidado tu contraseña?</small>
+              <small class="text-muted pr-2"
+                >¿Has olvidado tu contraseña?</small
+              >
               <router-link to="/resetepassword">
                 <small>RESETÉALO</small>
               </router-link>
@@ -51,19 +61,19 @@
 
 <script>
 // @ is an alias to /src
-import BtnLoader from "@/components/BtnLoader.vue";
+import BtnLoader from '@/components/BtnLoader.vue'
 export default {
-  name: "login",
+  name: 'login',
   components: { BtnLoader },
   data() {
     return {
-      userName: "",
-      password: "",
+      userName: '',
+      password: '',
       isloading: false
-    };
+    }
   },
   created() {
-    this.$store.commit("SET_FULL_LAYOUT", false);
+    this.$store.commit('SET_FULL_LAYOUT', false)
   },
   mounted() {},
   computed: {},
@@ -71,55 +81,55 @@ export default {
     onSubmit: function() {
       this.$validator.validateAll().then(isValid => {
         if (isValid) {
-          this.isloading = true;
-          let userName = this.userName;
-          let password = this.password;
+          this.isloading = true
+          let userName = this.userName
+          let password = this.password
           this.$store
-            .dispatch("login", { userName, password })
+            .dispatch('login', { userName, password })
             .then(response => {
-              this.isloading = false;
+              this.isloading = false
               if (response.data.success === true) {
-                this.$store.commit("SET_FULL_LAYOUT", true);
-                this.$router.push({ name: "formularios" });
+                this.$store.commit('SET_FULL_LAYOUT', true)
+                this.$router.push({ name: 'formularios' })
               } else {
                 this.$swal(response.data.message, {
-                  icon: "warning"
-                });
+                  icon: 'warning'
+                })
               }
             })
             .catch(err => {
-              this.isloading = false;
+              this.isloading = false
               this.$swal(
-                "No se pudo logear, favor valide su conexión a internet, o comuniquese con el admistrador",
+                'No se pudo logear, favor valide su conexión a internet, o comuniquese con el admistrador',
                 {
-                  icon: "error"
+                  icon: 'error'
                 }
-              );
-              console.log("err-login", err);
-            });
+              )
+              console.log('err-login', err)
+            })
         }
-      });
+      })
     },
     getErrMsg(errors, field) {
-      var message = "";
-      var error = errors.items.find(x => x.field == field);
+      var message = ''
+      var error = errors.items.find(x => x.field == field)
       if (error) {
         switch (error.rule) {
-          case "required":
-            message = `El campo es obligatorio.`;
-            break;
-          case "email":
-            message = `El campo debe ser un correo electrónico válido.`;
-            break;
+          case 'required':
+            message = `El campo es obligatorio.`
+            break
+          case 'email':
+            message = `El campo debe ser un correo electrónico válido.`
+            break
           default:
-            break;
+            break
         }
       } else {
-        message = "";
+        message = ''
       }
 
-      return message;
+      return message
     }
   }
-};
+}
 </script>

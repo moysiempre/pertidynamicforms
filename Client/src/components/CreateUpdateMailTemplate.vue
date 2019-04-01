@@ -20,14 +20,14 @@
                 maxlength="150"
                 placeholder="Digite el nombre"
                 v-model="mailtemplate.name"
-              >
+              />
             </div>
           </div>
           <div class="col-12 col-md-8">
             <div class="form-group">
               <label class="mb-0" for="name">
                 Saludo
-                <small class="text-muted">ej. Buenas tardes..</small>
+                <small class="text-muted">ej. Estimado...</small>
                 <span class="i-required">*</span>
               </label>
               <input
@@ -36,16 +36,16 @@
                 class="form-control"
                 name="name"
                 maxlength="150"
-                placeholder="Digite el subject"
+                placeholder="Digite el saludo"
                 v-model="mailtemplate.salut"
-              >
+              />
             </div>
           </div>
         </div>
 
         <div class="form-group">
           <label class="mb-0" for="name">
-            Asunto del E-mail
+            Asunto
             <span class="i-required">*</span>
           </label>
           <input
@@ -54,16 +54,29 @@
             class="form-control"
             name="name"
             maxlength="150"
-            placeholder="Digite el subject"
+            placeholder="Digite el asunto"
             v-model="mailtemplate.subject"
-          >
+          />
         </div>
         <div class="form-group">
           <label class="mb-0" for="description">
-            Body
+            Cuerpo del mensaje
             <span class="i-required">*</span>
           </label>
-          <ckeditor :editor="editor" v-model="mailtemplate.body" :config="editorConfig"></ckeditor>
+          <ckeditor
+            :editor="editor"
+            v-model="mailtemplate.body"
+            :config="editorConfig"
+          ></ckeditor>
+          <div>
+            <small class="text-muted">Maximun caracters</small>
+            <small>:</small>
+            <small>{{ bodylength }}</small>
+            <small>
+              /
+              <strong>400</strong>
+            </small>
+          </div>
         </div>
 
         <div class="row">
@@ -74,8 +87,10 @@
                 class="custom-control-input"
                 id="customControlValidation1"
                 v-model="mailtemplate.isActive"
+              />
+              <label class="custom-control-label" for="customControlValidation1"
+                >Es Activo</label
               >
-              <label class="custom-control-label" for="customControlValidation1">Es Activo</label>
             </div>
           </div>
           <div class="col-md-8 mt-3">
@@ -84,7 +99,9 @@
                 type="button"
                 @click="onCancel"
                 class="btn btn-outline-warning btn-sm mx-1"
-              >CANCELAR</button>
+              >
+                CANCELAR
+              </button>
               <button
                 type="submit"
                 class="btn btn-primary btn-sm"
@@ -102,23 +119,36 @@
 </template>
 
 <script>
-import axios from "axios";
-import { mapState } from "vuex";
-import BtnLoader from "@/components/BtnLoader.vue";
-import ClassicEditor from "@ckeditor/ckeditor5-build-classic";
+import axios from 'axios'
+import { mapState } from 'vuex'
+import BtnLoader from '@/components/BtnLoader.vue'
+import ClassicEditor from '@ckeditor/ckeditor5-build-classic'
 
 export default {
-  props: ["title"],
+  props: ['title'],
   components: { BtnLoader },
   data() {
     return {
       isloading: false,
-      editor: ClassicEditor,     
+      editor: ClassicEditor,
       editorConfig: {
-        height: 500
-        // The configuration of the editor.
+        maxLength: 40,
+        toolbar: {
+          items: [
+            'heading',
+            '|',
+            'bold',
+            'italic',
+            'link',
+            'bulletedList',
+            'numberedList',
+            'insertTable',
+            'undo',
+            'redo'
+          ]
+        }
       }
-    };
+    }
   },
   computed: {
     ...mapState({
@@ -126,7 +156,10 @@ export default {
       action: state => state.templates.action
     }),
     isFormValid() {
-      return !Object.keys(this.fields).some(key => this.fields[key].invalid);
+      return !Object.keys(this.fields).some(key => this.fields[key].invalid)
+    },
+    bodylength() {
+      return this.mailtemplate.body.length
     }
   },
   created() {
@@ -134,41 +167,49 @@ export default {
   },
   methods: {
     onSubmit() {
-      this.isloading = true;
+      if (this.bodylength > 400) {
+        this.$swal({
+          text: 'Solo se permite maximun 400 carácteres',
+          dangerMode: true
+        })
+        return
+      }
+
+      this.isloading = true
       axios
-        .post("api-mailtemplate", this.mailtemplate)
+        .post('api-mailtemplate', this.mailtemplate)
         .then(response => {
-          this.isloading = false;
+          this.isloading = false
           if (response && response.data && response.data.id) {
-            this.mailtemplate.id = response.data.id;
-            if (this.action === "create") {
-              this.$store.dispatch("loadTemplates");
+            this.mailtemplate.id = response.data.id
+            if (this.action === 'create') {
+              this.$store.dispatch('loadTemplates')
             }
             this.$swal(response.data.message, {
-              icon: "success"
-            });
-            this.onCancel();
+              icon: 'success'
+            })
+            this.onCancel()
           } else {
             this.$swal(response.data.message, {
-              icon: "warning"
-            });
+              icon: 'warning'
+            })
           }
         })
         .catch(error => {
-          this.isloading = false;
-          console.log(error);
-          this.$swal("No se pudo dar de alta al template", {
-            icon: "warning"
-          });
-        });
+          this.isloading = false
+          console.log(error)
+          this.$swal('No se pudo dar de alta al template', {
+            icon: 'warning'
+          })
+        })
     },
     onCancel() {
-      this.$store.commit("SET_ACTION", "read");
-      this.$store.commit("SET_TEMPLATE", {});
+      this.$store.commit('SET_ACTION', 'read')
+      this.$store.commit('SET_TEMPLATE', {})
     }
   }
-};
-</script> 
+}
+</script>
 <style>
 .ck-editor__editable {
   min-height: 150px !important;

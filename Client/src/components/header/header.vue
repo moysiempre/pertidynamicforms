@@ -1,7 +1,7 @@
 <template>
   <nav class="navbar navbar-expand navbar-light bg-lights">
     <router-link to="/login" class="brand">
-      <img src="../../assets/logo-pertis.png" alt>
+      <img src="../../assets/logo-pertis.png" alt />
       <span>FORMULAD GP</span>
     </router-link>
 
@@ -16,32 +16,54 @@
         >
           <span class="navbar-toggler-icon"></span>
         </button>
-        <div class="dropdown-menu dropdown-menu-right">
+        <div id="bigmenu" class="dropdown-menu dropdown-menu-right">
           <div class="menu-box">
-            <button class="btn btn-link" type="button">
-              <router-link to="/landings">
-                <img src="../../assets/landings.png" alt style="width:35px">
-                <small class="text-muted">Landing Pages</small>
-              </router-link>
-            </button>
-            <button class="btn btn-link" type="button">
-              <router-link to="/formularios">
-                <img src="../../assets/forms.png" alt style="width:35px">
-                <small class="text-muted">Formularios</small>
-              </router-link>
-            </button>
-            <button class="btn btn-link" type="button">
-              <router-link to="/solicitudes">
-                <img src="../../assets/requests.png" alt style="width:35px">
-                <small class="text-muted">Solicitudes</small>
-              </router-link>
-            </button>
-            <button class="btn btn-link" type="button">
-              <router-link to="/mailTemplate">
-                <img src="../../assets/email_setting.png" alt style="width:47px">
-                <small class="text-muted">E-Mail Plantillas</small>
-              </router-link>
-            </button>
+            <div class="row no-gutters">
+              <div class="col-12 col-sm-3">
+                <button class="btn btn-link" type="button">
+                  <router-link to="/landings">
+                    <img
+                      src="../../assets/landings.png"
+                      alt
+                      style="width:35px"
+                    />
+                    <small class="text-muted">Landing Pages</small>
+                  </router-link>
+                </button>
+              </div>
+              <div class="col-12 col-sm-3">
+                <button class="btn btn-link" type="button">
+                  <router-link to="/formularios">
+                    <img src="../../assets/forms.png" alt style="width:35px" />
+                    <small class="text-muted">Formularios</small>
+                  </router-link>
+                </button>
+              </div>
+              <div class="col-12 col-sm-3">
+                <button class="btn btn-link" type="button">
+                  <router-link to="/solicitudes">
+                    <img
+                      src="../../assets/requests.png"
+                      alt
+                      style="width:35px"
+                    />
+                    <small class="text-muted">Solicitudes</small>
+                  </router-link>
+                </button>
+              </div>
+              <div class="col-12 col-sm-3">
+                <button class="btn btn-link" type="button">
+                  <router-link to="/mailTemplate">
+                    <img
+                      src="../../assets/email_setting.png"
+                      alt
+                      style="width:47px"
+                    />
+                    <small class="text-muted">E-Mail Plantillas</small>
+                  </router-link>
+                </button>
+              </div>
+            </div>
           </div>
         </div>
       </div>
@@ -52,12 +74,24 @@
 export default {
   data() {
     return {
-      title: "Navbar text with an inline element"
-    };
+      title: 'Navbar text with an inline element'
+    }
   }
-};
+}
 </script>
 <style lang="scss" scooped>
+#bigmenu {
+  &.dropdown-menu {
+    width: auto !important;
+  }
+}
+@media (min-width: 576px) {
+  #bigmenu {
+    &.dropdown-menu {
+      width: 500px !important;
+    }
+  }
+}
 nav {
   .logo {
     width: 120px;
@@ -124,7 +158,7 @@ nav {
       border-bottom: 7px solid #ccc;
       border-left: 7px solid transparent;
       border-bottom-color: rgba(0, 0, 0, 0.2);
-      content: "";
+      content: '';
     }
     &:after {
       position: absolute;
@@ -134,10 +168,8 @@ nav {
       border-right: 6px solid transparent;
       border-bottom: 6px solid #fff;
       border-left: 6px solid transparent;
-      content: "";
+      content: '';
     }
   }
 }
 </style>
-
-

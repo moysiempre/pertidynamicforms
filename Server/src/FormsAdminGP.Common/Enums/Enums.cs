@@ -14,8 +14,10 @@ namespace FormsAdminGP.Common.Enums
         [Description("Texto alfanumérico")]
         text = 1,      
         [Description("Dropdown List")]
-        select      
-         
+        select   ,
+        [Description("Numérico")]
+        numeric
+
     }
 
     public enum Operation : byte

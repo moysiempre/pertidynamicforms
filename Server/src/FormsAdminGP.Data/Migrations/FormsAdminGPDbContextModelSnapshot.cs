@@ -59,6 +59,8 @@ namespace FormsAdminGP.Data.Migrations
 
                     b.Property<bool>("IsActive");
 
+                    b.Property<bool>("IsMandatory");
+
                     b.Property<bool>("IsRequired");
 
                     b.Property<byte>("Order");

@@ -10,7 +10,7 @@ namespace FormsAdminGP.Domain
         public string FieldLabel { get; set; }
         public byte Order { get; set; }
         public bool IsRequired { get; set; }
-
+        public bool IsMandatory { get; set; }
         [NotMapped]
         public virtual ICollection<DDLCatalog> DDLCatalogs { get; set; }
     }
