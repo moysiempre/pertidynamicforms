@@ -94,7 +94,8 @@ export default {
   data() {
     return {
       title: '',
-      searchby: ''
+      searchby: '',
+      formSelected: {}
     }
   },
   created() {

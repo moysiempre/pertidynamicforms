@@ -49,7 +49,7 @@
               @click="exportarXlsx"
             >
               <p class="exlsx m-0 mt-1" v-if="!isloading">
-                <img src="../assets/exportarXlsx.png" alt srcset />
+                <img src="/assets/exportarXlsx.png" alt srcset />
               </p>
               <p class="m-0 mt-1 mr-2" style="height:37px" v-if="isloading">
                 <btn-loader :isloading="isloading" />
@@ -227,7 +227,7 @@ export default {
       })
         .then(response => {
           this.isloading = false
-          console.log(response.data.size)
+          //console.log(response.data.size)
           if (response.status === 200 && response.data.size > 0) {
             const url = window.URL.createObjectURL(new Blob([response.data]))
             const link = document.createElement('a')
@@ -239,7 +239,6 @@ export default {
         })
         .catch(() => {
           this.isloading = false
-          console.error
         })
     },
     load(request) {
@@ -267,7 +266,7 @@ export default {
               })
             }
           })
-          console.log('response.data ', response.data)
+          //console.log('response.data ', response.data)
         })
     },
     loadLandingPages() {

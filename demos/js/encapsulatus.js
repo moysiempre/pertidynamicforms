@@ -1,167 +1,170 @@
- Vue.component('containerEncapsulated', {
-     props: ['pageid'],
-     data() {
-         return {
-             baseUrl: "http://localhost:60829/landing/",
-             formData: {
-                 id: ""
-             },
-             fields: [],
-             isloading: false,
-             isSended: false,
-             message_gp: "",
-             alert_class: "alert-success"
-         }
-     },
-     created() {
-         this.load();
-     },
-     methods: {
-         load() {
-             axios.get(this.baseUrl + 'api-forms/landingPageId/' + this.pageid).then((response) => {
-                 this.fields = response.data;
-                 console.log(response.data);
-             }).catch(error => {
-                 console.log(error);
-             });;
-         },
-         onSubmit: function () {
-             this.$validator.validateAll().then(isValid => {
-                 if (isValid) {
-                     this.isloading = true;
+Vue.component("containerEncapsulated", {
+  props: ["pageid"],
+  data() {
+    return {
+      baseUrl: "http://192.168.15.12:88/landing/",
+      formData: {
+        id: ""
+      },
+      fields: [],
+      isloading: false,
+      isSended: false,
+      message_gp: "",
+      alert_class: "alert-success"
+    };
+  },
+  created() {
+    this.load();
+  },
+  methods: {
+    load() {
+      axios
+        .get(this.baseUrl + "api-forms/landingPageId/" + this.pageid)
+        .then(response => {
+          this.fields = response.data;
+          console.log(response.data);
+        })
+        .catch(error => {
+          console.log(error);
+        });
+    },
+    onSubmit: function() {
+      this.$validator.validateAll().then(isValid => {
+        if (isValid) {
+          this.isloading = true;
 
-                     let infoRequestData = []
-                     let infoRequest = {
-                         landingPageId: this.pageid,
-                         fileName: this.fields.filePath,
-                         formHdId: this.fields.id,
-                         mailTemplateId: this.fields.mailTemplateId
-                     }
+          let infoRequestData = [];
+          let infoRequest = {
+            landingPageId: this.pageid,
+            fileName: this.fields.filePath,
+            formHdId: this.fields.id,
+            mailTemplateId: this.fields.mailTemplateId
+          };
 
-                     //console.log("formDetails: ", this.fields.formDetails)
-                     this.fields.formDetails.forEach(element => {
-                         var infodata = {
-                             fieldLabel: element.fieldLabel,
-                             data: element.data,
-                             order: element.order,
-                             fieldTypeId: element.fieldTypeId,
-                         };
+          //console.log("formDetails: ", this.fields.formDetails)
+          this.fields.formDetails.forEach(element => {
+            var infodata = {
+              fieldLabel: element.fieldLabel,
+              data: element.data,
+              order: element.order,
+              fieldTypeId: element.fieldTypeId
+            };
 
-                         //console.log("ES: ", infodata)
+            //console.log("ES: ", infodata)
 
-                         switch (element.fieldTypeId) {
-                             case 'email':
-                                 infodata.email = element.data;
-                                 infoRequest.email = element.data;
-                                 console.log("element.data: ", element.data)
-                                 break;
-                             case 'phone':
-                                 infodata.phone = element.data;
-                                 infoRequest.phone = element.data;
-                                 break;
-                             case 'name':
-                                 infodata.name = element.data;
-                                 infoRequest.name = element.data;
-                                 break;
-                             case 'select':
-                                 infodata.data = element.datatext;
-                                 break;
+            switch (element.fieldTypeId) {
+              case "email":
+                infodata.email = element.data;
+                infoRequest.email = element.data;
+                console.log("element.data: ", element.data);
+                break;
+              case "phone":
+                infodata.phone = element.data;
+                infoRequest.phone = element.data;
+                break;
+              case "name":
+                infodata.name = element.data;
+                infoRequest.name = element.data;
+                break;
+              case "select":
+                infodata.data = element.datatext;
+                break;
+            }
 
-                         }
+            if (element.fieldTypeId !== "submit") {
+              infoRequestData.push(infodata);
+            }
+          });
 
-                         if (element.fieldTypeId !== "submit") {
-                             infoRequestData.push(infodata);
-                         }
+          infoRequest.infoRequestData = JSON.stringify(infoRequestData);
+          //console.log('api-inforequest', infoRequest);
+          axios
+            .post(this.baseUrl + "api-inforequest", infoRequest)
+            .then(response => {
+              this.isloading = false;
+              this.clearFormData();
+              this.downloadPdf(this.fields.filePath);
+              this.showMsg("SUCCESS", "alert-success");
+            })
+            .catch(function(error) {
+              this.isloading = false;
+              this.isSending = false;
+              console.log("Error: " + error);
+              this.showMsg("ERROR", "alert-danger");
+            });
+        } else {
+          console.log(isValid);
+        }
+      });
+    },
+    showMsg(msg, alert) {
+      this.isSended = true;
+      this.message_gp = msg;
+      this.alert_class = alert;
+    },
+    clearFormData() {
+      this.fields.formDetails.forEach(element => {
+        element.data = "";
+      });
+    },
+    onChangeDDL(field) {
+      field.datatext = "";
+      if (
+        field &&
+        field.ddlCatalogs &&
+        field.ddlCatalogs.length &&
+        field.data
+      ) {
+        let data = field.ddlCatalogs.find(x => x.id === field.data);
+        if (data && data.name) {
+          field.datatext = data.name;
+        }
+      }
+    },
+    getErrMsg(errors, field) {
+      var message = "";
+      var error = errors.items.find(x => x.field == field);
+      if (error) {
+        switch (error.rule) {
+          case "required":
+            message = `El campo ${field} es obligatorio.`;
+            break;
+          case "email":
+            message = `El campo ${field} debe ser un correo electrónico válido.`;
+            break;
+          default:
+            break;
+        }
+      } else {
+        message = "";
+      }
 
-                     });
-
-                     infoRequest.infoRequestData = JSON.stringify(infoRequestData);
-                     //console.log('api-inforequest', infoRequest);
-                     axios.post(this.baseUrl + 'api-inforequest', infoRequest)
-                         .then((response) => {
-                             this.isloading = false;
-                             this.clearFormData();
-                             this.downloadPdf(this.fields.filePath);
-                             this.showMsg("SUCCESS", "alert-success");
-                         })
-                         .catch(function (error) {
-                             this.isloading = false;
-                             this.isSending = false;
-                             console.log('Error: ' + error);
-                             this.showMsg("ERROR", "alert-danger");
-                         });
-
-                 } else {
-                     console.log(isValid);
-                 }
-             });
-
-         },
-         showMsg(msg, alert) {
-             this.isSended = true;
-             this.message_gp = msg;
-             this.alert_class = alert;
-         },
-         clearFormData() {
-             this.fields.formDetails.forEach(element => {
-                 element.data = ""
-             });
-         },
-         onChangeDDL(field) {
-
-             field.datatext = ""
-             if (field && field.ddlCatalogs && field.ddlCatalogs.length && field.data) {
-                 let data = field.ddlCatalogs.find(x => x.id === field.data);
-                 if (data && data.name) {
-                     field.datatext = data.name;
-                 }
-             }
-         },
-         getErrMsg(errors, field) {
-             var message = "";
-             var error = errors.items.find(x => x.field == field);
-             if (error) {
-                 switch (error.rule) {
-                     case 'required':
-                         message = `El campo ${field} es obligatorio.`
-                         break;
-                     case 'email':
-                         message = `El campo ${field} debe ser un correo electrónico válido.`
-                         break;
-                     default:
-                         break;
-                 }
-             } else {
-                 message = "";
-             }
-
-             return message
-         },
-         downloadPdf(fileName) {
-             axios({
-                 url: this.baseUrl + 'api-filemanager/download/' + fileName,
-                 method: 'GET',
-                 responseType: 'blob', // important
-             }).then((response) => {
-                 console.log(response.data.size)
-                 if (response.status === 200 && response.data.size > 0) {
-                     const url = window.URL.createObjectURL(new Blob([response.data]));
-                     const link = document.createElement('a');
-                     link.href = url;
-                     link.setAttribute('download', fileName); //or any other extension
-                     document.body.appendChild(link);
-                     link.click();
-                 } else {
-                     console.log("SORRY NO FILE", response.data.size);
-                 }
-
-             });
-         },
-         setLabel(name) {
-             return name;
-         }
-     },
-     template: `<form id="contactForm">
+      return message;
+    },
+    downloadPdf(fileName) {
+      axios({
+        url: this.baseUrl + "api-filemanager/download/" + fileName,
+        method: "GET",
+        responseType: "blob" // important
+      }).then(response => {
+        console.log(response.data.size);
+        if (response.status === 200 && response.data.size > 0) {
+          const url = window.URL.createObjectURL(new Blob([response.data]));
+          const link = document.createElement("a");
+          link.href = url;
+          link.setAttribute("download", fileName); //or any other extension
+          document.body.appendChild(link);
+          link.click();
+        } else {
+          console.log("SORRY NO FILE", response.data.size);
+        }
+      });
+    },
+    setLabel(name) {
+      return name;
+    }
+  },
+  template: `<form id="contactForm">
      <div class="row">
          <div class="col-md-12">
              <div class="card">
@@ -255,42 +258,42 @@
 
  </form>
 `
- });
+});
 
- Vue.component('btnLoader', {
-     name: "btnLoader",
-     props: ["isloading"],
-     template: `<span class="spinners white" v-if="isloading"></span>`
- });
- Vue.component('ballBeat', {
-     name: "ballBeat",
-     template: `<div class="cu-loader-box"><div></div><div></div><div></div></div>`
- });
+Vue.component("btnLoader", {
+  name: "btnLoader",
+  props: ["isloading"],
+  template: `<span class="spinners white" v-if="isloading"></span>`
+});
+Vue.component("ballBeat", {
+  name: "ballBeat",
+  template: `<div class="cu-loader-box"><div></div><div></div><div></div></div>`
+});
 
- Vue.use(VeeValidate);
- new Vue({
-     el: '#app',
-     data() {
-         return {
-             title: "LANDING PAGE",
-             baseUrl: "http://localhost:60829/landing/",
-         }
-     },
-     methods: {
-         downloadPdf(formId) {
-             //  alert(2)
-             axios({
-                 url: this.baseUrl + 'api-filemanager/download',
-                 method: 'GET',
-                 responseType: 'blob', // important
-             }).then((response) => {
-                 const url = window.URL.createObjectURL(new Blob([response.data]));
-                 const link = document.createElement('a');
-                 link.href = url;
-                 link.setAttribute('download', 'file.txt'); //or any other extension
-                 document.body.appendChild(link);
-                 link.click();
-             });
-         }
-     }
- });
+Vue.use(VeeValidate);
+new Vue({
+  el: "#app",
+  data() {
+    return {
+      title: "LANDING PAGE",
+      baseUrl: "http://192.168.15.12:88/landing/"
+    };
+  },
+  methods: {
+    downloadPdf(formId) {
+      //  alert(2)
+      axios({
+        url: this.baseUrl + "api-filemanager/download",
+        method: "GET",
+        responseType: "blob" // important
+      }).then(response => {
+        const url = window.URL.createObjectURL(new Blob([response.data]));
+        const link = document.createElement("a");
+        link.href = url;
+        link.setAttribute("download", "file.txt"); //or any other extension
+        document.body.appendChild(link);
+        link.click();
+      });
+    }
+  }
+});

@@ -1,8 +1,8 @@
 <template>
   <nav class="navbar navbar-expand navbar-light bg-lights">
     <router-link to="/login" class="brand">
-      <img src="../../assets/logo-pertis.png" alt />
-      <span>FORMULAD GP</span>
+      <img src="/assets/logo-pertis.png" alt />
+      <span>FORMULARIO GP</span>
     </router-link>
 
     <div class="collapse navbar-collapse" id="navbarSupportedContent">
@@ -22,11 +22,7 @@
               <div class="col-12 col-sm-3">
                 <button class="btn btn-link" type="button">
                   <router-link to="/landings">
-                    <img
-                      src="../../assets/landings.png"
-                      alt
-                      style="width:35px"
-                    />
+                    <img src="/assets/landings.png" alt style="width:35px" />
                     <small class="text-muted">Landing Pages</small>
                   </router-link>
                 </button>
@@ -34,7 +30,7 @@
               <div class="col-12 col-sm-3">
                 <button class="btn btn-link" type="button">
                   <router-link to="/formularios">
-                    <img src="../../assets/forms.png" alt style="width:35px" />
+                    <img src="/assets/forms.png" alt style="width:35px" />
                     <small class="text-muted">Formularios</small>
                   </router-link>
                 </button>
@@ -42,11 +38,7 @@
               <div class="col-12 col-sm-3">
                 <button class="btn btn-link" type="button">
                   <router-link to="/solicitudes">
-                    <img
-                      src="../../assets/requests.png"
-                      alt
-                      style="width:35px"
-                    />
+                    <img src="/assets/requests.png" alt style="width:35px" />
                     <small class="text-muted">Solicitudes</small>
                   </router-link>
                 </button>
@@ -55,7 +47,7 @@
                 <button class="btn btn-link" type="button">
                   <router-link to="/mailTemplate">
                     <img
-                      src="../../assets/email_setting.png"
+                      src="/assets/email_setting.png"
                       alt
                       style="width:47px"
                     />

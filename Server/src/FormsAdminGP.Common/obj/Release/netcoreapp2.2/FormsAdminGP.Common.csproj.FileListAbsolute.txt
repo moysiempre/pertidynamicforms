@@ -7,3 +7,12 @@ C:\Workspaces\github\pertidynamicforms\FormsAdminGP\src\FormsAdminGP.Common\obj\
 C:\Workspaces\github\pertidynamicforms\FormsAdminGP\src\FormsAdminGP.Common\obj\Release\netcoreapp2.2\FormsAdminGP.Common.AssemblyInfo.cs
 C:\Workspaces\github\pertidynamicforms\FormsAdminGP\src\FormsAdminGP.Common\obj\Release\netcoreapp2.2\FormsAdminGP.Common.dll
 C:\Workspaces\github\pertidynamicforms\FormsAdminGP\src\FormsAdminGP.Common\obj\Release\netcoreapp2.2\FormsAdminGP.Common.pdb
+C:\Workspaces\github\pertidynamicforms\Server\src\FormsAdminGP.Common\bin\Release\netcoreapp2.2\FormsAdminGP.Common.deps.json
+C:\Workspaces\github\pertidynamicforms\Server\src\FormsAdminGP.Common\bin\Release\netcoreapp2.2\FormsAdminGP.Common.dll
+C:\Workspaces\github\pertidynamicforms\Server\src\FormsAdminGP.Common\bin\Release\netcoreapp2.2\FormsAdminGP.Common.pdb
+C:\Workspaces\github\pertidynamicforms\Server\src\FormsAdminGP.Common\obj\Release\netcoreapp2.2\FormsAdminGP.Common.csprojAssemblyReference.cache
+C:\Workspaces\github\pertidynamicforms\Server\src\FormsAdminGP.Common\obj\Release\netcoreapp2.2\FormsAdminGP.Common.csproj.CoreCompileInputs.cache
+C:\Workspaces\github\pertidynamicforms\Server\src\FormsAdminGP.Common\obj\Release\netcoreapp2.2\FormsAdminGP.Common.AssemblyInfoInputs.cache
+C:\Workspaces\github\pertidynamicforms\Server\src\FormsAdminGP.Common\obj\Release\netcoreapp2.2\FormsAdminGP.Common.AssemblyInfo.cs
+C:\Workspaces\github\pertidynamicforms\Server\src\FormsAdminGP.Common\obj\Release\netcoreapp2.2\FormsAdminGP.Common.dll
+C:\Workspaces\github\pertidynamicforms\Server\src\FormsAdminGP.Common\obj\Release\netcoreapp2.2\FormsAdminGP.Common.pdb

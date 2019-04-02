@@ -10,3 +10,15 @@ C:\Workspaces\github\pertidynamicforms\FormsAdminGP\src\FormsAdminGP.Domain\obj\
 C:\Workspaces\github\pertidynamicforms\FormsAdminGP\src\FormsAdminGP.Domain\obj\Release\netcoreapp2.2\FormsAdminGP.Domain.csproj.CopyComplete
 C:\Workspaces\github\pertidynamicforms\FormsAdminGP\src\FormsAdminGP.Domain\obj\Release\netcoreapp2.2\FormsAdminGP.Domain.dll
 C:\Workspaces\github\pertidynamicforms\FormsAdminGP\src\FormsAdminGP.Domain\obj\Release\netcoreapp2.2\FormsAdminGP.Domain.pdb
+C:\Workspaces\github\pertidynamicforms\Server\src\FormsAdminGP.Domain\bin\Release\netcoreapp2.2\FormsAdminGP.Domain.deps.json
+C:\Workspaces\github\pertidynamicforms\Server\src\FormsAdminGP.Domain\bin\Release\netcoreapp2.2\FormsAdminGP.Domain.dll
+C:\Workspaces\github\pertidynamicforms\Server\src\FormsAdminGP.Domain\bin\Release\netcoreapp2.2\FormsAdminGP.Domain.pdb
+C:\Workspaces\github\pertidynamicforms\Server\src\FormsAdminGP.Domain\bin\Release\netcoreapp2.2\FormsAdminGP.Common.dll
+C:\Workspaces\github\pertidynamicforms\Server\src\FormsAdminGP.Domain\bin\Release\netcoreapp2.2\FormsAdminGP.Common.pdb
+C:\Workspaces\github\pertidynamicforms\Server\src\FormsAdminGP.Domain\obj\Release\netcoreapp2.2\FormsAdminGP.Domain.csprojAssemblyReference.cache
+C:\Workspaces\github\pertidynamicforms\Server\src\FormsAdminGP.Domain\obj\Release\netcoreapp2.2\FormsAdminGP.Domain.csproj.CoreCompileInputs.cache
+C:\Workspaces\github\pertidynamicforms\Server\src\FormsAdminGP.Domain\obj\Release\netcoreapp2.2\FormsAdminGP.Domain.AssemblyInfoInputs.cache
+C:\Workspaces\github\pertidynamicforms\Server\src\FormsAdminGP.Domain\obj\Release\netcoreapp2.2\FormsAdminGP.Domain.AssemblyInfo.cs
+C:\Workspaces\github\pertidynamicforms\Server\src\FormsAdminGP.Domain\obj\Release\netcoreapp2.2\FormsAdminGP.Domain.csproj.CopyComplete
+C:\Workspaces\github\pertidynamicforms\Server\src\FormsAdminGP.Domain\obj\Release\netcoreapp2.2\FormsAdminGP.Domain.dll
+C:\Workspaces\github\pertidynamicforms\Server\src\FormsAdminGP.Domain\obj\Release\netcoreapp2.2\FormsAdminGP.Domain.pdb
