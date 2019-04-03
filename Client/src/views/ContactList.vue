@@ -203,7 +203,9 @@ export default {
           element.innerHTML = `<button type="button" class="btn btn-link btn-sm">Ver Detalle</button>`
           element.addEventListener('click', () => {
             this.contactItem = data
-            window.$('#contactDetailModal').modal('show')
+            window.$('#contactDetailModal').modal({
+              backdrop: 'static'
+            })
           })
           return element
         },

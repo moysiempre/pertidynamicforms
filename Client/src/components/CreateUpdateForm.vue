@@ -376,7 +376,9 @@ export default {
       if (item && item.fieldTypeId == 'select') {
         this.$store.commit('SET_OPT_SELECTED', true)
       }
-      window.$('#formNewModal').modal('show')
+      window.$('#formNewModal').modal({
+        backdrop: 'static'
+      })
     },
     onNew() {
       this.iaction = 'create'
@@ -388,7 +390,9 @@ export default {
         formHdId: this.formHd.id
       }
       this.$store.commit('SET_OPT_SELECTED', false)
-      window.$('#formNewModal').modal('show')
+      window.$('#formNewModal').modal({
+        backdrop: 'static'
+      })
     },
     onRemoveFile() {
       this.isdeleting = true
