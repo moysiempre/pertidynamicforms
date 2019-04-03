@@ -17,6 +17,7 @@
                 name="name"
                 type="text"
                 class="form-control"
+                maxlength="150"
                 placeholder="Digite el nombre del formulario"
                 v-model="formHd.name"
               />
@@ -31,6 +32,7 @@
                 name="formTitle"
                 type="text"
                 class="form-control"
+                maxlength="150"
                 placeholder="Digite el título del formulario"
                 v-model="formHd.title"
               />

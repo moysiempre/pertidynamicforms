@@ -14,6 +14,7 @@ namespace FormsAdminGP.Core.Repositories
     {
         protected readonly DbContext _entities;
         protected readonly DbSet<T> _idbset;
+        public string UserName { get; set; }
 
         public BaseRepository(DbContext context)
         {
@@ -111,18 +112,7 @@ namespace FormsAdminGP.Core.Repositories
 
         private void SetPropertiesLog()
         {
-            string userName = string.Empty;
-
-            var user = ClaimsPrincipal.Current;
-            if (user != null)
-            {
-                var identity = user.Identity;
-                if (identity != null)
-                {
-                    userName = identity.Name;
-                }
-            }
-
+ 
 
             var modifiedEntries = _entities.ChangeTracker.Entries().Where(x => x.Entity is IAuditableEntity
                    && (x.State == (EntityState)EntityState.Added || x.State == (EntityState)EntityState.Modified));
@@ -137,7 +127,7 @@ namespace FormsAdminGP.Core.Repositories
                     if (entry.State == EntityState.Added)
                     {
                         entity.IsActive = true;
-                        entity.CreatedBy = userName;
+                        entity.CreatedBy = UserName;
                         entity.CreatedDate = now;
                     }
                     else
@@ -145,7 +135,7 @@ namespace FormsAdminGP.Core.Repositories
                         _entities.Entry(entity).Property("CreatedBy").IsModified = false;
                         _entities.Entry(entity).Property("CreatedDate").IsModified = false;
 
-                        entity.UpdatedBy = userName;
+                        entity.UpdatedBy = UserName;
                         entity.UpdatedDate = now;
                     }
 

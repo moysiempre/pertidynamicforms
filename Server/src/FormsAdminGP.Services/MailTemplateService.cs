@@ -54,11 +54,12 @@ namespace FormsAdminGP.Services
             return itemDto;
         }
 
-        public async Task<BaseResponse> AddOrUpdateAsync(MailTemplateDto mailTemplateDto)
+        public async Task<BaseResponse> AddOrUpdateAsync(MailTemplateDto mailTemplateDto, string userName)
         {
             var response = new BaseResponse();
             try
             {
+                _mailTemplateRepository.UserName = userName;
                 var mailTemplate = _mapper.Map<MailTemplate>(mailTemplateDto);
                 if (string.IsNullOrEmpty(mailTemplate.Id))
                 {

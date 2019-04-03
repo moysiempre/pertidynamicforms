@@ -59,6 +59,7 @@
                   class="form-control"
                   id="fieldLabel"
                   name="fieldLabel"
+                  maxlength="150"
                   placeholder="digite la etiqueta"
                   v-model="formItem.fieldLabel"
                 />

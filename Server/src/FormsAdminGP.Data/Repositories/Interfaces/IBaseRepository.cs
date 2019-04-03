@@ -7,7 +7,7 @@ namespace FormsAdminGP.Data.Interfaces
 {
     public interface IBaseRepository<T> where T : class
     {
-
+        string UserName { get; set; }
         Task<IEnumerable<T>> GetAll(params Expression<Func<T, object>>[] includes);
         Task<IEnumerable<T>> FindBy(Expression<Func<T, bool>> predicate, params Expression<Func<T, object>>[] includes);
         Task<T> FindEntityBy(Expression<Func<T, bool>> predicate, params Expression<Func<T, object>>[] includes);

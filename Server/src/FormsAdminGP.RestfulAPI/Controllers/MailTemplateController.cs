@@ -39,7 +39,7 @@ namespace FormsAdminGP.RestfulAPI.Controllers
         {
             if (ModelState.IsValid)
             {
-                var item = await _mailTemplateService.AddOrUpdateAsync(templateDto);
+                var item = await _mailTemplateService.AddOrUpdateAsync(templateDto, CurrentUser.UserName);
                 return Ok(item);
             }
 

@@ -159,7 +159,7 @@ export default {
       return !Object.keys(this.fields).some(key => this.fields[key].invalid)
     },
     bodylength() {
-      return this.mailtemplate.body.length
+      return (this.mailtemplate && this.mailtemplate.body && this.mailtemplate.body.length)? this.mailtemplate.body.length : 0
     }
   },
   created() {

@@ -49,7 +49,7 @@ namespace FormsAdminGP.RestfulAPI.Controllers
         {
             if (ModelState.IsValid)
             {
-                var item = await _landindPageService.AddOrUpdateAsync(landingPageDto, CurrentUser.UserId);
+                var item = await _landindPageService.AddOrUpdateAsync(landingPageDto, CurrentUser.UserName);
                 return Ok(item);
             }
 

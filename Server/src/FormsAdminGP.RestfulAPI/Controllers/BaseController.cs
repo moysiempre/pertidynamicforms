@@ -14,7 +14,7 @@ namespace FormsAdminGP.RestfulAPI.Controllers
                 return new UserClaimDto
                 {
                     Id = user.FindFirst(x => x.Type == "jti")?.Value ?? "",
-                    UserName = user.FindFirst(x => x.Type == ClaimTypes.NameIdentifier)?.Value ?? "",
+                    UserName = user.FindFirst(x => x.Type == ClaimTypes.Name)?.Value ?? "",
                     RoleName = user.FindFirst(x => x.Type == ClaimTypes.Role)?.Value ?? "",
                     UserId = user.FindFirst(x => x.Type == "userId")?.Value ?? "",
                     //RoleId = user.FindFirst(x => x.Type == "roleId")?.Value ?? "",                    

@@ -145,12 +145,12 @@ namespace FormsAdminGP.Services
             return listDto;
         }
 
-        public async Task<BaseResponse> AddOrUpdateAsync(FormHdDto formHdDto)
+        public async Task<BaseResponse> AddOrUpdateAsync(FormHdDto formHdDto, string userName)
         {
             var response = new BaseResponse();
             try
             {               
-                var formHd = _mapper.Map<FormHd>(formHdDto);
+                var formHd = _mapper.Map<FormHd>(formHdDto);                
                 if (string.IsNullOrEmpty(formHd.Id))
                 {
                     //validar el nombre del landing page
@@ -162,6 +162,7 @@ namespace FormsAdminGP.Services
                     }
 
                     formHd.Id = Common.Utilities.Utils.NewGuid;
+                    _formHdRepository.UserName = userName;
                     _formHdRepository.Add(formHd);
 
 
@@ -177,6 +178,7 @@ namespace FormsAdminGP.Services
                             else
                             {
                                 landing.FormHdId = formHd.Id;
+                                _landingPageRepository.UserName = userName;
                                 _landingPageRepository.Edit(landing);
                             }
                         }
@@ -190,7 +192,8 @@ namespace FormsAdminGP.Services
                             foreach (var cat in detail.DDLCatalogs)
                             {
                                 cat.IsActive = true;
-                                cat.FormDetailId = detail.Id;                               
+                                cat.FormDetailId = detail.Id;
+                                _dDLCatalogRepository.UserName = userName;
                                 _dDLCatalogRepository.Add(cat);
                             }
                         }                       
@@ -212,6 +215,7 @@ namespace FormsAdminGP.Services
                             else
                             {
                                 landing.FormHdId = formHd.Id;
+                                _landingPageRepository.UserName = userName;
                                 _landingPageRepository.Edit(landing);
                             }
                         }
@@ -219,14 +223,16 @@ namespace FormsAdminGP.Services
 
 
                     foreach (var detalleDto in formHd.FormDetails)
-                    {
+                    {                        
                         _formDetailRepository.Edit(detalleDto);
                     }
 
 
+                    _formHdRepository.UserName = userName;
                     _formHdRepository.Edit(formHd);
                 }
 
+                
                 var item = await _formHdRepository.SaveChanges();
 
                 response.Success = true;

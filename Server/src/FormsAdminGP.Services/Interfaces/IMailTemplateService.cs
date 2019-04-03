@@ -11,7 +11,7 @@ namespace FormsAdminGP.Services.Interfaces
     {
         Task<IEnumerable<MailTemplateDto>> GetAllAsync();
         Task<MailTemplateDto> GetByIdAsync(string id);      
-        Task<BaseResponse> AddOrUpdateAsync(MailTemplateDto mailTemplateDto);      
+        Task<BaseResponse> AddOrUpdateAsync(MailTemplateDto mailTemplateDto, string userId);      
         Task<BaseResponse> DeleteAsync(string id);
     }
 }

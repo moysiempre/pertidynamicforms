@@ -14,7 +14,7 @@ namespace FormsAdminGP.RestfulAPI.Controllers
     [Produces("application/json")]
     [Route("landing/api-forms")]
     [Authorize]
-    public class FormHdController: Controller
+    public class FormHdController: BaseController
     {
         private readonly IFormHdService _formHdService;
         public FormHdController(IFormHdService formHdService)
@@ -87,7 +87,7 @@ namespace FormsAdminGP.RestfulAPI.Controllers
         {
             if (ModelState.IsValid)
             {
-                var item = await _formHdService.AddOrUpdateAsync(formHdDto);
+                var item = await _formHdService.AddOrUpdateAsync(formHdDto, CurrentUser.UserName);
                 return Ok(item);
             }
 

@@ -74,7 +74,7 @@ namespace FormsAdminGP.Services
             return itemDto;
         }
 
-        public async Task<BaseResponse> AddOrUpdateAsync(LandingPageDto landingPageDto, string userId)
+        public async Task<BaseResponse> AddOrUpdateAsync(LandingPageDto landingPageDto, string userName)
         {
             var response = new BaseResponse();
             try
@@ -82,6 +82,7 @@ namespace FormsAdminGP.Services
 
                 //mappear el DTO
                 var landingPage = _mapper.Map<LandingPage>(landingPageDto);
+                _landingPageRepository.UserName = userName;
                 if (string.IsNullOrEmpty(landingPage.Id))
                 {
 
