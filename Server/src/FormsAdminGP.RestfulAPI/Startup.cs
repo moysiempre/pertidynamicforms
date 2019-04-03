@@ -27,7 +27,8 @@ namespace FormsAdminGP.RestfulAPI
         }
 
         public IConfiguration Configuration { get; }
-        private string[] withOrigins => new[] {            
+        private string[] withOrigins => new[] {
+            "http://127.0.0.1:5500",
             "http://localhost:8080" ,
             "http://localhost:60829",
             "http://localhost:3381",

@@ -54,10 +54,21 @@
                         margin-top: -5px;
                     }
                 }
-                &:hover{
+
+                &:hover {
                     cursor: pointer;
                     background-color: #fff
                 }
+            }
+        }
+    }
+
+    .card-header {
+        button {
+            &.close {
+                position: absolute;
+                top: 10px;
+                right: 13px;
             }
         }
     }

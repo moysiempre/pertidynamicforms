@@ -41,6 +41,22 @@ namespace FormsAdminGP.Services
             return listDto;
         }
 
+        public async Task<IEnumerable<KeyValuePair<string, string>>> GetAllforDDL()
+        {
+            var listDto = new List<KeyValuePair<string, string>>();
+            try
+            {
+                var list = await _landingPageRepository.GetAll();
+                listDto = list.Select(x=> new KeyValuePair<string, string>(x.Id, x.Name)).ToList();                 
+            }
+            catch (System.Exception ex)
+            {
+                LoggerService.LogToFile(ex);
+            }
+
+            return listDto;
+        }
+
         public async Task<IEnumerable<LandingPageDto>> GetAllOptionsAsync()
         {
             var listDto = new List<LandingPageDto>();

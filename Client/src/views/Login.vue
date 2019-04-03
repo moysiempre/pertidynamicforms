@@ -14,9 +14,9 @@
               placeholder="Digite su correo electrónico"
               v-model="userName"
             />
-            <small class="text-danger">
-              {{ getErrMsg(errors, 'userName') }}
-            </small>
+            <small class="text-danger">{{
+              getErrMsg(errors, 'userName')
+            }}</small>
           </div>
           <div class="form-group text-left">
             <input
@@ -25,12 +25,12 @@
               id="password"
               name="password"
               class="form-control"
-              placeholder="digite su contraseña"
+              placeholder="Digite su contraseña"
               v-model="password"
             />
-            <small class="text-danger">
-              {{ getErrMsg(errors, 'password') }}
-            </small>
+            <small class="text-danger">{{
+              getErrMsg(errors, 'password')
+            }}</small>
           </div>
 
           <div class="form-group">
@@ -39,7 +39,7 @@
               class="btn btn-primary w-100"
               :disabled="isloading"
             >
-              <span>INICIA SESIÓN</span>
+              <span>INICIAR SESIÓN</span>
               <btn-loader :isloading="isloading" />
             </button>
           </div>

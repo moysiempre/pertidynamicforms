@@ -20,6 +20,25 @@
     box-shadow: 0 0 0 0.2rem rgba(64, 86, 104, .5) !important;
 }
 
+
+
+.btn-outline-primary {
+    color: #405668;
+    background-color: transparent;
+    background-image: none;
+    border-color: #405668;
+}
+
+
+.btn-outline-secondary:not(:disabled):not(.disabled):active,
+.show>.btn-outline-secondary.dropdown-toggle,
+.btn-outline-secondary:hover {
+    color: #fff;
+    background-color: #405668;
+    border-color: #405668;
+}
+
+
 .swal-button {
     background-color: #405668;
 
@@ -47,8 +66,11 @@
     background-color: rgba(64, 86, 104, .85) !important;
     ;
 }
+
 .swal-footer {
-    text-align: center;}
+    text-align: center;
+}
+
 // INPUTS
 .form-control:not(textarea),
 .custom-select,

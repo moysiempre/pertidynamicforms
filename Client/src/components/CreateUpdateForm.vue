@@ -2,6 +2,9 @@
   <div class="card border-light">
     <div class="card-header">
       <h6 class="my-0">{{ title }}</h6>
+      <button class="btn btn-link close" @click="onCancel">
+        <i class="pe-7s-close fa-2x"></i>
+      </button>
     </div>
     <div class="card-body">
       <form @submit.prevent="onSubmit">
@@ -77,14 +80,7 @@
                   v-on:change="handleFileUpload()"
                   style="width:115px !important"
                 />
-                <button
-                  type="button"
-                  class="btn btn-warning btn-sm mr-2"
-                  v-if="formHd && formHd.filePath && formHd.filePath.length"
-                  @click="onRemoveFile"
-                >
-                  Eliminar
-                </button>
+
                 <input
                   type="text"
                   class="form-control mt-1"
@@ -92,7 +88,28 @@
                 />
               </div>
             </div>
-
+            <div class="form-group" v-if="formHd.id">
+              <button
+                type="button"
+                class="btn btn-warning btn-sm mr-2"
+                v-if="formHd && formHd.filePath && formHd.filePath.length"
+                :disabled="isdeleting"
+                @click="onRemoveFile"
+              >
+                <span>Eliminar archivo</span>
+                <btn-loader :isloading="isdeleting" />
+              </button>
+              <button
+                type="button"
+                class="btn btn-secondary btn-sm mr-2"
+                v-if="formHd && formHd.filePath && formHd.filePath.length"
+                :disabled="isdownloading"
+                @click="onDownloadFile(formHd.id, formHd.filePath)"
+              >
+                <span>Descargar archivo</span>
+                <btn-loader :isloading="isdownloading" />
+              </button>
+            </div>
             <div class="form-group">
               <div class="custom-control custom-checkbox mb-3">
                 <input
@@ -230,6 +247,8 @@ export default {
       file: '',
       selectedItem: {},
       isloading: false,
+      isdeleting: false,
+      isdownloading: false,
       iaction: 'read'
     }
   },
@@ -372,6 +391,7 @@ export default {
       window.$('#formNewModal').modal('show')
     },
     onRemoveFile() {
+      this.isdeleting = true
       var formHdId = this.formHd.id
       var fileName = this.formHd.filePath
       axios({
@@ -379,6 +399,7 @@ export default {
         url: `api-filemanager/remove/${formHdId}/${fileName}`
       })
         .then(response => {
+          this.isdeleting = false
           if (response && response.data && response.data.success) {
             this.formHd.filePath = ''
             this.$swal(response.data.message, {
@@ -392,9 +413,32 @@ export default {
         })
         .catch(err => {
           console.log(err)
+          this.isdeleting = false
           this.$swal('No se pudo eliminar el archivo', {
             icon: 'warning'
           })
+        })
+    },
+    onDownloadFile(formHdId, fileName) {
+      this.isdownloading = true
+      axios({
+        url: `api-filemanager/download/${formHdId}/${fileName}`,
+        method: 'GET',
+        responseType: 'blob' // important
+      })
+        .then(response => {
+          this.isdownloading = false
+          if (response.status === 200 && response.data.size > 0) {
+            const url = window.URL.createObjectURL(new Blob([response.data]))
+            const link = document.createElement('a')
+            link.href = url
+            link.setAttribute('download', fileName) //or any other extension
+            document.body.appendChild(link)
+            link.click()
+          }
+        })
+        .catch(() => {
+          this.isdownloading = false
         })
     },
     onCancel() {

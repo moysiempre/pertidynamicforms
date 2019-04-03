@@ -1,8 +1,12 @@
+// let baseUrl = "http://192.168.15.12:88/landing/"
+let baseUrl = "http://localhost:60829/landing/"
+
+
 Vue.component("containerEncapsulated", {
   props: ["pageid"],
   data() {
     return {
-      baseUrl: "http://192.168.15.12:88/landing/",
+      baseUrl: baseUrl,
       formData: {
         id: ""
       },
@@ -28,7 +32,7 @@ Vue.component("containerEncapsulated", {
           console.log(error);
         });
     },
-    onSubmit: function() {
+    onSubmit: function () {
       this.$validator.validateAll().then(isValid => {
         if (isValid) {
           this.isloading = true;
@@ -83,10 +87,10 @@ Vue.component("containerEncapsulated", {
             .then(response => {
               this.isloading = false;
               this.clearFormData();
-              this.downloadPdf(this.fields.filePath);
+              this.downloadPdf(this.fields.id, this.fields.filePath);
               this.showMsg("SUCCESS", "alert-success");
             })
-            .catch(function(error) {
+            .catch(function (error) {
               this.isloading = false;
               this.isSending = false;
               console.log("Error: " + error);
@@ -141,9 +145,10 @@ Vue.component("containerEncapsulated", {
 
       return message;
     },
-    downloadPdf(fileName) {
+    downloadPdf(formHdId, fileName) {
       axios({
-        url: this.baseUrl + "api-filemanager/download/" + fileName,
+        //url: this.baseUrl + "api-filemanager/download/" + fileName,
+        url: `api-filemanager/download/${formHdId}/${fileName}`,
         method: "GET",
         responseType: "blob" // important
       }).then(response => {
@@ -276,24 +281,8 @@ new Vue({
   data() {
     return {
       title: "LANDING PAGE",
-      baseUrl: "http://192.168.15.12:88/landing/"
+      baseUrl: baseUrl,
+      landId: new URLSearchParams(window.location.search).get('id'),
     };
-  },
-  methods: {
-    downloadPdf(formId) {
-      //  alert(2)
-      axios({
-        url: this.baseUrl + "api-filemanager/download",
-        method: "GET",
-        responseType: "blob" // important
-      }).then(response => {
-        const url = window.URL.createObjectURL(new Blob([response.data]));
-        const link = document.createElement("a");
-        link.href = url;
-        link.setAttribute("download", "file.txt"); //or any other extension
-        document.body.appendChild(link);
-        link.click();
-      });
-    }
   }
 });

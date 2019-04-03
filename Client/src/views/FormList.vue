@@ -20,7 +20,7 @@
                 type="text"
                 class="form-control"
                 v-model="searchby"
-                placeholder="filtrar por landing page"
+                placeholder="filtrar por nombre del formulario"
               />
               <div class="input-group-append">
                 <span class="input-group-text" id="basic-addon2">

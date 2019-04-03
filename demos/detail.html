@@ -5,33 +5,33 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
-    <title>Encapsulatus</title>
+    <title>Demo - formulario GP</title>
     <link rel="stylesheet" href="js/bootstrap/css/bootstrap.min.css">
-    <link rel="stylesheet" href="./css/encapsulatus.css">
-
+    <style>
+        .form-group.invalid input {
+            border-color: #dc3545;
+        }
+    </style>
 </head>
 
-<body>
-    <div class="row">
+<body class="pt-3">
+    <div id="app" v-cloak class="row">
         <div class="col-md-4 offset-md-4 mt-5">
-            <h5 class="text-center"><a href="index.html">HOME</a> | EBOOK | <a href="landing.html">LANDING</a></h5>
-
-            <div id="app" v-cloak>
-                <container-encapsulated :pageid="'c22891fe-ccbf-44d0-94a2-6af048a67bb3'">
-                </container-encapsulated>
-            </div>
+            <h5>
+                <a href="/">
+                    << BACK</a> </h5> <container-encapsulated :pageid="landId">
+                        </container-encapsulated>
         </div>
     </div>
-
     <script src="https://code.jquery.com/jquery-3.2.1.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js"></script>
     <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"></script>
-
 
     <script src="https://unpkg.com/vue/dist/vue.min.js"></script>
     <script src="https://unpkg.com/vee-validate@latest"></script>
     <script src="https://unpkg.com/axios/dist/axios.min.js"></script>
     <script src="./js/encapsulatus.js"></script>
+
 </body>
 
 </html>

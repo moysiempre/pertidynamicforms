@@ -24,11 +24,11 @@ namespace FormsAdminGP.RestfulAPI.Controllers
             _formHdService = formHdService;
         }
 
-        [HttpGet("download/{fileName}")]
-        public async Task<IActionResult> Download(string fileName)
+        [HttpGet("download/{formHdId}/{fileName}")]
+        public async Task<IActionResult> Download(string formHdId, string fileName)
         { 
             var baseDir = _appSettings?.Value?.EbookPath ?? string.Empty;
-            var fullPath = Path.Combine(baseDir, fileName);
+            var fullPath = Path.Combine(baseDir, formHdId, fileName);
             byte[] fileBytes = null;
             if (System.IO.File.Exists(fullPath)){
                 fileBytes = await System.IO.File.ReadAllBytesAsync(fullPath);
@@ -51,6 +51,7 @@ namespace FormsAdminGP.RestfulAPI.Controllers
                 string formHdId = Request.Form["formHdId"];
                 formHdId = formHdId ?? formHdId.ToString();
                 var baseDir = _appSettings?.Value?.EbookPath ?? string.Empty;
+                baseDir = Path.Combine(baseDir, formHdId);
                 var fileName = string.Empty;
                 if (!Directory.Exists(baseDir))
                 {
@@ -84,7 +85,7 @@ namespace FormsAdminGP.RestfulAPI.Controllers
         public async Task<ActionResult> Remove(string formHdId,  string fileName)
         {
             var baseDir = _appSettings?.Value?.EbookPath ?? string.Empty;
-            var file = new FileInfo(Path.Combine(baseDir, fileName));
+            var file = new FileInfo(Path.Combine(baseDir, formHdId, fileName));
             if (file.Exists)
             {
                 file.Delete();

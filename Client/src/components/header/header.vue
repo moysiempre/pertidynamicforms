@@ -1,9 +1,9 @@
 <template>
-  <nav class="navbar navbar-expand navbar-light bg-lights">
-    <router-link to="/login" class="brand">
+  <nav class="navbar navbar-expand navbar-light bg-lights mb-2">
+    <div class="brand">
       <img src="/assets/logo-pertis.png" alt />
       <span>FORMULARIO GP</span>
-    </router-link>
+    </div>
 
     <div class="collapse navbar-collapse" id="navbarSupportedContent">
       <div class="navbar-nav ml-auto btn-group">

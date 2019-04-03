@@ -3,18 +3,15 @@
     <ul>
       <li>
         <a class="c-pointer">
-          <i class="pe-7s-config fa-2x"></i>
-        </a>
-      </li>
-      <li>
-        <a class="c-pointer">
           <i class="pe-7s-help1 fa-2x"></i>
         </a>
+        <span class="desc">MANUAL USUARIO</span>
       </li>
       <li class="last">
         <a class="c-pointer" @click="logout">
           <i class="pe-7s-power fa-2x"></i>
         </a>
+        <span class="desc">SALIR</span>
       </li>
     </ul>
   </aside>
@@ -52,8 +49,26 @@ aside {
     padding: 0;
     li {
       padding: 5px 5px;
+      position: relative;
       .fa-2x {
         font-size: 1.8rem;
+      }
+      .desc {
+        position: absolute;
+        border: 1px solid #405668;
+        background: #f5f5f5;
+        padding: 5px 10px;
+        font-size: 0.75rem;
+        display: none;
+        top: 3px;
+        left: 48px;
+        width: auto;
+        white-space: nowrap;
+      }
+      &:hover {
+        .desc {
+          display: block;
+        }
       }
     }
   }

@@ -9,6 +9,7 @@ namespace FormsAdminGP.Services.Interfaces
     public interface ILandindPageService
     {
         Task<IEnumerable<LandingPageDto>> GetAllAsync();
+        Task<IEnumerable<KeyValuePair<string, string>>> GetAllforDDL();
         Task<LandingPageDto> GetByIdAsync(string id);
         Task<IEnumerable<LandingPageDto>> GetAllOptionsAsync();
         Task<BaseResponse> AddOrUpdateAsync(LandingPageDto landingPageDto, string userId);

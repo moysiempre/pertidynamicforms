@@ -35,6 +35,14 @@ namespace FormsAdminGP.RestfulAPI.Controllers
             return Ok(item);
         }
 
+        [HttpGet("GetAllforDDL")]
+        [AllowAnonymous]
+        public async Task<IActionResult> GetAllforDDL()
+        {
+            var list = await _landindPageService.GetAllforDDL();
+            return Ok(list);
+        }
+
         [HttpGet("options")]
         [AllowAnonymous]
         public async Task<IActionResult> GetAllOptionsAsync()

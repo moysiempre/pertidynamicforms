@@ -2,6 +2,9 @@
   <div class="card border-light">
     <div class="card-header">
       <h6 class="my-0">{{ title }}</h6>
+      <button class="btn btn-link close" @click="onCancel">
+        <i class="pe-7s-close fa-2x"></i>
+      </button>
     </div>
     <div class="card-body">
       <form @submit.prevent="onSubmit">
@@ -159,7 +162,11 @@ export default {
       return !Object.keys(this.fields).some(key => this.fields[key].invalid)
     },
     bodylength() {
-      return (this.mailtemplate && this.mailtemplate.body && this.mailtemplate.body.length)? this.mailtemplate.body.length : 0
+      return this.mailtemplate &&
+        this.mailtemplate.body &&
+        this.mailtemplate.body.length
+        ? this.mailtemplate.body.length
+        : 0
     }
   },
   created() {
