@@ -153,7 +153,7 @@ namespace FormsAdminGP.Services
                 var formHd = _mapper.Map<FormHd>(formHdDto);                
                 if (string.IsNullOrEmpty(formHd.Id))
                 {
-                    //validar el nombre del landing page
+                    //validar el nombre del form
                     var form = await _formHdRepository.FindEntityBy(x => x.Name.Trim().ToLower() == formHdDto.Name.Trim().ToLower());
                     if (form != null)
                     {
@@ -199,9 +199,18 @@ namespace FormsAdminGP.Services
                         }                       
                     }
 
+                    response.Message = LoggingEvents.INSERT_SUCCESS_MESSAGE;
                 }
                 else
                 {
+
+                    //validar el nombre del form
+                    var form = await _formHdRepository.FindEntityBy(x => x.Name.Trim().ToLower() == formHdDto.Name.Trim().ToLower() && x.Id != formHdDto.Id);
+                    if (form != null)
+                    {
+                        response.Message = LoggingEvents.INSERT_DUPLICATED_MESSAGE;
+                        return response;
+                    }
 
                     foreach (var page in formHdDto.LandingPages)
                     {
@@ -230,6 +239,7 @@ namespace FormsAdminGP.Services
 
                     _formHdRepository.UserName = userName;
                     _formHdRepository.Edit(formHd);
+                    response.Message = LoggingEvents.UPDATE_SUCCESS_MESSAGE;
                 }
 
                 
@@ -237,7 +247,7 @@ namespace FormsAdminGP.Services
 
                 response.Success = true;
                 response.Id = formHd.Id;
-                response.Message = LoggingEvents.INSERT_SUCCESS_MESSAGE;
+                
                
             }
             catch (System.Exception ex)
@@ -375,6 +385,7 @@ namespace FormsAdminGP.Services
                     formDetail.Id = Common.Utilities.Utils.NewGuid;
                     formDetail.IsActive = true;
                     _formDetailRepository.Add(formDetail);
+                    response.Message = LoggingEvents.INSERT_SUCCESS_MESSAGE;
                 }
                 else
                 {
@@ -390,14 +401,12 @@ namespace FormsAdminGP.Services
                         response.Message = LoggingEvents.UPDATE_FAILED_MESSAGE;
                         return response;
                     }
-                   
+                    response.Message = LoggingEvents.UPDATE_SUCCESS_MESSAGE;
                 }
 
                 var item = await _formDetailRepository.SaveChanges();
-
                 response.Success = true;
-                response.Id = formDetail.Id;
-                response.Message = LoggingEvents.INSERT_SUCCESS_MESSAGE;
+                response.Id = formDetail.Id;               
 
             }
             catch (System.Exception ex)

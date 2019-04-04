@@ -12,7 +12,7 @@
           <div class="col-12 col-md-4">
             <div class="form-group">
               <label class="mb-0" for="name">
-                Nombre del template
+                Nombre de la plantilla
                 <span class="i-required">*</span>
               </label>
               <input
@@ -169,15 +169,13 @@ export default {
         : 0
     }
   },
-  created() {
-    // this. mailtemplate.body = "<p>Content of the editor.</p>"
-  },
   methods: {
     onSubmit() {
       if (this.bodylength > 400) {
         this.$swal({
           text: 'Solo se permite maximun 400 carácteres',
-          dangerMode: true
+          dangerMode: true,
+          closeOnClickOutside: false
         })
         return
       }
@@ -193,12 +191,14 @@ export default {
               this.$store.dispatch('loadTemplates')
             }
             this.$swal(response.data.message, {
-              icon: 'success'
+              icon: 'success',
+              closeOnClickOutside: false
             })
             this.onCancel()
           } else {
             this.$swal(response.data.message, {
-              icon: 'warning'
+              icon: 'warning',
+              closeOnClickOutside: false
             })
           }
         })
@@ -206,13 +206,15 @@ export default {
           this.isloading = false
           console.log(error)
           this.$swal('No se pudo dar de alta al template', {
-            icon: 'warning'
+            icon: 'warning',
+            closeOnClickOutside: false
           })
         })
     },
     onCancel() {
       this.$store.commit('SET_ACTION', 'read')
       this.$store.commit('SET_TEMPLATE', {})
+      this.$store.dispatch('loadTemplates')
     }
   }
 }

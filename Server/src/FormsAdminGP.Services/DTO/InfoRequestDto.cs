@@ -22,7 +22,7 @@ namespace FormsAdminGP.Services.DTO
         {
             get
             {
-                return (RequestDate.Year > 1)? RequestDate.ToUniversalTime().ToString("dd/MM/yyyy HH:mm:ss"): string.Empty;
+                return (RequestDate > DateTime.MinValue)? RequestDate.ToString("dd/MM/yyyy HH:mm:ss"): string.Empty;
             }
         }
         public LandingPageDto LandingPage { get; set; }

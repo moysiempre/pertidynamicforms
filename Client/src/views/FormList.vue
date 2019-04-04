@@ -34,7 +34,10 @@
                 v-for="item in filterSearch"
                 :key="item.id"
               >
-                <div @click="onEmitAct(item, 'update')">
+                <div
+                  @click="onEmitAct(item, 'update')"
+                  v-if="action === 'read'"
+                >
                   <div>
                     <h6 class="mb-0">{{ item.name }}</h6>
                     <p class="mb-0" style="color:#75818b">
@@ -48,11 +51,7 @@
                     </p>
                   </div>
                 </div>
-                <div
-                  :class="{ 'c-wait': action !== 'read' }"
-                  v-if="action !== 'read'"
-                  hidden
-                >
+                <div class="c-not-allowed" v-if="action !== 'read'">
                   <div>
                     <h6 class="mb-0">{{ item.name }}</h6>
                     <p class="mb-0" style="color:#75818b">

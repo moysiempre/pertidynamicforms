@@ -61,26 +61,42 @@ namespace FormsAdminGP.Services
             var listDto = new List<InfoRequestDto>();
             try
             {
+                DateTime startDate = DateTime.MinValue ;
+                if (request.StartDate.HasValue)
+                {
+                    DateTime.TryParse(request.StartDate.Value.ToString("yyyy-MM-dd"), out startDate);
+                }
+                DateTime endDate = DateTime.MinValue;
+                if (request.EndDate.HasValue)
+                {
+                    DateTime.TryParse(request.StartDate.Value.ToString("yyyy-MM-dd"), out endDate);
+                }
+
                 var list = await _infoRequestRepository.FindBy(x => x.IsActive, x => x.LandingPage);
                 if (!string.IsNullOrEmpty(request.LandingPageId))
                 {
                     list = list.Where(x => x.LandingPageId == request.LandingPageId);
                 }
 
-                if (request.StartDate.HasValue && request.EndDate.HasValue)
+                else if (request.StartDate.HasValue  && request.EndDate.HasValue)
                 {
-                    list = list.Where(x => x.RequestDate >= request.StartDate && x.RequestDate <= request.EndDate);
+                    list = list.Where(x => x.RequestDate >= startDate && x.RequestDate <= endDate);
                 }
                 else
                 {
                     if (request.StartDate.HasValue)
                     {
-                        list = list.Where(x => x.RequestDate >= request.StartDate);
+                        list = list.Where(x => x.RequestShortDate >= startDate);
                     }
-
-                    if (request.EndDate.HasValue)
+                    else if (request.EndDate.HasValue)
                     {
-                        list = list.Where(x => x.RequestDate <= request.EndDate);
+                        list = list.Where(x => x.RequestDate <= endDate);
+                    }
+                    else
+                    {
+                        var end = DateTime.Now;
+                        var start = end.AddDays(-15);
+                        list = list.Where(x => x.RequestDate >= start && x.RequestDate <= end);
                     }
                 }
 
@@ -128,7 +144,7 @@ namespace FormsAdminGP.Services
                     if (!string.IsNullOrEmpty(infoRequestDto.FileName))
                     {
                         var baseDir = _appSettings?.Value?.EbookPath ?? string.Empty;
-                        attach = Path.Combine(baseDir, infoRequestDto.FileName);                       
+                        attach = Path.Combine(baseDir, infoRequestDto.FormHdId, infoRequestDto.FileName);                       
                     }
 
                     await SendMailToClient(infoRequestDto.Email, infoRequestDto.Name, attach, infoRequestDto.MailTemplateId);

@@ -7,6 +7,7 @@
             <h6 class="mt-2">LANDING PAGES</h6>
             <a
               class="btn btn-link"
+              :class="{ 'visibility-hidden': action !== 'read' }"
               @click="onEmitAct({ isActive: true }, 'create')"
             >
               <i class="pe-7s-close pe-rotate-45" style="font-size:1.5rem"></i>
@@ -36,9 +37,17 @@
                 class="list-group-item d-flex justify-content-between"
                 v-for="item in filterSearch"
                 :key="item.id"
-                @click="onEmitAct(item, 'update')"
               >
-                <div>
+                <div
+                  v-if="action === 'read'"
+                  @click="onEmitAct(item, 'update')"
+                >
+                  <h6 class="mb-0">{{ item.name }}</h6>
+                  <p class="mb-0" style="color:#75818b">
+                    <small>{{ item.description }}</small>
+                  </p>
+                </div>
+                <div class="c-not-allowed" v-if="action !== 'read'">
                   <h6 class="mb-0">{{ item.name }}</h6>
                   <p class="mb-0" style="color:#75818b">
                     <small>{{ item.description }}</small>

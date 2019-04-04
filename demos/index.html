@@ -5,8 +5,10 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-1">
     <title>Demo - formulario GP</title>
     <link rel="stylesheet" href="js/bootstrap/css/bootstrap.min.css">
+    <link rel="stylesheet" href="./css/encapsulatus.css">
     <style>
         .form-group.invalid input {
             border-color: #dc3545;
@@ -17,7 +19,8 @@
 <body class="pt-3">
     <div id="app" v-cloak class="row">
         <div class="col-md-4 offset-md-4 mt-5">
-
+            <p v-html="elf"></p>
+            <span>pe&ntilde;a</span>
             <ul class="list-group">
                 <li class="list-group-item bg-light ">
                     <h5 class="mb-0">LISTA DE LANDING PAGES</h5>
@@ -37,6 +40,7 @@
     <script src="https://unpkg.com/axios/dist/axios.min.js"></script>
     <script>
         let baseUrl = "http://localhost:60829/landing/"
+        //let baseUrl = "http://192.168.15.12:88/landing/"
         new Vue({
             el: "#app",
             data() {
@@ -44,7 +48,8 @@
                     title: "LANDING PAGE XEW",
                     baseUrl: baseUrl,
                     url: new URLSearchParams(window.location.search).get('id'),
-                    landings: []
+                    landings: [],
+                    elf: "pe&ntilde;a"
                 };
             },
             created() {

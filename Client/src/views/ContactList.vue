@@ -2,8 +2,8 @@
   <div id="acontact" class="container-fluid">
     <h5>{{ title }}</h5>
     <div class="row mb-1">
-      <div class="col-12 col-sm-12 col-md-6 text-right"></div>
-      <div class="col-12 col-sm-12 col-md-6 text-right">
+      <div class="col-12 col-sm-12 col-md-5 text-right"></div>
+      <div class="col-12 col-sm-12 col-md-7 text-right">
         <div class="row no-gutters">
           <div class="col-sm-4 d-flex align-items-center">
             <select
@@ -11,7 +11,7 @@
               id="ddllandings"
               @change="onChange($event)"
             >
-              <option value>Seleccione...</option>
+              <option value>Seleccione landing page</option>
               <option
                 v-for="item in landingPages"
                 :key="item.id"
@@ -129,23 +129,25 @@ export default {
       columnDefs: null,
       contactItem: {},
       isloading: false,
-      startDate: new Date(),
+      startDate: () => {
+        return new Date()
+      },
       endDate: new Date(),
       lang: {
-        days: ['Sun', 'Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat'],
+        days: ['Dom', 'Lun', 'Mar', 'Mie', 'Jue', 'Vie', 'Sab'],
         months: [
-          'Jan',
+          'Ene',
           'Feb',
           'Mar',
-          'Apr',
+          'Abr',
           'May',
           'Jun',
           'Jul',
-          'Aug',
+          'Ago',
           'Sep',
           'Oct',
           'Nov',
-          'Dec'
+          'Dic'
         ],
         pickers: [
           'next 7 days',
@@ -154,8 +156,7 @@ export default {
           'previous 30 days'
         ],
         placeholder: {
-          date: 'Select Date',
-          dateRange: 'Select Date Range'
+          date: 'Selecione fecha'
         }
       }
     }
@@ -165,7 +166,8 @@ export default {
     this.columnDefs = [
       {
         headerName: 'FECHA',
-        field: 'requestDateStr'
+        field: 'requestDateStr',
+        filter: true
       },
       {
         headerName: 'NOMBRE',
@@ -192,6 +194,7 @@ export default {
         headerName: 'LANDING PAGE',
         field: 'landingPageName',
         resizable: true,
+        filter: true,
         sort: 'asc'
       },
       {
@@ -213,7 +216,16 @@ export default {
       }
     ]
   },
-
+  computed: {
+    // startDate() {
+    //   var now = new Date()
+    //   var date = -15 + now.getDay()
+    //   return now.setDate(date)
+    // },
+    // endDate() {
+    //   return new Date()
+    // }
+  },
   mounted() {
     this.load({})
   },
@@ -234,7 +246,7 @@ export default {
             const url = window.URL.createObjectURL(new Blob([response.data]))
             const link = document.createElement('a')
             link.href = url
-            link.setAttribute('download', 'fileName.xlsx') //or any other extension
+            link.setAttribute('download', 'solicitudes.xlsx') //or any other extension
             document.body.appendChild(link)
             link.click()
           }

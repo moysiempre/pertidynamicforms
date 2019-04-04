@@ -63,20 +63,38 @@ namespace FormsAdminGP.Services
                 var mailTemplate = _mapper.Map<MailTemplate>(mailTemplateDto);
                 if (string.IsNullOrEmpty(mailTemplate.Id))
                 {
+                    //validar el nombre del template page
+                    var template = await _mailTemplateRepository.FindEntityBy(x => x.Name.Trim().ToLower() == mailTemplateDto.Name.Trim().ToLower());
+                    if (template != null)
+                    {
+                        response.Message = LoggingEvents.INSERT_DUPLICATED_MESSAGE;
+                        return response;
+                    }
+
+
                     mailTemplate.Id = Common.Utilities.Utils.NewGuid;
                     mailTemplate.IsActive = true;
                     _mailTemplateRepository.Add(mailTemplate);
+                    response.Message = LoggingEvents.INSERT_SUCCESS_MESSAGE;
                 }
                 else
                 {
+                    //validar el nombre del template page
+                    var template = await _mailTemplateRepository.FindEntityBy(x => x.Name.Trim().ToLower() == mailTemplateDto.Name.Trim().ToLower() && x.Id != mailTemplateDto.Id);
+                    if (template != null)
+                    {
+                        response.Message = LoggingEvents.INSERT_DUPLICATED_MESSAGE;
+                        return response;
+                    }
+
                     _mailTemplateRepository.Edit(mailTemplate);
+                    response.Message = LoggingEvents.UPDATE_SUCCESS_MESSAGE;
                 }
 
                 var item = await _mailTemplateRepository.SaveChanges();
-
                 response.Success = true;
                 response.Id = mailTemplate.Id;
-                response.Message = LoggingEvents.INSERT_SUCCESS_MESSAGE;
+                
 
             }
             catch (System.Exception ex)

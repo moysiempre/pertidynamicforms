@@ -14,9 +14,9 @@
               placeholder="Digite su correo electrónico"
               v-model="userName"
             />
-            <small class="text-danger">{{
-              getErrMsg(errors, 'userName')
-            }}</small>
+            <small class="text-danger">
+              {{ getErrMsg(errors, 'userName') }}
+            </small>
           </div>
           <div class="form-group text-left">
             <input
@@ -28,9 +28,9 @@
               placeholder="Digite su contraseña"
               v-model="password"
             />
-            <small class="text-danger">{{
-              getErrMsg(errors, 'password')
-            }}</small>
+            <small class="text-danger">
+              {{ getErrMsg(errors, 'password') }}
+            </small>
           </div>
 
           <div class="form-group">
@@ -93,18 +93,19 @@ export default {
                 this.$router.push({ name: 'formularios' })
               } else {
                 this.$swal(response.data.message, {
-                  icon: 'warning'
+                  icon: 'warning',
+                  closeOnClickOutside: false
                 })
               }
             })
             .catch(err => {
               this.isloading = false
-              this.$swal(
-                'No se pudo logear, favor valide su conexión a internet, o comuniquese con el admistrador',
-                {
-                  icon: 'error'
-                }
-              )
+              let message =
+                'No se pudo logear, favor valide su conexión a internet, o comuniquese con el admistrador'
+              this.$swal(message, {
+                icon: 'error',
+                closeOnClickOutside: false
+              })
               console.log('err-login', err)
             })
         }

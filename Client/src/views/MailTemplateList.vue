@@ -4,9 +4,10 @@
       <div class="col-12 col-sm-6 col-md-5 col-lg-4">
         <div class="card border-light helix">
           <div class="card-header">
-            <h6 class="mt-2">TEMPLATES</h6>
+            <h6 class="mt-2">E-MAIL PLANTILLAS</h6>
             <a
               class="btn btn-link"
+              :class="{ 'visibility-hidden': action !== 'read' }"
               @click="onEmitAct({ isActive: true }, 'create')"
             >
               <i class="pe-7s-close pe-rotate-45" style="font-size:1.5rem"></i>
@@ -19,7 +20,7 @@
                 type="text"
                 class="form-control"
                 v-model="searchby"
-                placeholder="filtrar por landing page"
+                placeholder="filtrar por plantilla"
               />
               <div class="input-group-append">
                 <span class="input-group-text" id="basic-addon2">
@@ -34,13 +35,21 @@
                 v-for="item in filterSearch"
                 :key="item.id"
               >
-                <div @click="onEmitAct(item, 'update')">
-                  <div>
-                    <h6 class="mb-0">{{ item.name }}</h6>
-                    <p class="mb-0" style="color:#75818b">
-                      <small>{{ item.title }}</small>
-                    </p>
-                  </div>
+                <div
+                  @click="onEmitAct(item, 'update')"
+                  v-if="action === 'read'"
+                >
+                  <h6 class="mb-0">{{ item.name }}</h6>
+                  <p class="mb-0" style="color:#75818b">
+                    <small>{{ item.title }}</small>
+                  </p>
+                </div>
+
+                <div class="c-not-allowed" v-if="action !== 'read'">
+                  <h6 class="mb-0">{{ item.name }}</h6>
+                  <p class="mb-0" style="color:#75818b">
+                    <small>{{ item.title }}</small>
+                  </p>
                 </div>
               </li>
             </ul>
@@ -86,10 +95,9 @@ export default {
   methods: {
     onEmitAct(item, action) {
       this.title =
-        action === 'create'
-          ? 'ALTA MAIL TEMPLATE PAGE'
-          : 'MODIFICAR MAIL TEMPLATE PAGE'
+        action === 'create' ? 'ALTA PLANTILLA' : 'MODIFICAR PLANTILLA'
       this.$store.commit('SET_ACTION', action)
+      this.$store.commit('SET_TEMPLATE', item)
       this.$store.commit('SET_TEMPLATE', item)
     }
   }

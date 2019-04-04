@@ -113,19 +113,27 @@ namespace FormsAdminGP.Services
 
                     landingPage.Id = Common.Utilities.Utils.NewGuid; 
                     _landingPageRepository.Add(landingPage);
-
+                    response.Message = LoggingEvents.INSERT_SUCCESS_MESSAGE;
                 }
                 else
                 {
+                    //validar el nombre del template page
+                    var landing = await _landingPageRepository.FindEntityBy(x => x.Name.Trim().ToLower() == landingPageDto.Name.Trim().ToLower() && x.Id != landingPageDto.Id);
+                    if (landing != null)
+                    {
+                        response.Message = LoggingEvents.INSERT_DUPLICATED_MESSAGE;
+                        return response;
+                    }
+
                     landingPage.FormHdId = (string.IsNullOrEmpty(landingPage.FormHdId)) ? null : landingPage.FormHdId;
                     _landingPageRepository.Edit(landingPage);
+                    response.Message = LoggingEvents.UPDATE_SUCCESS_MESSAGE;
                 }
 
                 var item = await _landingPageRepository.SaveChanges();
-
                 response.Success = true;
                 response.Id = landingPage.Id;
-                response.Message = LoggingEvents.INSERT_SUCCESS_MESSAGE;
+                
             }
             catch (System.Exception ex)
             {

@@ -14,9 +14,9 @@
               placeholder="Digite su correo electrónico"
               v-model="userName"
             />
-            <small class="text-danger">{{
-              getErrMsg(errors, 'userName')
-            }}</small>
+            <small class="text-danger">
+              {{ getErrMsg(errors, 'userName') }}
+            </small>
           </div>
           <div class="form-group">
             <button
@@ -75,7 +75,8 @@ export default {
                 )
               } else {
                 this.$swal(response.data.message, {
-                  icon: 'warning'
+                  icon: 'warning',
+                  closeOnClickOutside: false
                 })
               }
             })
@@ -83,7 +84,8 @@ export default {
               console.log(err)
               this.isloading = false
               this.$swal('No se pudo resetear su contraseña', {
-                icon: 'warning'
+                icon: 'warning',
+                closeOnClickOutside: false
               })
             })
         }

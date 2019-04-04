@@ -74,16 +74,18 @@ namespace FormsAdminGP.Services
                     catalog.Id = Common.Utilities.Utils.NewGuid;
                     catalog.IsActive = true;
                     _dDLCatalogRepository.Add(catalog);
+                    response.Message = LoggingEvents.INSERT_SUCCESS_MESSAGE;
                 }
                 else
                 {
                     _dDLCatalogRepository.Edit(catalog);
+                    response.Message = LoggingEvents.UPDATE_SUCCESS_MESSAGE;
                 }
 
                 await _dDLCatalogRepository.SaveChanges();
                 response.Success = true;
                 response.Id = catalog.Id;
-                response.Message = LoggingEvents.INSERT_SUCCESS_MESSAGE;
+                
             }
             catch (Exception ex)
             {

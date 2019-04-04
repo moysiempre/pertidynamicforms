@@ -287,18 +287,21 @@ export default {
           if (response && response.data && response.data.success) {
             this.formHd.filePath = this.file.name
             this.$swal(response.data.message, {
-              icon: 'success'
+              icon: 'success',
+              closeOnClickOutside: false
             })
           } else {
             this.$swal(response.data.message, {
-              icon: 'warning'
+              icon: 'warning',
+              closeOnClickOutside: false
             })
           }
         })
         .catch(err => {
           console.log(err)
           this.$swal('No se pudo dar de alta al formulario', {
-            icon: 'warning'
+            icon: 'warning',
+            closeOnClickOutside: false
           })
         })
     },
@@ -334,13 +337,15 @@ export default {
               this.formHd.id = response.data.id
               this.updateStore(this.formHd)
               this.$swal(response.data.message, {
-                icon: 'success'
+                icon: 'success',
+                closeOnClickOutside: false
               })
               this.onCancel()
             } else {
               console.log('RESPONSE: ', response)
               this.$swal(response.data.message, {
-                icon: 'warning'
+                icon: 'warning',
+                closeOnClickOutside: false
               })
             }
           })
@@ -348,14 +353,16 @@ export default {
             this.isloading = false
             console.log(err)
             this.$swal('No se pudo dar de alta al formulario', {
-              icon: 'warning'
+              icon: 'warning',
+              closeOnClickOutside: false
             })
           })
       } else {
         this.$swal({
           icon: 'warning',
           dangerMode: true,
-          text: 'Favor seleccionar detalle del formulario.'
+          text: 'Favor seleccionar detalle del formulario.',
+          closeOnClickOutside: false
         })
       }
     },
@@ -411,7 +418,8 @@ export default {
             })
           } else {
             this.$swal(response.data.message, {
-              icon: 'warning'
+              icon: 'warning',
+              closeOnClickOutside: false
             })
           }
         })
@@ -419,7 +427,8 @@ export default {
           console.log(err)
           this.isdeleting = false
           this.$swal('No se pudo eliminar el archivo', {
-            icon: 'warning'
+            icon: 'warning',
+            closeOnClickOutside: false
           })
         })
     },
@@ -449,6 +458,8 @@ export default {
       this.$store.commit('SET_ACTION', 'read')
       this.$store.commit('SET_FORM_HD', {})
       this.$store.commit('SET_OPT_SELECTED', false)
+      //reset form
+      this.$store.dispatch('loadFormHds')
       this.$store.dispatch('loadOptions')
     }
   }

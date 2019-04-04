@@ -122,12 +122,14 @@ export default {
             this.landingPage.id = response.data.id
             this.$store.dispatch('loadLandings')
             this.$swal(response.data.message, {
-              icon: 'success'
+              icon: 'success',
+              closeOnClickOutside: false
             })
             this.onCancel()
           } else {
             this.$swal(response.data.message, {
-              icon: 'warning'
+              icon: 'warning',
+              closeOnClickOutside: false
             })
           }
         })
@@ -135,13 +137,15 @@ export default {
           this.isloading = false
           console.log(error)
           this.$swal('No se pudo dar de alta al landing page', {
-            icon: 'warning'
+            icon: 'warning',
+            closeOnClickOutside: false
           })
         })
     },
     onCancel() {
       this.$store.commit('SET_ACTION', 'read')
       this.$store.commit('SET_LANDING', {})
+      this.$store.dispatch('loadLandings')
     }
   }
 }
