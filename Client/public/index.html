@@ -24,6 +24,7 @@
     Here are the <a href="https://www.enable-javascript.com/">
       instructions how to enable JavaScript in your web browser</a>.
   </noscript>
+  <p id="ie_found" style="text-align: center; color: #ddd;"></p>
   <div id="app"></div>
   <!-- built files will be auto injected -->
   <!-- built files will be auto injected -->
@@ -35,6 +36,14 @@
   </script>
   <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"
     integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM" crossorigin="anonymous">
+  </script>
+  <script>
+    var ua = window.navigator.userAgent;
+    document.getElementById("ie_found").innerHTML = ""
+    if (ua.indexOf('MSIE ') > 0 || ua.indexOf('Trident/') > 0) {
+      document.getElementById("ie_found").innerHTML =
+        "Lo sentimos, la applicacion Formulario Admin GP no es compatible con el explorador IE (Internet Explorer)"
+    }
   </script>
 </body>
 

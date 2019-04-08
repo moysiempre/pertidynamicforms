@@ -69,25 +69,23 @@
               </select>
             </div>
 
-            <div class="form-group" v-if="formHd.id">
+            <div class="form-group mb-2">
               <label class="mb-0" for>Ubicación del archivo a subir</label>
-              <div class="d-flex">
+              <div class="custom-file">
                 <input
                   type="file"
-                  id="file"
+                  id="validatedCustomFile"
                   ref="file"
-                  class="w-100"
-                  v-on:change="handleFileUpload()"
-                  style="width:115px !important"
+                  class="custom-file-input"
+                  v-on:change="handleFileUpload"
                 />
-
-                <input
-                  type="text"
-                  class="form-control mt-1"
-                  v-model="formHd.filePath"
-                />
+                <label class="custom-file-label" for="validatedCustomFile">
+                  <span v-if="!formHd.filePath">Seleccione un archivo...</span>
+                  <span v-if="formHd.filePath">{{ formHd.filePath }}</span>
+                </label>
               </div>
             </div>
+
             <div class="form-group" v-if="formHd.id">
               <button
                 type="button"
@@ -297,8 +295,8 @@ export default {
             })
           }
         })
-        .catch(err => {
-          console.log(err)
+        .catch(() => {
+          //console.log(err)
           this.$swal('No se pudo dar de alta al formulario', {
             icon: 'warning',
             closeOnClickOutside: false
@@ -309,8 +307,8 @@ export default {
       let hasDetail = this.formHd.formDetails.filter(x => x.isActive == true)
       if (hasDetail && hasDetail.length) {
         this.isloading = true
-        var _values = this.$store.state.forms.values
-        console.log('COMPARE VALUES: ', _values, this.values)
+        //var _values = this.$store.state.forms.values
+        //console.log('COMPARE VALUES: ', _values, this.values)
         this.formHd.landingPages = this.values.map(item => {
           return {
             id: item.id,
@@ -335,23 +333,23 @@ export default {
             this.isloading = false
             if (response && response.data && response.data.id) {
               this.formHd.id = response.data.id
-              this.updateStore(this.formHd)
+              this.updateStore()
               this.$swal(response.data.message, {
                 icon: 'success',
                 closeOnClickOutside: false
               })
               this.onCancel()
             } else {
-              console.log('RESPONSE: ', response)
+              //console.log('RESPONSE: ', response)
               this.$swal(response.data.message, {
                 icon: 'warning',
                 closeOnClickOutside: false
               })
             }
           })
-          .catch(err => {
+          .catch(() => {
             this.isloading = false
-            console.log(err)
+            //console.log(err)
             this.$swal('No se pudo dar de alta al formulario', {
               icon: 'warning',
               closeOnClickOutside: false
@@ -366,10 +364,10 @@ export default {
         })
       }
     },
-    updateStore(item) {
+    updateStore() {
       if (this.action === 'create') {
         //this.$store.commit("ADD_FORM_HD", item);
-        console.log(item)
+        //console.log(item)
         this.$store.dispatch('loadFormHds')
       }
       this.$store.dispatch('loadBaseDetails')
@@ -377,7 +375,7 @@ export default {
     },
     onEdit(item) {
       this.selectedItem = item
-      console.log('item', item)
+      //console.log('item', item)
       this.iaction = 'update'
       this.$store.commit('SET_OPT_SELECTED', false)
       if (item && item.fieldTypeId == 'select') {
@@ -423,8 +421,8 @@ export default {
             })
           }
         })
-        .catch(err => {
-          console.log(err)
+        .catch(() => {
+          // console.log(err)
           this.isdeleting = false
           this.$swal('No se pudo eliminar el archivo', {
             icon: 'warning',
@@ -486,5 +484,8 @@ export default {
 .custom-control-label {
   position: relative;
   margin-bottom: 17px;
+}
+.custom-file-label::after {
+  content: 'Buscar' !important;
 }
 </style>

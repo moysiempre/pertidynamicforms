@@ -6,6 +6,7 @@ namespace FormsAdminGP.Services.EmailSender
 {
     public interface IEmailSenderService
     {
-        Task SendEmailAsync(List<KeyValuePair<string, WithEMail>> emails, string subject, string message, List<string> attachments);
+        Task SendEmailAsync(string emailTo, string subject, string message);
+        Task SendEmailAsync(string emailTo, string subject, string message, List<string> attachments);
     }
 }

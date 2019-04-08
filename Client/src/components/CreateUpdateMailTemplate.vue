@@ -9,7 +9,7 @@
     <div class="card-body">
       <form @submit.prevent="onSubmit">
         <div class="row">
-          <div class="col-12 col-md-4">
+          <div class="col-12 col-md-6">
             <div class="form-group">
               <label class="mb-0" for="name">
                 Nombre de la plantilla
@@ -26,7 +26,7 @@
               />
             </div>
           </div>
-          <div class="col-12 col-md-8">
+          <div class="col-12 col-md-6">
             <div class="form-group">
               <label class="mb-0" for="name">
                 Saludo
@@ -72,12 +72,12 @@
             :config="editorConfig"
           ></ckeditor>
           <div>
-            <small class="text-muted">Maximun caracters</small>
+            <small class="text-muted">Máximun caracters</small>
             <small>:</small>
             <small>{{ bodylength }}</small>
             <small>
               /
-              <strong>400</strong>
+              <strong>1000</strong>
             </small>
           </div>
         </div>
@@ -135,7 +135,6 @@ export default {
       isloading: false,
       editor: ClassicEditor,
       editorConfig: {
-        maxLength: 40,
         toolbar: {
           items: [
             'heading',
@@ -171,7 +170,7 @@ export default {
   },
   methods: {
     onSubmit() {
-      if (this.bodylength > 400) {
+      if (this.bodylength > 1000) {
         this.$swal({
           text: 'Solo se permite maximun 400 carácteres',
           dangerMode: true,

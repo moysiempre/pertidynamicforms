@@ -5,6 +5,7 @@ import LandingList from './views/LandingList.vue'
 import FormList from './views/FormList.vue'
 import ContactList from './views/ContactList.vue'
 import MailTemplateList from './views/MailTemplateList.vue'
+import UserManual from './views/UserManual.vue'
 
 Vue.use(Router)
 
@@ -44,6 +45,11 @@ let router = new Router({
       path: '/mailTemplate',
       name: 'mailTemplate',
       component: MailTemplateList
+    },
+    {
+      path: '/usermanual',
+      name: 'usermanual',
+      component: UserManual
     },
     {
       path: '/about',

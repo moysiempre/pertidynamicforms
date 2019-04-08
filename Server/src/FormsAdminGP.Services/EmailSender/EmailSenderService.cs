@@ -12,15 +12,25 @@ namespace FormsAdminGP.Services.EmailSender
 {
     public class EmailSenderService : IEmailSenderService
     {
-        private readonly EmailSettings _emailSettings;
+        public EmailSettings _emailSettings;
         public EmailSenderService(IOptions<EmailSettings> emailSettings)
         {
             _emailSettings = emailSettings.Value;
         }
 
 
-        public async Task SendEmailAsync(List<KeyValuePair<string, WithEMail>> emails, string subject, string message, List<string> attachments)
+        public async Task SendEmailAsync(string emailTo, string subject, string message)
         {
+            _emailSettings.EmailTo = emailTo;
+            _emailSettings.EmailCC = "";
+            var emails = SetMails(_emailSettings);
+            await Task.Run(() => ExecuteAsync(emails, subject, message, new List<string>()));
+        }
+
+        public async Task SendEmailAsync(string emailTo, string subject, string message, List<string> attachments)
+        {
+            _emailSettings.EmailTo = emailTo;
+            var emails = SetMails(_emailSettings);
             await Task.Run(() => ExecuteAsync(emails, subject, message, attachments));
         }
 
@@ -43,7 +53,7 @@ namespace FormsAdminGP.Services.EmailSender
                 emails.Where(x => x.Value == WithEMail.To).ToList().ForEach(fe => mail.To.Add(new MailAddress(fe.Key)));
 
                 //agregar los donde key = true =>(con copia oculta)
-                emails.Where(x => x.Value == WithEMail.Bcc).ToList().ForEach(fe => mail.Bcc.Add(new MailAddress(fe.Key)));
+                emails.Where(x => x.Value == WithEMail.CC).ToList().ForEach(fe => mail.CC.Add(new MailAddress(fe.Key)));
 
                 //agregado de archivo
                 if (attachments != null)
@@ -61,7 +71,7 @@ namespace FormsAdminGP.Services.EmailSender
                 {
                     smtp.Port = _emailSettings.Port;
                     smtp.UseDefaultCredentials = true;
-                    smtp.EnableSsl = true;
+                    smtp.EnableSsl = false;
                     smtp.Credentials = new NetworkCredential(_emailSettings.Username, _emailSettings.Password);
                     await smtp.SendMailAsync(mail);
                 }
@@ -77,6 +87,34 @@ namespace FormsAdminGP.Services.EmailSender
             return resp;
         }
 
+        private List<KeyValuePair<string, WithEMail>> SetMails(EmailSettings emailSettings)
+        {
+            var mails = new List<KeyValuePair<string, WithEMail>>();
+            if (!string.IsNullOrEmpty(emailSettings.EmailTo))
+            {
+                var listEmail = emailSettings.EmailTo.Split(';');
+                foreach (var item in listEmail)
+                {
+                    if (!string.IsNullOrEmpty(item))
+                    {
+                        mails.Add(new KeyValuePair<string, WithEMail>(item, WithEMail.To));
+                    }
+                }
+            }
+
+            if (!string.IsNullOrEmpty(emailSettings.EmailCC))
+            {
+                var listEmail = emailSettings.EmailCC.Split(';');
+                foreach (var item in listEmail)
+                {
+                    if (!string.IsNullOrEmpty(item))
+                    {
+                        mails.Add(new KeyValuePair<string, WithEMail>(item, WithEMail.CC));
+                    }
+                }
+            }
+            return mails;
+        }
 
     }
 }

@@ -6,47 +6,62 @@
       <div class="col-12 col-sm-12 col-md-7 text-right">
         <div class="row no-gutters">
           <div class="col-sm-4 d-flex align-items-center">
-            <select
-              class="custom-select mr-sm-1"
-              id="ddllandings"
-              @change="onChange($event)"
-            >
-              <option value>Seleccione landing page</option>
-              <option
-                v-for="item in landingPages"
-                :key="item.id"
-                :value="item.id"
-                >{{ item.name }}</option
+            <div class="form-group text-left">
+              <label class="mb-0" for="ddllandings">Landing page</label>
+              <select
+                class="custom-select mr-sm-1"
+                id="ddllandings"
+                v-model="ddllanding"
+                @change="onChange"
               >
-            </select>
+                <option value>Seleccione landing page</option>
+                <option
+                  v-for="item in landingPages"
+                  :key="item.id"
+                  :value="item.id"
+                  >{{ item.name }}</option
+                >
+              </select>
+            </div>
           </div>
           <div class="col-sm-3 d-flex align-items-center">
-            <date-picker
-              class="mr-sm-1"
-              v-model="startDate"
-              :first-day-of-week="1"
-              format="DD/MM/YYYY"
-              :not-after="endDate"
-              :lang="lang"
-              @change="onChangeStartDate"
-            ></date-picker>
+            <div class="form-group text-left ml-1">
+              <label class="mb-0" for="startDate">Fecha inicio</label>
+              <date-picker
+                id="startDate"
+                class="mr-sm-1"
+                v-model="startDate"
+                :first-day-of-week="1"
+                format="DD/MM/YYYY"
+                :not-after="endDate"
+                :lang="lang"
+                @change="onChangeStartDate"
+                @clear="onClear"
+              ></date-picker>
+            </div>
           </div>
           <div class="col-sm-3 d-flex align-items-center">
-            <date-picker
-              v-model="endDate"
-              :first-day-of-week="1"
-              format="DD/MM/YYYY"
-              :not-before="startDate"
-              :not-after="new Date()"
-              :lang="lang"
-              @change="onChangeEndDate"
-            ></date-picker>
+            <div class="form-group text-left">
+              <label class="mb-0" for="endDate">Fecha fin</label>
+              <date-picker
+                id="endDate"
+                v-model="endDate"
+                :first-day-of-week="1"
+                format="DD/MM/YYYY"
+                :not-before="startDate"
+                :not-after="new Date()"
+                :lang="lang"
+                @change="onChangeEndDate"
+                @clear="onClear"
+              ></date-picker>
+            </div>
           </div>
           <div class="col-sm-2 d-flex justify-content-end">
             <button
               type="button"
               class="btn btn-default btn-sm py-0"
               @click="exportarXlsx"
+              :disabled="!(this.rowData && this.rowData.length)"
             >
               <p class="exlsx m-0 mt-1" v-if="!isloading">
                 <img src="/assets/exportarXlsx.png" alt srcset />
@@ -72,7 +87,7 @@
           @first-data-rendered="onFirstDataRendered"
           :rowData="rowData"
           :pagination="true"
-          :paginationPageSize="8"
+          :paginationPageSize="7"
         ></ag-grid-vue>
       </div>
     </div>
@@ -124,15 +139,33 @@ export default {
     return {
       title: 'SOLICITUDES',
       rowData: [],
-      gridOptions: { rowHeight: 50 },
+      listaInfo: [],
+      gridOptions: {
+        rowHeight: 50,
+        localeText: {
+          page: 'Página',
+          to: 'a',
+          of: 'de',
+          andCondition: 'Y',
+          orCondition: 'O',
+          filterOoo: 'Filtrar...',
+          applyFilter: 'daApplyFilter...',
+          equals: 'Igual a',
+          notEqual: 'No igual a',
+          contains: 'Contiene',
+          notContains: 'No contiene',
+          startsWith: 'Empieza con',
+          endsWith: 'Termina con',
+          noRowsToShow: 'No hay registro '
+        }
+      },
       landingPages: [],
+      ddllanding: '',
       columnDefs: null,
       contactItem: {},
       isloading: false,
-      startDate: () => {
-        return new Date()
-      },
-      endDate: new Date(),
+      startDate: null,
+      endDate: null,
       lang: {
         days: ['Dom', 'Lun', 'Mar', 'Mie', 'Jue', 'Vie', 'Sab'],
         months: [
@@ -167,34 +200,36 @@ export default {
       {
         headerName: 'FECHA',
         field: 'requestDateStr',
-        filter: true
+        sortable: true,
+        filter: false
       },
       {
         headerName: 'NOMBRE',
         field: 'name',
         sortable: true,
-        filter: true,
-        resizable: true
+        filter: false,
+        resizable: false
       },
       {
         headerName: 'EMAIL',
         field: 'email',
         sortable: true,
-        filter: true,
-        resizable: true
+        filter: false,
+        resizable: false
       },
       {
         headerName: 'TELÉFONO',
         field: 'phone',
         sortable: true,
-        filter: true,
-        resizable: true
+        filter: false,
+        resizable: false
       },
       {
         headerName: 'LANDING PAGE',
         field: 'landingPageName',
-        resizable: true,
-        filter: true,
+        resizable: false,
+        sortable: true,
+        filter: false,
         sort: 'asc'
       },
       {
@@ -241,15 +276,7 @@ export default {
       })
         .then(response => {
           this.isloading = false
-          //console.log(response.data.size)
-          if (response.status === 200 && response.data.size > 0) {
-            const url = window.URL.createObjectURL(new Blob([response.data]))
-            const link = document.createElement('a')
-            link.href = url
-            link.setAttribute('download', 'solicitudes.xlsx') //or any other extension
-            document.body.appendChild(link)
-            link.click()
-          }
+          console.log(response)
         })
         .catch(() => {
           this.isloading = false
@@ -261,7 +288,10 @@ export default {
           params: request
         })
         .then(response => {
+          this.listaInfo = Object.assign({}, response.data)
           this.rowData = response.data
+
+          console.log('listaInfo', this.listaInfo)
           this.rowData.forEach(element => {
             element.infoRequestData = JSON.parse(element.infoRequestData)
             if (element.infoRequestData && element.infoRequestData.length) {
@@ -291,23 +321,41 @@ export default {
     onFirstDataRendered(params) {
       params.api.sizeColumnsToFit()
     },
-    onChange(event) {
+    onChange() {
       this.load({
-        landingPageId: event.target.value
+        landingPageId: this.ddllanding,
+        startDate: this.startDate,
+        endDate: this.endDate
       })
     },
     onChangeStartDate(date) {
-      const eDate = `${date.getFullYear()}-${date.getMonth() +
-        1}-${date.getDate()}`
+      let eDate = null
+      if (date) {
+        eDate = `${date.getFullYear()}-${date.getMonth() + 1}-${date.getDate()}`
+      }
+
       this.load({
-        startDate: eDate
+        startDate: eDate,
+        endDate: this.endDate,
+        landingPageId: this.ddllanding
       })
     },
     onChangeEndDate(date) {
-      const eDate = `${date.getFullYear()}-${date.getMonth() +
-        1}-${date.getDate()}`
+      let eDate = null
+      if (date) {
+        eDate = `${date.getFullYear()}-${date.getMonth() + 1}-${date.getDate()}`
+      }
       this.load({
-        endDate: eDate
+        endDate: eDate,
+        startDate: this.startDate,
+        landingPageId: this.ddllanding
+      })
+    },
+    onClear() {
+      this.load({
+        landingPageId: this.ddllanding,
+        startDate: this.startDate,
+        endDate: this.endDate
       })
     }
   }

@@ -182,7 +182,7 @@ namespace FormsAdminGP.Services
             var message = $"<div><p>Hola</p><p>Su contraseña es: <strong>{password}</strong></p><div>";
             try
             {
-                await _emailSenderService.SendEmailAsync(emails, subject, message, new List<string>());
+                await _emailSenderService.SendEmailAsync(email, subject, message);
             }
             catch (Exception ex)
             {

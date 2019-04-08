@@ -2,9 +2,9 @@
   <aside>
     <ul>
       <li>
-        <a class="c-pointer">
+        <router-link to="/usermanual">
           <i class="pe-7s-help1 fa-2x"></i>
-        </a>
+        </router-link>
         <span class="desc">MANUAL USUARIO</span>
       </li>
       <li class="last">
@@ -69,6 +69,9 @@ aside {
         .desc {
           display: block;
         }
+      }
+      a {
+        color: #405668;
       }
     }
   }

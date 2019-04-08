@@ -84,7 +84,7 @@ namespace FormsAdminGP.Data.Context
                 entity.ToTable("MailTemplates", "landing");
                 entity.Property(e => e.Name).HasMaxLength(50).IsRequired();
                 entity.Property(e => e.Subject).HasMaxLength(225).IsRequired();
-                entity.Property(e => e.Body).HasMaxLength(450).IsRequired();
+                entity.Property(e => e.Body).HasMaxLength(1024).IsRequired();
             });
 
             // SECURITY Custom application mappings

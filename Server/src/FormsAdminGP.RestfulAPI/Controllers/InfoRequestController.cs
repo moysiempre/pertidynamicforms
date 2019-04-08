@@ -66,6 +66,30 @@ namespace FormsAdminGP.RestfulAPI.Controllers
             return Ok(item);
         }
 
+        [HttpGet("exportToExcel")]
+        public async Task<IActionResult> ExportToExcel(List<InfoRequestDto> listaInfo)
+        {
+            try
+            {
+                var excelStream = new MemoryStream();
+                //var listaInfo = await _infoRequestService.GetByAsync(request);
+                //distinct by
+                await Task.Run(() => {
+
+                });
+
+                return null;
+
+            }
+            catch (Exception ex)
+            {
+                //-------------
+                return NoContent();
+            }
+
+
+
+        }
 
         [HttpGet("download")]
         public async Task<IActionResult> CrearPagoXlsx(BaseRequest request)
@@ -243,6 +267,7 @@ namespace FormsAdminGP.RestfulAPI.Controllers
 
 
         }
+
         private void FormatDataJson(ref IEnumerable<InfoRequestDto> listaInfo)
         {
             

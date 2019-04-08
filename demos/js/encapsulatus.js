@@ -1,5 +1,5 @@
- //let baseUrl = "http://192.168.15.12:88/landing/"
- let baseUrl = "http://localhost:60829/landing/"
+ let baseUrl = "http://192.168.15.12:88/landing/"
+ //let baseUrl = "http://localhost:60829/landing/"
 
 
  Vue.component("containerEncapsulated", {
@@ -13,7 +13,7 @@
        fields: [],
        isloading: false,
        isSended: false,
-       message_gp: "",
+       message_gp: "¡Gracias por tu interés en Grupo PerTI!",
        alert_class: "alert-success"
      };
    },
@@ -88,7 +88,7 @@
                this.isloading = false;
                this.clearFormData();
                this.downloadPdf(this.fields.id, this.fields.filePath);
-               this.showMsg("SUCCESS", "alert-success");
+               this.showMsg("¡Gracias por tu interés en Grupo PerTI!", "alert-success");
              })
              .catch(function (error) {
                this.isloading = false;

@@ -2,13 +2,13 @@
 <html lang="en">
 
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta http-equiv="X-UA-Compatible" content="ie=edge">
-    <meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-1">
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta http-equiv="X-UA-Compatible" content="ie=edge" />
+    <meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-1" />
     <title>Demo - formulario GP</title>
-    <link rel="stylesheet" href="js/bootstrap/css/bootstrap.min.css">
-    <link rel="stylesheet" href="./css/encapsulatus.css">
+    <link rel="stylesheet" href="js/bootstrap/css/bootstrap.min.css" />
+    <link rel="stylesheet" href="./css/encapsulatus.css" />
     <style>
         .form-group.invalid input {
             border-color: #dc3545;
@@ -17,10 +17,9 @@
 </head>
 
 <body class="pt-3">
+    <p id="ie_found"></p>
     <div id="app" v-cloak class="row">
         <div class="col-md-4 offset-md-4 mt-5">
-            <p v-html="elf"></p>
-            <span>pe&ntilde;a</span>
             <ul class="list-group">
                 <li class="list-group-item bg-light ">
                     <h5 class="mb-0">LISTA DE LANDING PAGES</h5>
@@ -28,7 +27,7 @@
                 <li class="list-group-item" v-for="(item, index) in landings" :key="index">
                     <h5 class="mb-0">
                         <a v-bind:href="'/detail.html?id='+ item.key">
-                            {{index + 1}} - {{item.value}}
+                            {{ index + 1 }} - {{ item.value }}
                         </a>
                     </h5>
                 </li>
@@ -39,15 +38,21 @@
     <script src="https://unpkg.com/vee-validate@latest"></script>
     <script src="https://unpkg.com/axios/dist/axios.min.js"></script>
     <script>
-        let baseUrl = "http://localhost:60829/landing/"
-        //let baseUrl = "http://192.168.15.12:88/landing/"
+        var ua = window.navigator.userAgent;
+        if (ua.indexOf('MSIE ') > 0 || ua.indexOf('Trident/') > 0) {
+            document.getElementById("ie_found").innerHTML = "ya"
+        }
+    </script>
+    <script>
+        //let baseUrl = "http://localhost:60829/landing/"
+        let baseUrl = "http://192.168.15.12:88/landing/";
         new Vue({
             el: "#app",
             data() {
                 return {
                     title: "LANDING PAGE XEW",
                     baseUrl: baseUrl,
-                    url: new URLSearchParams(window.location.search).get('id'),
+                    url: new URLSearchParams(window.location.search).get("id"),
                     landings: [],
                     elf: "pe&ntilde;a"
                 };
@@ -66,12 +71,10 @@
                         .catch(error => {
                             console.log("error", error);
                         });
-                },
+                }
             }
-
         });
     </script>
-
 </body>
 
 </html>
