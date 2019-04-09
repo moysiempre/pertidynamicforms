@@ -57,11 +57,11 @@
 
             <div class="form-group">
               <label class="mb-0" for="description"
-                >E-mail template asociados</label
+                >Plantilla E-mail asociados</label
               >
               <select class="custom-select" v-model="formHd.mailTemplateId">
                 <option
-                  v-for="(item, index) in mailtemplates"
+                  v-for="(item, index) in mailtemplateList"
                   :key="index"
                   :value="item.id"
                   >{{ item.name }}</option
@@ -265,6 +265,11 @@ export default {
     }),
     isFormValid() {
       return !Object.keys(this.fields).some(key => this.fields[key].invalid)
+    },
+    mailtemplateList() {
+      return this.mailtemplates && this.mailtemplates.length
+        ? this.mailtemplates.filter(x => x.isActive)
+        : []
     }
   },
   methods: {

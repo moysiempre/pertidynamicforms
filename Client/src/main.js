@@ -13,8 +13,8 @@ Vue.use(VeeValidate)
 Vue.use(CKEditor)
 
 //Vue.prototype.$http = Axios;
-Axios.defaults.baseURL = 'http://192.168.15.12:88/landing/'
-// Axios.defaults.baseURL = 'http://localhost:60829/landing/'
+//Axios.defaults.baseURL = 'http://192.168.15.12:88/landing/'
+Axios.defaults.baseURL = 'http://localhost:60829/landing/'
 
 const token = localStorage.getItem('access_token')
 if (token) {

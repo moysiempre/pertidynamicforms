@@ -272,11 +272,23 @@ export default {
         url: 'api-inforequest/download',
         method: 'GET',
         responseType: 'blob',
-        params: {}
+        params: {
+          startDate: this.startDate,
+          endDate: this.endDate,
+          landingPageId: this.ddllanding
+        }
       })
         .then(response => {
           this.isloading = false
-          console.log(response)
+          //console.log(response.data.size)
+          if (response.status === 200 && response.data.size > 0) {
+            const url = window.URL.createObjectURL(new Blob([response.data]))
+            const link = document.createElement('a')
+            link.href = url
+            link.setAttribute('download', 'solicitudes.xlsx') //or any other extension
+            document.body.appendChild(link)
+            link.click()
+          }
         })
         .catch(() => {
           this.isloading = false

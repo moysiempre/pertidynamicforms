@@ -11,7 +11,7 @@
               @click="onEmitAct({ isActive: true }, 'create')"
             >
               <i class="pe-7s-close pe-rotate-45" style="font-size:1.5rem"></i>
-              <br />
+              <br>
             </a>
           </div>
           <div class="card-body p-0">
@@ -21,7 +21,7 @@
                 class="form-control"
                 v-model="searchby"
                 placeholder="filtrar por landing page"
-              />
+              >
               <div class="input-group-append">
                 <span class="input-group-text" id="basic-addon2">
                   <i class="pe-7s-search"></i>
@@ -38,34 +38,36 @@
                 v-for="item in filterSearch"
                 :key="item.id"
               >
-                <div
-                  v-if="action === 'read'"
-                  @click="onEmitAct(item, 'update')"
-                >
-                  <h6 class="mb-0">{{ item.name }}</h6>
+                <div v-if="action === 'read'" @click="onEmitAct(item, 'update')">
+                  <h6 class="mb-0">
+                    {{ item.name }}
+                    <small v-if="!item.isActive">
+                      <i class="text-warning">(Desactivado)</i>
+                    </small>
+                  </h6>
                   <p class="mb-0" style="color:#75818b">
                     <small>{{ item.description }}</small>
                   </p>
                 </div>
                 <div class="c-not-allowed" v-if="action !== 'read'">
-                  <h6 class="mb-0">{{ item.name }}</h6>
+                  <h6 class="mb-0">
+                    {{ item.name }}
+                    <small v-if="!item.isActive">
+                      <i class="text-warning">(Desactivado)</i>
+                    </small>
+                  </h6>
                   <p class="mb-0" style="color:#75818b">
                     <small>{{ item.description }}</small>
                   </p>
                 </div>
               </li>
             </ul>
-            <div class="alert alert-warning" v-if="!landingPages">
-              no hay registro
-            </div>
+            <div class="alert alert-warning" v-if="!landingPages">no hay registro</div>
           </div>
         </div>
       </div>
-      <div
-        class="col-12 col-sm-6 col-md-7 col-lg-5 mt-3 mt-sm-0"
-        v-if="action !== 'read'"
-      >
-        <create-update-landing :title="title" />
+      <div class="col-12 col-sm-6 col-md-7 col-lg-5 mt-3 mt-sm-0" v-if="action !== 'read'">
+        <create-update-landing :title="title"/>
       </div>
     </div>
   </div>

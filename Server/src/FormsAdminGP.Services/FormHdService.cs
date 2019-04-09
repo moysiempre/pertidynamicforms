@@ -47,7 +47,7 @@ namespace FormsAdminGP.Services
             var listDto = new List<FormHdDto>();
             try
             {
-                var list = await _formHdRepository.FindBy(x => x.IsActive, t => t.FormDetails);
+                var list = await _formHdRepository.GetAll( t => t.FormDetails);
                 foreach (var item in list)
                 {
                     item.FormDetails = item.FormDetails.OrderBy(x => x.Order).ToList();
@@ -78,7 +78,7 @@ namespace FormsAdminGP.Services
                 var item = await _formHdRepository.FindEntityBy(x => x.Id == id, t => t.FormDetails);
                 if (item != null)
                 {
-                    item.FormDetails = item.FormDetails.Where(x => x.IsActive).OrderBy(x => x.Order).ToList();
+                    item.FormDetails = item.FormDetails.OrderBy(x => x.Order).ToList();
                     foreach (var detail in item.FormDetails.Where(x => x.FieldTypeId == FieldType.select.ToString()))
                     {
                         var ddlCatalogs = await _dDLCatalogRepository.FindBy(x => x.FormDetailId == detail.Id);
@@ -111,7 +111,7 @@ namespace FormsAdminGP.Services
                 var item = await _formHdRepository.FindEntityBy(x => x.Id == formHdId, t => t.FormDetails);
                 if (item != null)
                 {
-                    item.FormDetails = item.FormDetails.Where(x => x.IsActive).OrderBy(x => x.Order).ToList();
+                    item.FormDetails = item.FormDetails.OrderBy(x => x.Order).ToList();
                     foreach (var detail in item.FormDetails.Where(x => x.FieldTypeId == FieldType.select.ToString()))
                     {
                         var ddlCatalogs = await _dDLCatalogRepository.FindBy(x => x.FormDetailId == detail.Id);
@@ -134,7 +134,7 @@ namespace FormsAdminGP.Services
             var listDto = new List<FormHdDto>();
             try
             {
-                var list = await _formHdRepository.GetAll();
+                var list = await _formHdRepository.FindBy(x=>x.IsActive);
                 listDto = _mapper.Map<List<FormHdDto>>(list);
             }
             catch (System.Exception ex)

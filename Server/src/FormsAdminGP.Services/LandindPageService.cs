@@ -62,7 +62,7 @@ namespace FormsAdminGP.Services
             var listDto = new List<LandingPageDto>();
             try
             {
-                var list = await _landingPageRepository.GetAll();
+                var list = await _landingPageRepository.FindBy(x=>x.IsActive);
                 list = list.Where(x => string.IsNullOrEmpty(x.FormHdId)).ToList();
                 listDto = _mapper.Map<List<LandingPageDto>>(list);
             }

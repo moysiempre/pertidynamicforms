@@ -39,13 +39,12 @@
                   v-if="action === 'read'"
                 >
                   <div>
-                    <h6 class="mb-0">{{ item.name }}</h6>
-                    <p class="mb-0" style="color:#75818b">
-                      <small>{{ item.title }}</small>
-                    </p>
-                  </div>
-                  <div class="c-wait" hidden>
-                    <h6 class="mb-0">{{ item.name }}</h6>
+                    <h6 class="mb-0">
+                      {{ item.name }}
+                      <small v-if="!item.isActive">
+                        <i class="text-warning">(Desactivado)</i>
+                      </small>
+                    </h6>
                     <p class="mb-0" style="color:#75818b">
                       <small>{{ item.title }}</small>
                     </p>
@@ -53,13 +52,12 @@
                 </div>
                 <div class="c-not-allowed" v-if="action !== 'read'">
                   <div>
-                    <h6 class="mb-0">{{ item.name }}</h6>
-                    <p class="mb-0" style="color:#75818b">
-                      <small>{{ item.title }}</small>
-                    </p>
-                  </div>
-                  <div class="c-wait" hidden>
-                    <h6 class="mb-0">{{ item.name }}</h6>
+                    <h6 class="mb-0">
+                      {{ item.name }}
+                      <small v-if="!item.isActive">
+                        <i class="text-warning">(Desactivado)</i>
+                      </small>
+                    </h6>
                     <p class="mb-0" style="color:#75818b">
                       <small>{{ item.title }}</small>
                     </p>

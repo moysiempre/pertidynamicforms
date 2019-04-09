@@ -8,6 +8,16 @@
     </div>
     <div class="card-body">
       <form @submit.prevent="onSubmit">
+        <div class="form-group" v-if="landingPage.id">
+          <label class="mb-0" for="id">ID</label>
+          <input
+            type="text"
+            class="form-control"
+            disabled
+            :value="landingPage.id"
+          />
+        </div>
+
         <div class="form-group">
           <label class="mb-0" for="name">
             Nombre del landing page
