@@ -27,16 +27,22 @@ namespace FormsAdminGP.RestfulAPI
         }
 
         public IConfiguration Configuration { get; }
+        //private string[] withOrigins => new[] {
+        //    "http://189.206.139.232" ,
+        //    "http://189.206.139.232:4041"
+        //};
+
         private string[] withOrigins => new[] {
             "http://127.0.0.1:5500",
-            "http://localhost:8080" ,
+            "http://189.206.139.232" ,
             "http://localhost:60829",
             "http://localhost:3381",
             "http://localhost:5500",
             "http://localhost:82",
             "http://192.168.15.12:84",
-            "http://192.168.15.12:83"};
-
+            "http://192.168.15.12:83",
+            "http://189.206.139.232:4041"
+        };
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         { 

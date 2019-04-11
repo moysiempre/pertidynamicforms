@@ -32,6 +32,7 @@ namespace FormsAdminGP.Services
             catch (Exception ex)
             {
                 LoggerService.LogToFile(ex);
+                throw ex;
             }
 
             return listDto;

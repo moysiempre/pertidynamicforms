@@ -1,0 +1,255 @@
+{
+  "format": 1,
+  "restore": {
+    "C:\\Workspaces\\github\\pertidynamicforms\\Server\\src\\FormsAdminGP.Services\\FormsAdminGP.Services.csproj": {}
+  },
+  "projects": {
+    "C:\\Workspaces\\github\\pertidynamicforms\\Server\\src\\FormsAdminGP.Common\\FormsAdminGP.Common.csproj": {
+      "version": "1.0.0",
+      "restore": {
+        "projectUniqueName": "C:\\Workspaces\\github\\pertidynamicforms\\Server\\src\\FormsAdminGP.Common\\FormsAdminGP.Common.csproj",
+        "projectName": "FormsAdminGP.Common",
+        "projectPath": "C:\\Workspaces\\github\\pertidynamicforms\\Server\\src\\FormsAdminGP.Common\\FormsAdminGP.Common.csproj",
+        "packagesPath": "C:\\Users\\GPertiDev\\.nuget\\packages\\",
+        "outputPath": "C:\\Workspaces\\github\\pertidynamicforms\\Server\\src\\FormsAdminGP.Common\\obj\\",
+        "projectStyle": "PackageReference",
+        "fallbackFolders": [
+          "C:\\Program Files\\dotnet\\sdk\\NuGetFallbackFolder"
+        ],
+        "configFilePaths": [
+          "C:\\Users\\GPertiDev\\AppData\\Roaming\\NuGet\\NuGet.Config",
+          "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config"
+        ],
+        "originalTargetFrameworks": [
+          "netcoreapp2.2"
+        ],
+        "sources": {
+          "C:\\Program Files (x86)\\Microsoft SDKs\\NuGetPackages\\": {},
+          "https://api.nuget.org/v3/index.json": {}
+        },
+        "frameworks": {
+          "netcoreapp2.2": {
+            "projectReferences": {}
+          }
+        },
+        "warningProperties": {
+          "warnAsError": [
+            "NU1605"
+          ]
+        }
+      },
+      "frameworks": {
+        "netcoreapp2.2": {
+          "dependencies": {
+            "Microsoft.NETCore.App": {
+              "suppressParent": "All",
+              "target": "Package",
+              "version": "[2.2.0, )",
+              "autoReferenced": true
+            }
+          },
+          "imports": [
+            "net461"
+          ],
+          "assetTargetFallback": true,
+          "warn": true
+        }
+      }
+    },
+    "C:\\Workspaces\\github\\pertidynamicforms\\Server\\src\\FormsAdminGP.Data\\FormsAdminGP.Data.csproj": {
+      "version": "1.0.0",
+      "restore": {
+        "projectUniqueName": "C:\\Workspaces\\github\\pertidynamicforms\\Server\\src\\FormsAdminGP.Data\\FormsAdminGP.Data.csproj",
+        "projectName": "FormsAdminGP.Data",
+        "projectPath": "C:\\Workspaces\\github\\pertidynamicforms\\Server\\src\\FormsAdminGP.Data\\FormsAdminGP.Data.csproj",
+        "packagesPath": "C:\\Users\\GPertiDev\\.nuget\\packages\\",
+        "outputPath": "C:\\Workspaces\\github\\pertidynamicforms\\Server\\src\\FormsAdminGP.Data\\obj\\",
+        "projectStyle": "PackageReference",
+        "fallbackFolders": [
+          "C:\\Program Files\\dotnet\\sdk\\NuGetFallbackFolder"
+        ],
+        "configFilePaths": [
+          "C:\\Users\\GPertiDev\\AppData\\Roaming\\NuGet\\NuGet.Config",
+          "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config"
+        ],
+        "originalTargetFrameworks": [
+          "netcoreapp2.2"
+        ],
+        "sources": {
+          "C:\\Program Files (x86)\\Microsoft SDKs\\NuGetPackages\\": {},
+          "https://api.nuget.org/v3/index.json": {}
+        },
+        "frameworks": {
+          "netcoreapp2.2": {
+            "projectReferences": {
+              "C:\\Workspaces\\github\\pertidynamicforms\\Server\\src\\FormsAdminGP.Domain\\FormsAdminGP.Domain.csproj": {
+                "projectPath": "C:\\Workspaces\\github\\pertidynamicforms\\Server\\src\\FormsAdminGP.Domain\\FormsAdminGP.Domain.csproj"
+              }
+            }
+          }
+        },
+        "warningProperties": {
+          "warnAsError": [
+            "NU1605"
+          ]
+        }
+      },
+      "frameworks": {
+        "netcoreapp2.2": {
+          "dependencies": {
+            "Microsoft.EntityFrameworkCore": {
+              "target": "Package",
+              "version": "[2.2.2, )"
+            },
+            "Microsoft.EntityFrameworkCore.SqlServer": {
+              "target": "Package",
+              "version": "[2.2.2, )"
+            },
+            "Microsoft.NETCore.App": {
+              "suppressParent": "All",
+              "target": "Package",
+              "version": "[2.2.0, )",
+              "autoReferenced": true
+            }
+          },
+          "imports": [
+            "net461"
+          ],
+          "assetTargetFallback": true,
+          "warn": true
+        }
+      }
+    },
+    "C:\\Workspaces\\github\\pertidynamicforms\\Server\\src\\FormsAdminGP.Domain\\FormsAdminGP.Domain.csproj": {
+      "version": "1.0.0",
+      "restore": {
+        "projectUniqueName": "C:\\Workspaces\\github\\pertidynamicforms\\Server\\src\\FormsAdminGP.Domain\\FormsAdminGP.Domain.csproj",
+        "projectName": "FormsAdminGP.Domain",
+        "projectPath": "C:\\Workspaces\\github\\pertidynamicforms\\Server\\src\\FormsAdminGP.Domain\\FormsAdminGP.Domain.csproj",
+        "packagesPath": "C:\\Users\\GPertiDev\\.nuget\\packages\\",
+        "outputPath": "C:\\Workspaces\\github\\pertidynamicforms\\Server\\src\\FormsAdminGP.Domain\\obj\\",
+        "projectStyle": "PackageReference",
+        "fallbackFolders": [
+          "C:\\Program Files\\dotnet\\sdk\\NuGetFallbackFolder"
+        ],
+        "configFilePaths": [
+          "C:\\Users\\GPertiDev\\AppData\\Roaming\\NuGet\\NuGet.Config",
+          "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config"
+        ],
+        "originalTargetFrameworks": [
+          "netcoreapp2.2"
+        ],
+        "sources": {
+          "C:\\Program Files (x86)\\Microsoft SDKs\\NuGetPackages\\": {},
+          "https://api.nuget.org/v3/index.json": {}
+        },
+        "frameworks": {
+          "netcoreapp2.2": {
+            "projectReferences": {
+              "C:\\Workspaces\\github\\pertidynamicforms\\Server\\src\\FormsAdminGP.Common\\FormsAdminGP.Common.csproj": {
+                "projectPath": "C:\\Workspaces\\github\\pertidynamicforms\\Server\\src\\FormsAdminGP.Common\\FormsAdminGP.Common.csproj"
+              }
+            }
+          }
+        },
+        "warningProperties": {
+          "warnAsError": [
+            "NU1605"
+          ]
+        }
+      },
+      "frameworks": {
+        "netcoreapp2.2": {
+          "dependencies": {
+            "Microsoft.NETCore.App": {
+              "suppressParent": "All",
+              "target": "Package",
+              "version": "[2.2.0, )",
+              "autoReferenced": true
+            }
+          },
+          "imports": [
+            "net461"
+          ],
+          "assetTargetFallback": true,
+          "warn": true
+        }
+      }
+    },
+    "C:\\Workspaces\\github\\pertidynamicforms\\Server\\src\\FormsAdminGP.Services\\FormsAdminGP.Services.csproj": {
+      "version": "1.0.0",
+      "restore": {
+        "projectUniqueName": "C:\\Workspaces\\github\\pertidynamicforms\\Server\\src\\FormsAdminGP.Services\\FormsAdminGP.Services.csproj",
+        "projectName": "FormsAdminGP.Services",
+        "projectPath": "C:\\Workspaces\\github\\pertidynamicforms\\Server\\src\\FormsAdminGP.Services\\FormsAdminGP.Services.csproj",
+        "packagesPath": "C:\\Users\\GPertiDev\\.nuget\\packages\\",
+        "outputPath": "C:\\Workspaces\\github\\pertidynamicforms\\Server\\src\\FormsAdminGP.Services\\obj\\",
+        "projectStyle": "PackageReference",
+        "fallbackFolders": [
+          "C:\\Program Files\\dotnet\\sdk\\NuGetFallbackFolder"
+        ],
+        "configFilePaths": [
+          "C:\\Users\\GPertiDev\\AppData\\Roaming\\NuGet\\NuGet.Config",
+          "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config"
+        ],
+        "originalTargetFrameworks": [
+          "netcoreapp2.2"
+        ],
+        "sources": {
+          "C:\\Program Files (x86)\\Microsoft SDKs\\NuGetPackages\\": {},
+          "https://api.nuget.org/v3/index.json": {}
+        },
+        "frameworks": {
+          "netcoreapp2.2": {
+            "projectReferences": {
+              "C:\\Workspaces\\github\\pertidynamicforms\\Server\\src\\FormsAdminGP.Common\\FormsAdminGP.Common.csproj": {
+                "projectPath": "C:\\Workspaces\\github\\pertidynamicforms\\Server\\src\\FormsAdminGP.Common\\FormsAdminGP.Common.csproj"
+              },
+              "C:\\Workspaces\\github\\pertidynamicforms\\Server\\src\\FormsAdminGP.Data\\FormsAdminGP.Data.csproj": {
+                "projectPath": "C:\\Workspaces\\github\\pertidynamicforms\\Server\\src\\FormsAdminGP.Data\\FormsAdminGP.Data.csproj"
+              }
+            }
+          }
+        },
+        "warningProperties": {
+          "warnAsError": [
+            "NU1605"
+          ]
+        }
+      },
+      "frameworks": {
+        "netcoreapp2.2": {
+          "dependencies": {
+            "AutoMapper": {
+              "target": "Package",
+              "version": "[8.0.0, )"
+            },
+            "Microsoft.AspNetCore.Authentication": {
+              "target": "Package",
+              "version": "[2.2.0, )"
+            },
+            "Microsoft.AspNetCore.Http.Features": {
+              "target": "Package",
+              "version": "[2.2.0, )"
+            },
+            "Microsoft.NETCore.App": {
+              "suppressParent": "All",
+              "target": "Package",
+              "version": "[2.2.0, )",
+              "autoReferenced": true
+            },
+            "NLog": {
+              "target": "Package",
+              "version": "[4.5.11, )"
+            }
+          },
+          "imports": [
+            "net461"
+          ],
+          "assetTargetFallback": true,
+          "warn": true
+        }
+      }
+    }
+  }
+}

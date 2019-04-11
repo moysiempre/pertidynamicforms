@@ -8,4 +8,9 @@ by editing this MSBuild file. In order to learn more about this please visit htt
     <TimeStampOfAssociatedLegacyPublishXmlFile />
     <_PublishTargetUrl>C:\Workspaces\IISPublish\formGpAPI</_PublishTargetUrl>
   </PropertyGroup>
+  <ItemGroup>
+    <DestinationConnectionStrings Include="DefaultConnection">
+      <Value>Server=GRUPOPERTIPOC%3bDatabase=FormsGP%3bUser Id=sa%3bPassword=D3m0.N3ph051t.%2a%3b</Value>
+    </DestinationConnectionStrings>
+  </ItemGroup>
 </Project>

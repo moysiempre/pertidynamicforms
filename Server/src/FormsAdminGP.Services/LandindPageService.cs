@@ -46,7 +46,7 @@ namespace FormsAdminGP.Services
             var listDto = new List<KeyValuePair<string, string>>();
             try
             {
-                var list = await _landingPageRepository.GetAll();
+                var list = await _landingPageRepository.FindBy(x=>x.IsActive);
                 listDto = list.Select(x=> new KeyValuePair<string, string>(x.Id, x.Name)).ToList();                 
             }
             catch (System.Exception ex)

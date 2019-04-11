@@ -111,7 +111,7 @@ namespace FormsAdminGP.Services
                 var item = await _formHdRepository.FindEntityBy(x => x.Id == formHdId, t => t.FormDetails);
                 if (item != null)
                 {
-                    item.FormDetails = item.FormDetails.OrderBy(x => x.Order).ToList();
+                    item.FormDetails = item.FormDetails.Where(x => x.IsActive).OrderBy(x =>x.Order).ToList();
                     foreach (var detail in item.FormDetails.Where(x => x.FieldTypeId == FieldType.select.ToString()))
                     {
                         var ddlCatalogs = await _dDLCatalogRepository.FindBy(x => x.FormDetailId == detail.Id);

@@ -1,8 +1,8 @@
- let baseUrl = "http://192.168.15.12:88/landing/"
+ let baseUrl = "http://189.206.139.232:4040/landing/"
  //let baseUrl = "http://localhost:60829/landing/"
 
 
- Vue.component("containerEncapsulated", {
+ Vue.component("formsGpContainer", {
    props: ["pageid"],
    data() {
      return {
@@ -129,7 +129,7 @@
      getErrMsg(errors, field) {
        var message = "";
        var error = errors.items.find(x => x.field == field);
-       console.log("error: ", error)
+       //console.log("error: ", error)
        if (error) {
          switch (error.rule) {
            case "required":
@@ -285,7 +285,7 @@
 
  Vue.use(VeeValidate);
  new Vue({
-   el: "#app",
+   el: "#formsgp_app",
    data() {
      return {
        title: "LANDING PAGE",

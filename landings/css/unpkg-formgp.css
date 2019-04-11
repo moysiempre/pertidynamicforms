@@ -1,0 +1,122 @@
+#contactForm .card {
+    color: #000
+}
+
+#contactForm>.row {
+    border-bottom: none !important;
+}
+
+
+@keyframes spinners {
+    to {
+        transform: rotate(360deg);
+    }
+}
+
+.spinners {
+    position: relative;
+    width: 20px;
+    display: inline-block;
+    margin-left: 10px;
+    margin-top: 5px;
+}
+
+.spinners:before {
+    content: "";
+    box-sizing: border-box;
+    position: absolute;
+    top: -15px;
+    left: 0;
+    width: 20px;
+    height: 20px;
+    border-radius: 50%;
+    border-top: 2px solid #07d;
+    border-right: 2px solid transparent;
+    animation: spinners 0.6s linear infinite;
+}
+
+.spinners.v-page:before {
+    right: 15px !important;
+}
+
+.spinners.white:before {
+    border-top-color: #fff !important;
+}
+
+[v-cloak] .v-cloak--hidden {
+    display: none;
+}
+
+
+@-webkit-keyframes cu_animated {
+    0% {
+        opacity: 1
+    }
+
+    30% {
+        opacity: .6
+    }
+
+    60% {
+        opacity: .3
+    }
+}
+
+@keyframes cu_animated {
+    0% {
+        opacity: 1
+    }
+
+    30% {
+        opacity: .6
+    }
+
+    60% {
+        opacity: .3
+    }
+}
+
+.cu-loader-box {
+    position: absolute;
+    top: calc(50% - 6px/2);
+    width: 100%;
+    line-height: 0;
+    text-align: center;
+    left: 0;
+}
+
+
+.cu-loader-box>div {
+    display: inline-block;
+    height: 6px;
+    width: 6px;
+    -webkit-animation: cu_animated 1.5s infinite;
+    animation: cu_animated 1.5s infinite;
+    background: #aab3bd;
+    margin: 0 2.5px;
+}
+
+.cu-loader-box>div:nth-child(1) {
+    -webkit-animation-delay: 0s;
+    animation-delay: 0s
+}
+
+.cu-loader-box>div:nth-child(2) {
+    -webkit-animation-delay: .2s;
+    animation-delay: .2s
+}
+
+.cu-loader-box>div:nth-child(3) {
+    -webkit-animation-delay: .4s;
+    animation-delay: .4s
+}
+
+.iz-alert {
+    display: flex;
+    position: absolute;
+    width: 100%;
+    height: 54px;
+    align-items: center;
+    justify-content: center;
+    top: 1px;
+}
